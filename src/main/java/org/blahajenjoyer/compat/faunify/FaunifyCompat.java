@@ -8,6 +8,9 @@ import org.blahajenjoyer.util.FossilsCompatUtil;
 
 public class FaunifyCompat {
 
+    // DNA only — mob already has an in-game egg or equivalent
+    public static Item SILK_MOTH_DNA;
+
     // Mammals — DNA + Embryo
     public static Item WEASEL_DNA;
     public static Item WEASEL_EMBRYO;
@@ -53,6 +56,8 @@ public class FaunifyCompat {
     public static Item LEAF_SHEEP_EGG;
 
     public static void register() {
+        SILK_MOTH_DNA = reg("faunify/silk_moth_dna", new Item(new Item.Properties()));
+
         WEASEL_DNA         = reg("faunify/weasel_dna",         new Item(new Item.Properties()));
         WEASEL_EMBRYO      = reg("faunify/weasel_embryo",      new Item(new Item.Properties()));
         FENNEC_FOX_DNA     = reg("faunify/fennec_fox_dna",     new Item(new Item.Properties()));
@@ -96,6 +101,7 @@ public class FaunifyCompat {
         LEAF_SHEEP_EGG  = regCreatureEgg("faunify/leaf_sheep_egg",  () -> FaunifyEntities.LEAFSHEEP);
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
+            entries.accept(SILK_MOTH_DNA);
             entries.accept(WEASEL_DNA);
             entries.accept(WEASEL_EMBRYO);
             entries.accept(FENNEC_FOX_DNA);

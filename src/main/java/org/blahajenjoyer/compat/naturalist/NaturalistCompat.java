@@ -49,6 +49,22 @@ public class NaturalistCompat {
     public static Item DRAGONFLY_DNA;
     public static Item DRAGONFLY_EGG;
 
+    // DNA only — mob already has an in-game egg or equivalent
+    public static Item ALLIGATOR_DNA;
+    public static Item TORTOISE_DNA;
+    public static Item SNAIL_DNA;
+    public static Item BUTTERFLY_DNA;
+
+    // Reptiles — DNA + Egg (dino-egg style, not yet implemented)
+    public static Item CORAL_SNAKE_DNA;
+    public static Item CORAL_SNAKE_EGG;
+    public static Item SNAKE_DNA;
+    public static Item SNAKE_EGG;
+    public static Item RATTLESNAKE_DNA;
+    public static Item RATTLESNAKE_EGG;
+    public static Item LIZARD_DNA;
+    public static Item LIZARD_EGG;
+
     // Mammals — DNA + Embryo
     public static Item BROWN_BEAR_DNA;
     public static Item BROWN_BEAR_EMBRYO;
@@ -124,6 +140,22 @@ public class NaturalistCompat {
         DRAGONFLY_DNA= FossilsCompatUtil.registerItem("naturalist/dragonfly_dna",new Item(new Item.Properties()));
         DRAGONFLY_EGG= registerCreatureEgg("naturalist/dragonfly_egg",() -> NaturalistEntityTypes.DRAGONFLY.get());
 
+        // DNA only
+        ALLIGATOR_DNA = FossilsCompatUtil.registerItem("naturalist/alligator_dna", new Item(new Item.Properties()));
+        TORTOISE_DNA  = FossilsCompatUtil.registerItem("naturalist/tortoise_dna",  new Item(new Item.Properties()));
+        SNAIL_DNA     = FossilsCompatUtil.registerItem("naturalist/snail_dna",     new Item(new Item.Properties()));
+        BUTTERFLY_DNA = FossilsCompatUtil.registerItem("naturalist/butterfly_dna", new Item(new Item.Properties()));
+
+        // Reptiles
+        CORAL_SNAKE_DNA  = FossilsCompatUtil.registerItem("naturalist/coral_snake_dna",  new Item(new Item.Properties()));
+        CORAL_SNAKE_EGG  = FossilsCompatUtil.registerItem("naturalist/coral_snake_egg",  new Item(new Item.Properties()));
+        SNAKE_DNA        = FossilsCompatUtil.registerItem("naturalist/snake_dna",        new Item(new Item.Properties()));
+        SNAKE_EGG        = FossilsCompatUtil.registerItem("naturalist/snake_egg",        new Item(new Item.Properties()));
+        RATTLESNAKE_DNA  = FossilsCompatUtil.registerItem("naturalist/rattlesnake_dna",  new Item(new Item.Properties()));
+        RATTLESNAKE_EGG  = FossilsCompatUtil.registerItem("naturalist/rattlesnake_egg",  new Item(new Item.Properties()));
+        LIZARD_DNA       = FossilsCompatUtil.registerItem("naturalist/lizard_dna",       new Item(new Item.Properties()));
+        LIZARD_EGG       = FossilsCompatUtil.registerItem("naturalist/lizard_egg",       new Item(new Item.Properties()));
+
         // Mammals
         BROWN_BEAR_DNA   = FossilsCompatUtil.registerItem("naturalist/brown_bear_dna",   new Item(new Item.Properties()));
         BROWN_BEAR_EMBRYO= FossilsCompatUtil.registerItem("naturalist/brown_bear_embryo",new Item(new Item.Properties()));
@@ -145,6 +177,18 @@ public class NaturalistCompat {
         ZEBRA_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/zebra_embryo",     new Item(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
+            entries.accept(ALLIGATOR_DNA);
+            entries.accept(TORTOISE_DNA);
+            entries.accept(SNAIL_DNA);
+            entries.accept(BUTTERFLY_DNA);
+            entries.accept(CORAL_SNAKE_DNA);
+            entries.accept(CORAL_SNAKE_EGG);
+            entries.accept(SNAKE_DNA);
+            entries.accept(SNAKE_EGG);
+            entries.accept(RATTLESNAKE_DNA);
+            entries.accept(RATTLESNAKE_EGG);
+            entries.accept(LIZARD_DNA);
+            entries.accept(LIZARD_EGG);
             entries.accept(CATFISH_DNA);
             entries.accept(CATFISH_EGG);
             entries.accept(BASS_DNA);

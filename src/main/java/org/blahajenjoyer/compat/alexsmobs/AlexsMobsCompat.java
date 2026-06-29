@@ -149,6 +149,9 @@ public class AlexsMobsCompat {
     public static Item RATTLESNAKE_DNA;
     public static Item RATTLESNAKE_EGG;
 
+    public static Item LAVIATHAN_DNA;
+    public static Item LAVIATHAN_EGG;
+
     // DNA only — mob already has an in-game egg or equivalent
     public static Item CAIMAN_DNA;
     public static Item CROCODILE_DNA;
@@ -156,7 +159,6 @@ public class AlexsMobsCompat {
     public static Item TERRAPIN_DNA;
     public static Item TRIOPS_DNA;
     public static Item LEAFCUTTER_ANT_DNA;
-    public static Item LAVIATHAN_DNA;
 
     private static final Set<String> ADULT_ON_HATCH_BIRDS = Set.of("shoebill");
 
@@ -314,6 +316,8 @@ public class AlexsMobsCompat {
         KOMODO_DRAGON_EGG = registerItem("alexsmobs/komodo_dragon_egg", new Item(new Item.Properties()));
         RATTLESNAKE_DNA   = registerItem("alexsmobs/rattlesnake_dna",   new Item(new Item.Properties()));
         RATTLESNAKE_EGG   = registerItem("alexsmobs/rattlesnake_egg",   new Item(new Item.Properties()));
+        LAVIATHAN_DNA     = registerItem("alexsmobs/laviathan_dna",     new Item(new Item.Properties()));
+        LAVIATHAN_EGG     = registerItem("alexsmobs/laviathan_egg",     new Item(new Item.Properties()));
 
         // DNA only
         CAIMAN_DNA        = registerItem("alexsmobs/caiman_dna",        new Item(new Item.Properties()));
@@ -322,7 +326,6 @@ public class AlexsMobsCompat {
         TERRAPIN_DNA      = registerItem("alexsmobs/terrapin_dna",      new Item(new Item.Properties()));
         TRIOPS_DNA        = registerItem("alexsmobs/triops_dna",        new Item(new Item.Properties()));
         LEAFCUTTER_ANT_DNA= registerItem("alexsmobs/leafcutter_ant_dna",new Item(new Item.Properties()));
-        LAVIATHAN_DNA     = registerItem("alexsmobs/laviathan_dna",     new Item(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(SHOEBILL_DNA);
@@ -443,13 +446,14 @@ public class AlexsMobsCompat {
             entries.accept(KOMODO_DRAGON_EGG);
             entries.accept(RATTLESNAKE_DNA);
             entries.accept(RATTLESNAKE_EGG);
+            entries.accept(LAVIATHAN_DNA);
+            entries.accept(LAVIATHAN_EGG);
             entries.accept(CAIMAN_DNA);
             entries.accept(CROCODILE_DNA);
             entries.accept(PLATYPUS_DNA);
             entries.accept(TERRAPIN_DNA);
             entries.accept(TRIOPS_DNA);
             entries.accept(LEAFCUTTER_ANT_DNA);
-            entries.accept(LAVIATHAN_DNA);
         });
     }
 
