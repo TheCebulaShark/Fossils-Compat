@@ -1,6 +1,8 @@
-{
+﻿{
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/embryos/maned_wolf_embryo"
+    "layer0": "fossils_compat:item/embryos/contents/maned_wolf",
+    "layer1": "fossils_compat:item/embryos/syringe",
+    "layer2": "fossils_compat:item/embryos/heads/maned_wolf"
   }
 }

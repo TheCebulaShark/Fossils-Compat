@@ -1,6 +1,8 @@
-{
+﻿{
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/embryos/hippo_embryo"
+    "layer0": "fossils_compat:item/embryos/contents/hippo",
+    "layer1": "fossils_compat:item/embryos/syringe",
+    "layer2": "fossils_compat:item/embryos/heads/hippo"
   }
 }

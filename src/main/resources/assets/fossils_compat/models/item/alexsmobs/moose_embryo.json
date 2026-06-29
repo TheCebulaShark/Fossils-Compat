@@ -1,6 +1,8 @@
-{
+﻿{
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/embryos/moose_embryo"
+    "layer0": "fossils_compat:item/embryos/contents/moose",
+    "layer1": "fossils_compat:item/embryos/syringe",
+    "layer2": "fossils_compat:item/embryos/heads/moose"
   }
 }

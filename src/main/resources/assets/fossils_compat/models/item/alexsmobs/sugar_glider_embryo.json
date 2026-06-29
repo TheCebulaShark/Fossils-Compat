@@ -1,6 +1,8 @@
-{
+﻿{
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/embryos/sugar_glider_embryo"
+    "layer0": "fossils_compat:item/embryos/contents/sugar_glider",
+    "layer1": "fossils_compat:item/embryos/syringe",
+    "layer2": "fossils_compat:item/embryos/heads/sugar_glider"
   }
 }

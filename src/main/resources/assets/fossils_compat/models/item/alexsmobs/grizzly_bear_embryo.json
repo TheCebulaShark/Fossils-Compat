@@ -1,6 +1,8 @@
-{
+﻿{
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/embryos/grizzly_bear_embryo"
+    "layer0": "fossils_compat:item/embryos/contents/grizzly_bear",
+    "layer1": "fossils_compat:item/embryos/syringe",
+    "layer2": "fossils_compat:item/embryos/heads/grizzly_bear"
   }
 }

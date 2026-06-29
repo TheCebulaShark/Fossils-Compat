@@ -1,6 +1,8 @@
-{
+﻿{
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/embryos/capuchin_monkey_embryo"
+    "layer0": "fossils_compat:item/embryos/contents/capuchin_monkey",
+    "layer1": "fossils_compat:item/embryos/syringe",
+    "layer2": "fossils_compat:item/embryos/heads/capuchin_monkey"
   }
 }
