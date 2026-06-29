@@ -4,15 +4,13 @@ import com.starfish_studios.naturalist.core.registry.NaturalistEntityTypes;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.naturalist.entity.ThrownNaturalistBirdEgg;
-import org.blahajenjoyer.compat.naturalist.item.NaturalistBirdEggItem;
+import org.blahajenjoyer.item.ThrowableBirdEggItem;
+import org.blahajenjoyer.util.FossilsCompatUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,35 +66,24 @@ public class NaturalistCompat {
                 .build("thrown_naturalist_bird_egg")
         );
 
-        BLUE_JAY_DNA  = registerItem("naturalist/blue_jay_dna",  new Item(new Item.Properties()));
+        BLUE_JAY_DNA  = FossilsCompatUtil.registerItem("naturalist/blue_jay_dna",  new Item(new Item.Properties()));
         BLUE_JAY_EGG  = registerBirdEgg("naturalist/blue_jay_egg",  "blue_jay",  () -> NaturalistEntityTypes.BLUEJAY.get());
-
-        CARDINAL_DNA  = registerItem("naturalist/cardinal_dna",  new Item(new Item.Properties()));
+        CARDINAL_DNA  = FossilsCompatUtil.registerItem("naturalist/cardinal_dna",  new Item(new Item.Properties()));
         CARDINAL_EGG  = registerBirdEgg("naturalist/cardinal_egg",  "cardinal",  () -> NaturalistEntityTypes.CARDINAL.get());
-
-        CANARY_DNA    = registerItem("naturalist/canary_dna",    new Item(new Item.Properties()));
+        CANARY_DNA    = FossilsCompatUtil.registerItem("naturalist/canary_dna",    new Item(new Item.Properties()));
         CANARY_EGG    = registerBirdEgg("naturalist/canary_egg",    "canary",    () -> NaturalistEntityTypes.CANARY.get());
-
-        FINCH_DNA     = registerItem("naturalist/finch_dna",     new Item(new Item.Properties()));
+        FINCH_DNA     = FossilsCompatUtil.registerItem("naturalist/finch_dna",     new Item(new Item.Properties()));
         FINCH_EGG     = registerBirdEgg("naturalist/finch_egg",     "finch",     () -> NaturalistEntityTypes.FINCH.get());
-
-        SPARROW_DNA   = registerItem("naturalist/sparrow_dna",   new Item(new Item.Properties()));
+        SPARROW_DNA   = FossilsCompatUtil.registerItem("naturalist/sparrow_dna",   new Item(new Item.Properties()));
         SPARROW_EGG   = registerBirdEgg("naturalist/sparrow_egg",   "sparrow",   () -> NaturalistEntityTypes.SPARROW.get());
-
-        ROBIN_DNA     = registerItem("naturalist/robin_dna",     new Item(new Item.Properties()));
+        ROBIN_DNA     = FossilsCompatUtil.registerItem("naturalist/robin_dna",     new Item(new Item.Properties()));
         ROBIN_EGG     = registerBirdEgg("naturalist/robin_egg",     "robin",     () -> NaturalistEntityTypes.ROBIN.get());
-
-        VULTURE_DNA   = registerItem("naturalist/vulture_dna",   new Item(new Item.Properties()));
+        VULTURE_DNA   = FossilsCompatUtil.registerItem("naturalist/vulture_dna",   new Item(new Item.Properties()));
         VULTURE_EGG   = registerBirdEgg("naturalist/vulture_egg",   "vulture",   () -> NaturalistEntityTypes.VULTURE.get());
-
-        DUCK_DNA      = registerItem("naturalist/duck_dna",      new Item(new Item.Properties()));
+        DUCK_DNA      = FossilsCompatUtil.registerItem("naturalist/duck_dna",      new Item(new Item.Properties()));
         DUCK_EGG      = registerBirdEgg("naturalist/duck_egg",      "duck",      () -> NaturalistEntityTypes.DUCK.get());
 
-        ResourceKey<CreativeModeTab> fossilMobTab = ResourceKey.create(
-            Registries.CREATIVE_MODE_TAB,
-            new ResourceLocation("fossil", "fa_mob_item_tab")
-        );
-        ItemGroupEvents.modifyEntriesEvent(fossilMobTab).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(BLUE_JAY_DNA);
             entries.accept(BLUE_JAY_EGG);
             entries.accept(CARDINAL_DNA);
@@ -116,13 +103,11 @@ public class NaturalistCompat {
         });
     }
 
-    private static Item registerItem(String id, Item item) {
-        return Registry.register(BuiltInRegistries.ITEM, new ResourceLocation("fossils_compat", id), item);
-    }
-
     private static Item registerBirdEgg(String id, String key, Supplier<EntityType<?>> supplier) {
         ENTITY_SUPPLIERS.put(key, supplier);
-        Item egg = registerItem(id, new NaturalistBirdEggItem(key, new Item.Properties().stacksTo(16)));
+        Item egg = FossilsCompatUtil.registerItem(id, new ThrowableBirdEggItem(
+            (level, player) -> new ThrownNaturalistBirdEgg(level, player, key),
+            new Item.Properties().stacksTo(16)));
         EGG_BY_KEY.put(key, egg);
         return egg;
     }
