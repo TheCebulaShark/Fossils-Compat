@@ -15,6 +15,7 @@ import org.blahajenjoyer.util.FossilsCompatUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class AlexsMobsCompat {
@@ -22,6 +23,8 @@ public class AlexsMobsCompat {
     public static EntityType<ThrownAlexsBirdEgg> THROWN_ALEXS_BIRD_EGG;
 
     // Birds — DNA + throwable Egg
+    public static Item SHOEBILL_DNA;
+    public static Item SHOEBILL_EGG;
     public static Item BLUE_JAY_DNA;
     public static Item BLUE_JAY_EGG;
     public static Item BALD_EAGLE_DNA;
@@ -155,8 +158,14 @@ public class AlexsMobsCompat {
     public static Item LEAFCUTTER_ANT_DNA;
     public static Item LAVIATHAN_DNA;
 
+    private static final Set<String> ADULT_ON_HATCH_BIRDS = Set.of("shoebill");
+
     private static final Map<String, Supplier<EntityType<?>>> ENTITY_SUPPLIERS = new HashMap<>();
     private static final Map<String, Item> EGG_BY_KEY = new HashMap<>();
+
+    public static boolean isBabyOnHatchBird(String key) {
+        return !ADULT_ON_HATCH_BIRDS.contains(key);
+    }
 
     public static EntityType<?> getEntityType(String key) {
         Supplier<EntityType<?>> supplier = ENTITY_SUPPLIERS.get(key);
@@ -179,6 +188,8 @@ public class AlexsMobsCompat {
         );
 
         // Birds
+        SHOEBILL_DNA = registerItem("alexsmobs/shoebill_dna", new Item(new Item.Properties()));
+        SHOEBILL_EGG = registerBirdEgg("alexsmobs/shoebill_egg", "shoebill", () -> AMEntityRegistry.SHOEBILL);
         BLUE_JAY_DNA    = registerItem("alexsmobs/blue_jay_dna",    new Item(new Item.Properties()));
         BLUE_JAY_EGG    = registerBirdEgg("alexsmobs/blue_jay_egg",    "blue_jay",    () -> AMEntityRegistry.BLUE_JAY);
         BALD_EAGLE_DNA  = registerItem("alexsmobs/bald_eagle_dna",  new Item(new Item.Properties()));
@@ -314,6 +325,8 @@ public class AlexsMobsCompat {
         LAVIATHAN_DNA     = registerItem("alexsmobs/laviathan_dna",     new Item(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
+            entries.accept(SHOEBILL_DNA);
+            entries.accept(SHOEBILL_EGG);
             entries.accept(BLUE_JAY_DNA);
             entries.accept(BLUE_JAY_EGG);
             entries.accept(BALD_EAGLE_DNA);

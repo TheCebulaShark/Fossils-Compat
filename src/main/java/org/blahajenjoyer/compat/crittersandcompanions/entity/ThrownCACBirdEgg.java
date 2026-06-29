@@ -1,4 +1,4 @@
-package org.blahajenjoyer.compat.alexsmobs.entity;
+package org.blahajenjoyer.compat.crittersandcompanions.entity;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -16,31 +16,31 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import org.blahajenjoyer.compat.alexsmobs.AlexsMobsCompat;
+import org.blahajenjoyer.compat.crittersandcompanions.CrittersAndCompanionsCompat;
 
-public class ThrownAlexsBirdEgg extends ThrowableItemProjectile {
+public class ThrownCACBirdEgg extends ThrowableItemProjectile {
 
     private static final EntityDataAccessor<String> DATA_BIRD_KEY =
-        SynchedEntityData.defineId(ThrownAlexsBirdEgg.class, EntityDataSerializers.STRING);
+        SynchedEntityData.defineId(ThrownCACBirdEgg.class, EntityDataSerializers.STRING);
 
-    public ThrownAlexsBirdEgg(EntityType<? extends ThrownAlexsBirdEgg> type, Level level) {
+    public ThrownCACBirdEgg(EntityType<? extends ThrownCACBirdEgg> type, Level level) {
         super(type, level);
     }
 
-    public ThrownAlexsBirdEgg(Level level, LivingEntity thrower, String birdKey) {
-        super(AlexsMobsCompat.THROWN_ALEXS_BIRD_EGG, thrower, level);
+    public ThrownCACBirdEgg(Level level, LivingEntity thrower, String birdKey) {
+        super(CrittersAndCompanionsCompat.THROWN_CAC_BIRD_EGG, thrower, level);
         this.entityData.set(DATA_BIRD_KEY, birdKey);
     }
 
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(DATA_BIRD_KEY, "blue_jay");
+        this.entityData.define(DATA_BIRD_KEY, "shima_enaga");
     }
 
     @Override
     protected Item getDefaultItem() {
-        return AlexsMobsCompat.getEggByKey(this.entityData.get(DATA_BIRD_KEY));
+        return CrittersAndCompanionsCompat.getEggByKey(this.entityData.get(DATA_BIRD_KEY));
     }
 
     @Override
@@ -54,13 +54,13 @@ public class ThrownAlexsBirdEgg extends ThrowableItemProjectile {
         super.onHit(result);
         if (!level().isClientSide) {
             String birdKey = this.entityData.get(DATA_BIRD_KEY);
-            EntityType<?> type = AlexsMobsCompat.getEntityType(birdKey);
+            EntityType<?> type = CrittersAndCompanionsCompat.getEntityType(birdKey);
             if (type != null) {
                 Entity entity = type.create(level());
                 if (entity instanceof Mob mob && level() instanceof ServerLevel serverLevel) {
                     mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                         MobSpawnType.SPAWN_EGG, null, null);
-                    if (AlexsMobsCompat.isBabyOnHatchBird(birdKey) && mob instanceof AgeableMob ageable) {
+                    if (CrittersAndCompanionsCompat.isBabyOnHatch(birdKey) && mob instanceof AgeableMob ageable) {
                         ageable.setAge(-24000);
                     }
                     mob.moveTo(getX(), getY(), getZ(), getYRot(), 0);

@@ -6,6 +6,8 @@
   "item.fossils_compat.vanillabackport.warm_chicken_dna": "Warm Chicken DNA",
   "item.fossils_compat.vanillabackport.warm_chicken_egg": "Cultivated Blue Chicken Egg",
 
+  "item.fossils_compat.alexsmobs.shoebill_dna": "Shoebill DNA",
+  "item.fossils_compat.alexsmobs.shoebill_egg": "Shoebill Egg",
   "item.fossils_compat.alexsmobs.blue_jay_dna": "Blue Jay DNA",
   "item.fossils_compat.alexsmobs.blue_jay_egg": "Blue Jay Egg",
   "item.fossils_compat.alexsmobs.bald_eagle_dna": "Bald Eagle DNA",
@@ -129,6 +131,9 @@
   "item.fossils_compat.alexsmobs.triops_dna": "Triops DNA",
   "item.fossils_compat.alexsmobs.leafcutter_ant_dna": "Leafcutter Ant DNA",
   "item.fossils_compat.alexsmobs.laviathan_dna": "Laviathan DNA",
+
+  "item.fossils_compat.crittersandcompanions.shima_enaga_dna": "Shima Enaga DNA",
+  "item.fossils_compat.crittersandcompanions.shima_enaga_egg": "Shima Enaga Egg",
 
   "item.fossils_compat.naturalist.blue_jay_dna": "Blue Jay DNA",
   "item.fossils_compat.naturalist.blue_jay_egg": "Blue Jay Egg",
