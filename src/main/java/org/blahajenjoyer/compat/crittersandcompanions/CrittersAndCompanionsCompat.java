@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.crittersandcompanions.entity.ThrownCACBirdEgg;
+import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
 
@@ -23,6 +24,20 @@ public class CrittersAndCompanionsCompat {
 
     public static Item SHIMA_ENAGA_DNA;
     public static Item SHIMA_ENAGA_EGG;
+
+    // Invertebrates / aquatics — DNA + spawn-egg-like Egg (adult on hatch)
+    public static Item DRAGONFLY_DNA;
+    public static Item DRAGONFLY_EGG;
+    public static Item DUMBO_OCTOPUS_DNA;
+    public static Item DUMBO_OCTOPUS_EGG;
+    public static Item JUMPING_SPIDER_DNA;
+    public static Item JUMPING_SPIDER_EGG;
+    public static Item KOI_FISH_DNA;
+    public static Item KOI_FISH_EGG;
+    public static Item LEAF_INSECT_DNA;
+    public static Item LEAF_INSECT_EGG;
+    public static Item SEA_BUNNY_DNA;
+    public static Item SEA_BUNNY_EGG;
 
     // Mammals — DNA + Embryo
     public static Item FERRET_DNA;
@@ -63,6 +78,19 @@ public class CrittersAndCompanionsCompat {
         SHIMA_ENAGA_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/shima_enaga_dna", new Item(new Item.Properties()));
         SHIMA_ENAGA_EGG = registerBirdEgg("crittersandcompanions/shima_enaga_egg", "shima_enaga", () -> CACEntities.SHIMA_ENAGA.get());
 
+        DRAGONFLY_DNA      = FossilsCompatUtil.registerItem("crittersandcompanions/dragonfly_dna",      new Item(new Item.Properties()));
+        DRAGONFLY_EGG      = registerCreatureEgg("crittersandcompanions/dragonfly_egg",      () -> CACEntities.DRAGONFLY.get());
+        DUMBO_OCTOPUS_DNA  = FossilsCompatUtil.registerItem("crittersandcompanions/dumbo_octopus_dna",  new Item(new Item.Properties()));
+        DUMBO_OCTOPUS_EGG  = registerCreatureEgg("crittersandcompanions/dumbo_octopus_egg",  () -> CACEntities.DUMBO_OCTOPUS.get());
+        JUMPING_SPIDER_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/jumping_spider_dna", new Item(new Item.Properties()));
+        JUMPING_SPIDER_EGG = registerCreatureEgg("crittersandcompanions/jumping_spider_egg", () -> CACEntities.JUMPING_SPIDER.get());
+        KOI_FISH_DNA       = FossilsCompatUtil.registerItem("crittersandcompanions/koi_fish_dna",       new Item(new Item.Properties()));
+        KOI_FISH_EGG       = registerCreatureEgg("crittersandcompanions/koi_fish_egg",       () -> CACEntities.KOI_FISH.get());
+        LEAF_INSECT_DNA    = FossilsCompatUtil.registerItem("crittersandcompanions/leaf_insect_dna",    new Item(new Item.Properties()));
+        LEAF_INSECT_EGG    = registerCreatureEgg("crittersandcompanions/leaf_insect_egg",    () -> CACEntities.LEAF_INSECT.get());
+        SEA_BUNNY_DNA      = FossilsCompatUtil.registerItem("crittersandcompanions/sea_bunny_dna",      new Item(new Item.Properties()));
+        SEA_BUNNY_EGG      = registerCreatureEgg("crittersandcompanions/sea_bunny_egg",      () -> CACEntities.SEA_BUNNY.get());
+
         FERRET_DNA    = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_dna",    new Item(new Item.Properties()));
         FERRET_EMBRYO = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_embryo", new Item(new Item.Properties()));
         OTTER_DNA     = FossilsCompatUtil.registerItem("crittersandcompanions/otter_dna",     new Item(new Item.Properties()));
@@ -71,6 +99,18 @@ public class CrittersAndCompanionsCompat {
         RED_PANDA_EMBRYO = FossilsCompatUtil.registerItem("crittersandcompanions/red_panda_embryo", new Item(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
+            entries.accept(DRAGONFLY_DNA);
+            entries.accept(DRAGONFLY_EGG);
+            entries.accept(DUMBO_OCTOPUS_DNA);
+            entries.accept(DUMBO_OCTOPUS_EGG);
+            entries.accept(JUMPING_SPIDER_DNA);
+            entries.accept(JUMPING_SPIDER_EGG);
+            entries.accept(KOI_FISH_DNA);
+            entries.accept(KOI_FISH_EGG);
+            entries.accept(LEAF_INSECT_DNA);
+            entries.accept(LEAF_INSECT_EGG);
+            entries.accept(SEA_BUNNY_DNA);
+            entries.accept(SEA_BUNNY_EGG);
             entries.accept(SHIMA_ENAGA_DNA);
             entries.accept(SHIMA_ENAGA_EGG);
             entries.accept(FERRET_DNA);
@@ -80,6 +120,10 @@ public class CrittersAndCompanionsCompat {
             entries.accept(RED_PANDA_DNA);
             entries.accept(RED_PANDA_EMBRYO);
         });
+    }
+
+    private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier) {
+        return FossilsCompatUtil.registerItem(id, new SpawnEggLikeItem(supplier, false, new Item.Properties().stacksTo(16)));
     }
 
     private static Item registerBirdEgg(String id, String key, Supplier<EntityType<?>> supplier) {

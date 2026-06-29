@@ -1,4 +1,4 @@
-package org.blahajenjoyer.compat.alexsmobs.item;
+package org.blahajenjoyer.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -14,12 +14,12 @@ import net.minecraft.world.level.Level;
 
 import java.util.function.Supplier;
 
-public class AlexsCreatureEggItem extends Item {
+public class SpawnEggLikeItem extends Item {
 
     private final Supplier<EntityType<?>> entityTypeSupplier;
     private final boolean babyOnHatch;
 
-    public AlexsCreatureEggItem(Supplier<EntityType<?>> entityTypeSupplier, boolean babyOnHatch, Properties properties) {
+    public SpawnEggLikeItem(Supplier<EntityType<?>> entityTypeSupplier, boolean babyOnHatch, Properties properties) {
         super(properties);
         this.entityTypeSupplier = entityTypeSupplier;
         this.babyOnHatch = babyOnHatch;

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.naturalist.entity.ThrownNaturalistBirdEgg;
+import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
 
@@ -37,6 +38,16 @@ public class NaturalistCompat {
     public static Item VULTURE_EGG;
     public static Item DUCK_DNA;
     public static Item DUCK_EGG;
+
+    // Fish / invertebrates — DNA + spawn-egg-like Egg (adult on hatch)
+    public static Item CATFISH_DNA;
+    public static Item CATFISH_EGG;
+    public static Item BASS_DNA;
+    public static Item BASS_EGG;
+    public static Item FIREFLY_DNA;
+    public static Item FIREFLY_EGG;
+    public static Item DRAGONFLY_DNA;
+    public static Item DRAGONFLY_EGG;
 
     // Mammals — DNA + Embryo
     public static Item BROWN_BEAR_DNA;
@@ -103,6 +114,16 @@ public class NaturalistCompat {
         DUCK_DNA      = FossilsCompatUtil.registerItem("naturalist/duck_dna",      new Item(new Item.Properties()));
         DUCK_EGG      = registerBirdEgg("naturalist/duck_egg",      "duck",      () -> NaturalistEntityTypes.DUCK.get());
 
+        // Fish / invertebrates
+        CATFISH_DNA  = FossilsCompatUtil.registerItem("naturalist/catfish_dna",  new Item(new Item.Properties()));
+        CATFISH_EGG  = registerCreatureEgg("naturalist/catfish_egg",  () -> NaturalistEntityTypes.CATFISH.get());
+        BASS_DNA     = FossilsCompatUtil.registerItem("naturalist/bass_dna",     new Item(new Item.Properties()));
+        BASS_EGG     = registerCreatureEgg("naturalist/bass_egg",     () -> NaturalistEntityTypes.BASS.get());
+        FIREFLY_DNA  = FossilsCompatUtil.registerItem("naturalist/firefly_dna",  new Item(new Item.Properties()));
+        FIREFLY_EGG  = registerCreatureEgg("naturalist/firefly_egg",  () -> NaturalistEntityTypes.FIREFLY.get());
+        DRAGONFLY_DNA= FossilsCompatUtil.registerItem("naturalist/dragonfly_dna",new Item(new Item.Properties()));
+        DRAGONFLY_EGG= registerCreatureEgg("naturalist/dragonfly_egg",() -> NaturalistEntityTypes.DRAGONFLY.get());
+
         // Mammals
         BROWN_BEAR_DNA   = FossilsCompatUtil.registerItem("naturalist/brown_bear_dna",   new Item(new Item.Properties()));
         BROWN_BEAR_EMBRYO= FossilsCompatUtil.registerItem("naturalist/brown_bear_embryo",new Item(new Item.Properties()));
@@ -124,6 +145,14 @@ public class NaturalistCompat {
         ZEBRA_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/zebra_embryo",     new Item(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
+            entries.accept(CATFISH_DNA);
+            entries.accept(CATFISH_EGG);
+            entries.accept(BASS_DNA);
+            entries.accept(BASS_EGG);
+            entries.accept(FIREFLY_DNA);
+            entries.accept(FIREFLY_EGG);
+            entries.accept(DRAGONFLY_DNA);
+            entries.accept(DRAGONFLY_EGG);
             entries.accept(BLUE_JAY_DNA);
             entries.accept(BLUE_JAY_EGG);
             entries.accept(CARDINAL_DNA);
@@ -159,6 +188,10 @@ public class NaturalistCompat {
             entries.accept(ZEBRA_DNA);
             entries.accept(ZEBRA_EMBRYO);
         });
+    }
+
+    private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier) {
+        return FossilsCompatUtil.registerItem(id, new SpawnEggLikeItem(supplier, false, new Item.Properties().stacksTo(16)));
     }
 
     private static Item registerBirdEgg(String id, String key, Supplier<EntityType<?>> supplier) {

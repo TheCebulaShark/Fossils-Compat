@@ -9,7 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.alexsmobs.entity.ThrownAlexsBirdEgg;
-import org.blahajenjoyer.compat.alexsmobs.item.AlexsCreatureEggItem;
+import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
 
@@ -467,6 +467,6 @@ public class AlexsMobsCompat {
     }
 
     private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier, boolean babyOnHatch) {
-        return registerItem(id, new AlexsCreatureEggItem(supplier, babyOnHatch, new Item.Properties().stacksTo(16)));
+        return registerItem(id, new SpawnEggLikeItem(supplier, babyOnHatch, new Item.Properties().stacksTo(16)));
     }
 }
