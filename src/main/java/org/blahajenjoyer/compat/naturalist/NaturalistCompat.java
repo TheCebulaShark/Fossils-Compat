@@ -38,6 +38,26 @@ public class NaturalistCompat {
     public static Item DUCK_DNA;
     public static Item DUCK_EGG;
 
+    // Mammals — DNA + Embryo
+    public static Item BROWN_BEAR_DNA;
+    public static Item BROWN_BEAR_EMBRYO;
+    public static Item BOAR_DNA;
+    public static Item BOAR_EMBRYO;
+    public static Item HIPPO_DNA;
+    public static Item HIPPO_EMBRYO;
+    public static Item GIRAFFE_DNA;
+    public static Item GIRAFFE_EMBRYO;
+    public static Item ELEPHANT_DNA;
+    public static Item ELEPHANT_EMBRYO;
+    public static Item DEER_DNA;
+    public static Item DEER_EMBRYO;
+    public static Item LION_DNA;
+    public static Item LION_EMBRYO;
+    public static Item RHINO_DNA;
+    public static Item RHINO_EMBRYO;
+    public static Item ZEBRA_DNA;
+    public static Item ZEBRA_EMBRYO;
+
     private static final Map<String, Supplier<EntityType<?>>> ENTITY_SUPPLIERS = new HashMap<>();
     private static final Map<String, Item> EGG_BY_KEY = new HashMap<>();
     private static final Set<String> BABY_ON_HATCH = Set.of("duck");
@@ -83,6 +103,26 @@ public class NaturalistCompat {
         DUCK_DNA      = FossilsCompatUtil.registerItem("naturalist/duck_dna",      new Item(new Item.Properties()));
         DUCK_EGG      = registerBirdEgg("naturalist/duck_egg",      "duck",      () -> NaturalistEntityTypes.DUCK.get());
 
+        // Mammals
+        BROWN_BEAR_DNA   = FossilsCompatUtil.registerItem("naturalist/brown_bear_dna",   new Item(new Item.Properties()));
+        BROWN_BEAR_EMBRYO= FossilsCompatUtil.registerItem("naturalist/brown_bear_embryo",new Item(new Item.Properties()));
+        BOAR_DNA         = FossilsCompatUtil.registerItem("naturalist/boar_dna",         new Item(new Item.Properties()));
+        BOAR_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/boar_embryo",      new Item(new Item.Properties()));
+        HIPPO_DNA        = FossilsCompatUtil.registerItem("naturalist/hippo_dna",        new Item(new Item.Properties()));
+        HIPPO_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/hippo_embryo",     new Item(new Item.Properties()));
+        GIRAFFE_DNA      = FossilsCompatUtil.registerItem("naturalist/giraffe_dna",      new Item(new Item.Properties()));
+        GIRAFFE_EMBRYO   = FossilsCompatUtil.registerItem("naturalist/giraffe_embryo",   new Item(new Item.Properties()));
+        ELEPHANT_DNA     = FossilsCompatUtil.registerItem("naturalist/elephant_dna",     new Item(new Item.Properties()));
+        ELEPHANT_EMBRYO  = FossilsCompatUtil.registerItem("naturalist/elephant_embryo",  new Item(new Item.Properties()));
+        DEER_DNA         = FossilsCompatUtil.registerItem("naturalist/deer_dna",         new Item(new Item.Properties()));
+        DEER_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/deer_embryo",      new Item(new Item.Properties()));
+        LION_DNA         = FossilsCompatUtil.registerItem("naturalist/lion_dna",         new Item(new Item.Properties()));
+        LION_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/lion_embryo",      new Item(new Item.Properties()));
+        RHINO_DNA        = FossilsCompatUtil.registerItem("naturalist/rhino_dna",        new Item(new Item.Properties()));
+        RHINO_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/rhino_embryo",     new Item(new Item.Properties()));
+        ZEBRA_DNA        = FossilsCompatUtil.registerItem("naturalist/zebra_dna",        new Item(new Item.Properties()));
+        ZEBRA_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/zebra_embryo",     new Item(new Item.Properties()));
+
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(BLUE_JAY_DNA);
             entries.accept(BLUE_JAY_EGG);
@@ -100,6 +140,24 @@ public class NaturalistCompat {
             entries.accept(VULTURE_EGG);
             entries.accept(DUCK_DNA);
             entries.accept(DUCK_EGG);
+            entries.accept(BROWN_BEAR_DNA);
+            entries.accept(BROWN_BEAR_EMBRYO);
+            entries.accept(BOAR_DNA);
+            entries.accept(BOAR_EMBRYO);
+            entries.accept(HIPPO_DNA);
+            entries.accept(HIPPO_EMBRYO);
+            entries.accept(GIRAFFE_DNA);
+            entries.accept(GIRAFFE_EMBRYO);
+            entries.accept(ELEPHANT_DNA);
+            entries.accept(ELEPHANT_EMBRYO);
+            entries.accept(DEER_DNA);
+            entries.accept(DEER_EMBRYO);
+            entries.accept(LION_DNA);
+            entries.accept(LION_EMBRYO);
+            entries.accept(RHINO_DNA);
+            entries.accept(RHINO_EMBRYO);
+            entries.accept(ZEBRA_DNA);
+            entries.accept(ZEBRA_EMBRYO);
         });
     }
 

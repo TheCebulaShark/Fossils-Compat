@@ -24,6 +24,14 @@ public class CrittersAndCompanionsCompat {
     public static Item SHIMA_ENAGA_DNA;
     public static Item SHIMA_ENAGA_EGG;
 
+    // Mammals — DNA + Embryo
+    public static Item FERRET_DNA;
+    public static Item FERRET_EMBRYO;
+    public static Item OTTER_DNA;
+    public static Item OTTER_EMBRYO;
+    public static Item RED_PANDA_DNA;
+    public static Item RED_PANDA_EMBRYO;
+
     private static final Set<String> BABY_ON_HATCH = Set.of();
     private static final Map<String, Supplier<EntityType<?>>> ENTITY_SUPPLIERS = new HashMap<>();
     private static final Map<String, Item> EGG_BY_KEY = new HashMap<>();
@@ -55,9 +63,22 @@ public class CrittersAndCompanionsCompat {
         SHIMA_ENAGA_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/shima_enaga_dna", new Item(new Item.Properties()));
         SHIMA_ENAGA_EGG = registerBirdEgg("crittersandcompanions/shima_enaga_egg", "shima_enaga", () -> CACEntities.SHIMA_ENAGA.get());
 
+        FERRET_DNA    = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_dna",    new Item(new Item.Properties()));
+        FERRET_EMBRYO = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_embryo", new Item(new Item.Properties()));
+        OTTER_DNA     = FossilsCompatUtil.registerItem("crittersandcompanions/otter_dna",     new Item(new Item.Properties()));
+        OTTER_EMBRYO  = FossilsCompatUtil.registerItem("crittersandcompanions/otter_embryo",  new Item(new Item.Properties()));
+        RED_PANDA_DNA    = FossilsCompatUtil.registerItem("crittersandcompanions/red_panda_dna",    new Item(new Item.Properties()));
+        RED_PANDA_EMBRYO = FossilsCompatUtil.registerItem("crittersandcompanions/red_panda_embryo", new Item(new Item.Properties()));
+
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(SHIMA_ENAGA_DNA);
             entries.accept(SHIMA_ENAGA_EGG);
+            entries.accept(FERRET_DNA);
+            entries.accept(FERRET_EMBRYO);
+            entries.accept(OTTER_DNA);
+            entries.accept(OTTER_EMBRYO);
+            entries.accept(RED_PANDA_DNA);
+            entries.accept(RED_PANDA_EMBRYO);
         });
     }
 
