@@ -36,27 +36,27 @@ public class VanillaBackportCompat {
         );
 
         ARMADILLO_DNA = Registry.register(BuiltInRegistries.ITEM,
-            new ResourceLocation("fossils_compat", "armadillo_dna"),
+            new ResourceLocation("fossils_compat", "vanillabackport/armadillo_dna"),
             new Item(new Item.Properties()));
 
         ARMADILLO_EMBRYO = Registry.register(BuiltInRegistries.ITEM,
-            new ResourceLocation("fossils_compat", "armadillo_embryo"),
+            new ResourceLocation("fossils_compat", "vanillabackport/armadillo_embryo"),
             new Item(new Item.Properties()));
 
         COLD_CHICKEN_DNA = Registry.register(BuiltInRegistries.ITEM,
-            new ResourceLocation("fossils_compat", "cold_chicken_dna"),
+            new ResourceLocation("fossils_compat", "vanillabackport/cold_chicken_dna"),
             new Item(new Item.Properties()));
 
         COLD_CHICKEN_EGG = Registry.register(BuiltInRegistries.ITEM,
-            new ResourceLocation("fossils_compat", "cold_chicken_egg"),
+            new ResourceLocation("fossils_compat", "vanillabackport/cold_chicken_egg"),
             new VariantChickenEggItem("cold", new Item.Properties().stacksTo(16)));
 
         WARM_CHICKEN_DNA = Registry.register(BuiltInRegistries.ITEM,
-            new ResourceLocation("fossils_compat", "warm_chicken_dna"),
+            new ResourceLocation("fossils_compat", "vanillabackport/warm_chicken_dna"),
             new Item(new Item.Properties()));
 
         WARM_CHICKEN_EGG = Registry.register(BuiltInRegistries.ITEM,
-            new ResourceLocation("fossils_compat", "warm_chicken_egg"),
+            new ResourceLocation("fossils_compat", "vanillabackport/warm_chicken_egg"),
             new VariantChickenEggItem("warm", new Item.Properties().stacksTo(16)));
 
         ResourceKey<CreativeModeTab> fossilMobTab = ResourceKey.create(

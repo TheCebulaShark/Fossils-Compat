@@ -64,32 +64,32 @@ public class AlexsMobsCompat {
                 .build("thrown_alexs_bird_egg")
         );
 
-        BLUE_JAY_DNA    = registerItem("blue_jay_dna",    new Item(new Item.Properties()));
-        BLUE_JAY_EGG    = registerBirdEgg("blue_jay_egg",    "blue_jay",    () -> AMEntityRegistry.BLUE_JAY);
+        BLUE_JAY_DNA    = registerItem("alexsmobs/blue_jay_dna",    new Item(new Item.Properties()));
+        BLUE_JAY_EGG    = registerBirdEgg("alexsmobs/blue_jay_egg",    "blue_jay",    () -> AMEntityRegistry.BLUE_JAY);
 
-        BALD_EAGLE_DNA  = registerItem("bald_eagle_dna",  new Item(new Item.Properties()));
-        BALD_EAGLE_EGG  = registerBirdEgg("bald_eagle_egg",  "bald_eagle",  () -> AMEntityRegistry.BALD_EAGLE);
+        BALD_EAGLE_DNA  = registerItem("alexsmobs/bald_eagle_dna",  new Item(new Item.Properties()));
+        BALD_EAGLE_EGG  = registerBirdEgg("alexsmobs/bald_eagle_egg",  "bald_eagle",  () -> AMEntityRegistry.BALD_EAGLE);
 
-        CROW_DNA        = registerItem("crow_dna",        new Item(new Item.Properties()));
-        CROW_EGG        = registerBirdEgg("crow_egg",        "crow",        () -> AMEntityRegistry.CROW);
+        CROW_DNA        = registerItem("alexsmobs/crow_dna",        new Item(new Item.Properties()));
+        CROW_EGG        = registerBirdEgg("alexsmobs/crow_egg",        "crow",        () -> AMEntityRegistry.CROW);
 
-        EMU_DNA         = registerItem("emu_dna",         new Item(new Item.Properties()));
-        EMU_EGG         = registerBirdEgg("emu_egg",         "emu",         () -> AMEntityRegistry.EMU);
+        EMU_DNA         = registerItem("alexsmobs/emu_dna",         new Item(new Item.Properties()));
+        EMU_EGG         = registerBirdEgg("alexsmobs/emu_egg",         "emu",         () -> AMEntityRegistry.EMU);
 
-        HUMMINGBIRD_DNA = registerItem("hummingbird_dna", new Item(new Item.Properties()));
-        HUMMINGBIRD_EGG = registerBirdEgg("hummingbird_egg", "hummingbird", () -> AMEntityRegistry.HUMMINGBIRD);
+        HUMMINGBIRD_DNA = registerItem("alexsmobs/hummingbird_dna", new Item(new Item.Properties()));
+        HUMMINGBIRD_EGG = registerBirdEgg("alexsmobs/hummingbird_egg", "hummingbird", () -> AMEntityRegistry.HUMMINGBIRD);
 
-        SEAGULL_DNA     = registerItem("seagull_dna",     new Item(new Item.Properties()));
-        SEAGULL_EGG     = registerBirdEgg("seagull_egg",     "seagull",     () -> AMEntityRegistry.SEAGULL);
+        SEAGULL_DNA     = registerItem("alexsmobs/seagull_dna",     new Item(new Item.Properties()));
+        SEAGULL_EGG     = registerBirdEgg("alexsmobs/seagull_egg",     "seagull",     () -> AMEntityRegistry.SEAGULL);
 
-        ROADRUNNER_DNA  = registerItem("roadrunner_dna",  new Item(new Item.Properties()));
-        ROADRUNNER_EGG  = registerBirdEgg("roadrunner_egg",  "roadrunner",  () -> AMEntityRegistry.ROADRUNNER);
+        ROADRUNNER_DNA  = registerItem("alexsmobs/roadrunner_dna",  new Item(new Item.Properties()));
+        ROADRUNNER_EGG  = registerBirdEgg("alexsmobs/roadrunner_egg",  "roadrunner",  () -> AMEntityRegistry.ROADRUNNER);
 
-        POTOO_DNA       = registerItem("potoo_dna",       new Item(new Item.Properties()));
-        POTOO_EGG       = registerBirdEgg("potoo_egg",       "potoo",       () -> AMEntityRegistry.POTOO);
+        POTOO_DNA       = registerItem("alexsmobs/potoo_dna",       new Item(new Item.Properties()));
+        POTOO_EGG       = registerBirdEgg("alexsmobs/potoo_egg",       "potoo",       () -> AMEntityRegistry.POTOO);
 
-        TOUCAN_DNA      = registerItem("toucan_dna",      new Item(new Item.Properties()));
-        TOUCAN_EGG      = registerBirdEgg("toucan_egg",      "toucan",      () -> AMEntityRegistry.TOUCAN);
+        TOUCAN_DNA      = registerItem("alexsmobs/toucan_dna",      new Item(new Item.Properties()));
+        TOUCAN_EGG      = registerBirdEgg("alexsmobs/toucan_egg",      "toucan",      () -> AMEntityRegistry.TOUCAN);
 
         ResourceKey<CreativeModeTab> fossilMobTab = ResourceKey.create(
             Registries.CREATIVE_MODE_TAB,
