@@ -3,6 +3,7 @@ package org.blahajenjoyer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.blahajenjoyer.compat.alexsmobs.AlexsMobsCompat;
+import org.blahajenjoyer.compat.naturalist.NaturalistCompat;
 import org.blahajenjoyer.compat.vanillabackport.VanillaBackportCompat;
 
 public class fossils_compat implements ModInitializer {
@@ -14,6 +15,9 @@ public class fossils_compat implements ModInitializer {
         }
         if (FabricLoader.getInstance().isModLoaded("alexsmobs")) {
             AlexsMobsCompat.register();
+        }
+        if (FabricLoader.getInstance().isModLoaded("naturalist")) {
+            NaturalistCompat.register();
         }
     }
 }
