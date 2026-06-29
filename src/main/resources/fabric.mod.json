@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "fossils_compat",
+  "version": "${version}",
+  "name": "Fossils Compat",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/fossils_compat/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "fabric-datagen": [
+      "org.blahajenjoyer.client.fossils_compatDataGenerator"
+    ],
+    "client": [
+      "org.blahajenjoyer.client.fossils_compatClient"
+    ],
+    "main": [
+      "org.blahajenjoyer.fossils_compat"
+    ]
+  },
+  "mixins": [
+    "fossils_compat.mixins.json",
+    {
+      "config": "fossils_compat.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "${minecraft_version}",
+    "fossil": "*"
+  },
+  "suggests": {
+    "alexsmobs": "*",
+    "naturalist": "*",
+    "natures_spirit": "*",
+    "faunify": "*",
+    "chipped": "*",
+    "vanillabackport": "*",
+    "critters-and-companions": "*"
+  }
+}

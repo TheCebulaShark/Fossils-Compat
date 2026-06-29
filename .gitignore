@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+build/
+run/
+
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Fabric Loom generated files
+.cache/
+remappedSources/
+
+# Small help
+.claude/

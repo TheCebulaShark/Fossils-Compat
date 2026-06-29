@@ -1,0 +1,27 @@
+{
+  "item.fossils_compat.armadillo_dna": "Armadillo DNA",
+  "item.fossils_compat.armadillo_embryo": "Armadillo Embryo",
+  "item.fossils_compat.cold_chicken_dna": "Cold Chicken DNA",
+  "item.fossils_compat.cold_chicken_egg": "Cultivated Brown Chicken Egg",
+  "item.fossils_compat.warm_chicken_dna": "Warm Chicken DNA",
+  "item.fossils_compat.warm_chicken_egg": "Cultivated Blue Chicken Egg",
+
+  "item.fossils_compat.blue_jay_dna": "Blue Jay DNA",
+  "item.fossils_compat.blue_jay_egg": "Blue Jay Egg",
+  "item.fossils_compat.bald_eagle_dna": "Bald Eagle DNA",
+  "item.fossils_compat.bald_eagle_egg": "Bald Eagle Egg",
+  "item.fossils_compat.crow_dna": "Crow DNA",
+  "item.fossils_compat.crow_egg": "Crow Egg",
+  "item.fossils_compat.emu_dna": "Emu DNA",
+  "item.fossils_compat.emu_egg": "Emu Egg",
+  "item.fossils_compat.hummingbird_dna": "Hummingbird DNA",
+  "item.fossils_compat.hummingbird_egg": "Hummingbird Egg",
+  "item.fossils_compat.seagull_dna": "Seagull DNA",
+  "item.fossils_compat.seagull_egg": "Seagull Egg",
+  "item.fossils_compat.roadrunner_dna": "Roadrunner DNA",
+  "item.fossils_compat.roadrunner_egg": "Roadrunner Egg",
+  "item.fossils_compat.potoo_dna": "Potoo DNA",
+  "item.fossils_compat.potoo_egg": "Potoo Egg",
+  "item.fossils_compat.toucan_dna": "Toucan DNA",
+  "item.fossils_compat.toucan_egg": "Toucan Egg"
+}
