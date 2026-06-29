@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/vanillabackport/embryos/armadillo_embryo"
+    "layer0": "fossils_compat:item/embryos/armadillo_embryo"
   }
 }
