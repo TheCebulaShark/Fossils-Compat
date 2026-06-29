@@ -9,12 +9,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.alexsmobs.entity.ThrownAlexsBirdEgg;
-import org.blahajenjoyer.compat.alexsmobs.item.AlexsCreatureEggItem;
+import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class AlexsMobsCompat {
@@ -22,6 +23,8 @@ public class AlexsMobsCompat {
     public static EntityType<ThrownAlexsBirdEgg> THROWN_ALEXS_BIRD_EGG;
 
     // Birds — DNA + throwable Egg
+    public static Item SHOEBILL_DNA;
+    public static Item SHOEBILL_EGG;
     public static Item BLUE_JAY_DNA;
     public static Item BLUE_JAY_EGG;
     public static Item BALD_EAGLE_DNA;
@@ -131,20 +134,23 @@ public class AlexsMobsCompat {
     public static Item LOBSTER_EGG;
     public static Item TARANTULA_HAWK_DNA;
     public static Item TARANTULA_HAWK_EGG;
+    public static Item COSMAW_DNA;
+    public static Item COSMAW_EGG;
 
     // Reptiles — DNA + Egg (dino-egg style, not yet implemented)
     public static Item ALLIGATOR_SNAPPING_TURTLE_DNA;
     public static Item ALLIGATOR_SNAPPING_TURTLE_EGG;
     public static Item ANACONDA_DNA;
     public static Item ANACONDA_EGG;
-    public static Item COSMAW_DNA;
-    public static Item COSMAW_EGG;
     public static Item FROSTSTALKER_DNA;
     public static Item FROSTSTALKER_EGG;
     public static Item KOMODO_DRAGON_DNA;
     public static Item KOMODO_DRAGON_EGG;
     public static Item RATTLESNAKE_DNA;
     public static Item RATTLESNAKE_EGG;
+
+    public static Item LAVIATHAN_DNA;
+    public static Item LAVIATHAN_EGG;
 
     // DNA only — mob already has an in-game egg or equivalent
     public static Item CAIMAN_DNA;
@@ -153,10 +159,15 @@ public class AlexsMobsCompat {
     public static Item TERRAPIN_DNA;
     public static Item TRIOPS_DNA;
     public static Item LEAFCUTTER_ANT_DNA;
-    public static Item LAVIATHAN_DNA;
+
+    private static final Set<String> ADULT_ON_HATCH_BIRDS = Set.of("shoebill");
 
     private static final Map<String, Supplier<EntityType<?>>> ENTITY_SUPPLIERS = new HashMap<>();
     private static final Map<String, Item> EGG_BY_KEY = new HashMap<>();
+
+    public static boolean isBabyOnHatchBird(String key) {
+        return !ADULT_ON_HATCH_BIRDS.contains(key);
+    }
 
     public static EntityType<?> getEntityType(String key) {
         Supplier<EntityType<?>> supplier = ENTITY_SUPPLIERS.get(key);
@@ -179,6 +190,8 @@ public class AlexsMobsCompat {
         );
 
         // Birds
+        SHOEBILL_DNA = registerItem("alexsmobs/shoebill_dna", new Item(new Item.Properties()));
+        SHOEBILL_EGG = registerBirdEgg("alexsmobs/shoebill_egg", "shoebill", () -> AMEntityRegistry.SHOEBILL);
         BLUE_JAY_DNA    = registerItem("alexsmobs/blue_jay_dna",    new Item(new Item.Properties()));
         BLUE_JAY_EGG    = registerBirdEgg("alexsmobs/blue_jay_egg",    "blue_jay",    () -> AMEntityRegistry.BLUE_JAY);
         BALD_EAGLE_DNA  = registerItem("alexsmobs/bald_eagle_dna",  new Item(new Item.Properties()));
@@ -289,20 +302,22 @@ public class AlexsMobsCompat {
         LOBSTER_EGG           = registerCreatureEgg("alexsmobs/lobster_egg",           () -> AMEntityRegistry.LOBSTER,           false);
         TARANTULA_HAWK_DNA    = registerItem("alexsmobs/tarantula_hawk_dna",    new Item(new Item.Properties()));
         TARANTULA_HAWK_EGG    = registerCreatureEgg("alexsmobs/tarantula_hawk_egg",    () -> AMEntityRegistry.TARANTULA_HAWK,    false);
+        COSMAW_DNA        = registerItem("alexsmobs/cosmaw_dna",        new Item(new Item.Properties()));
+        COSMAW_EGG        = registerCreatureEgg("alexsmobs/cosmaw_egg", () -> AMEntityRegistry.COSMAW, true);
 
         // Reptiles — dino-egg style (placeholder items, not yet functional)
         ALLIGATOR_SNAPPING_TURTLE_DNA = registerItem("alexsmobs/alligator_snapping_turtle_dna", new Item(new Item.Properties()));
         ALLIGATOR_SNAPPING_TURTLE_EGG = registerItem("alexsmobs/alligator_snapping_turtle_egg", new Item(new Item.Properties()));
         ANACONDA_DNA      = registerItem("alexsmobs/anaconda_dna",      new Item(new Item.Properties()));
         ANACONDA_EGG      = registerItem("alexsmobs/anaconda_egg",      new Item(new Item.Properties()));
-        COSMAW_DNA        = registerItem("alexsmobs/cosmaw_dna",        new Item(new Item.Properties()));
-        COSMAW_EGG        = registerItem("alexsmobs/cosmaw_egg",        new Item(new Item.Properties()));
         FROSTSTALKER_DNA  = registerItem("alexsmobs/froststalker_dna",  new Item(new Item.Properties()));
         FROSTSTALKER_EGG  = registerItem("alexsmobs/froststalker_egg",  new Item(new Item.Properties()));
         KOMODO_DRAGON_DNA = registerItem("alexsmobs/komodo_dragon_dna", new Item(new Item.Properties()));
         KOMODO_DRAGON_EGG = registerItem("alexsmobs/komodo_dragon_egg", new Item(new Item.Properties()));
         RATTLESNAKE_DNA   = registerItem("alexsmobs/rattlesnake_dna",   new Item(new Item.Properties()));
         RATTLESNAKE_EGG   = registerItem("alexsmobs/rattlesnake_egg",   new Item(new Item.Properties()));
+        LAVIATHAN_DNA     = registerItem("alexsmobs/laviathan_dna",     new Item(new Item.Properties()));
+        LAVIATHAN_EGG     = registerItem("alexsmobs/laviathan_egg",     new Item(new Item.Properties()));
 
         // DNA only
         CAIMAN_DNA        = registerItem("alexsmobs/caiman_dna",        new Item(new Item.Properties()));
@@ -311,9 +326,10 @@ public class AlexsMobsCompat {
         TERRAPIN_DNA      = registerItem("alexsmobs/terrapin_dna",      new Item(new Item.Properties()));
         TRIOPS_DNA        = registerItem("alexsmobs/triops_dna",        new Item(new Item.Properties()));
         LEAFCUTTER_ANT_DNA= registerItem("alexsmobs/leafcutter_ant_dna",new Item(new Item.Properties()));
-        LAVIATHAN_DNA     = registerItem("alexsmobs/laviathan_dna",     new Item(new Item.Properties()));
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
+            entries.accept(SHOEBILL_DNA);
+            entries.accept(SHOEBILL_EGG);
             entries.accept(BLUE_JAY_DNA);
             entries.accept(BLUE_JAY_EGG);
             entries.accept(BALD_EAGLE_DNA);
@@ -418,25 +434,26 @@ public class AlexsMobsCompat {
             entries.accept(LOBSTER_EGG);
             entries.accept(TARANTULA_HAWK_DNA);
             entries.accept(TARANTULA_HAWK_EGG);
+            entries.accept(COSMAW_DNA);
+            entries.accept(COSMAW_EGG);
             entries.accept(ALLIGATOR_SNAPPING_TURTLE_DNA);
             entries.accept(ALLIGATOR_SNAPPING_TURTLE_EGG);
             entries.accept(ANACONDA_DNA);
             entries.accept(ANACONDA_EGG);
-            entries.accept(COSMAW_DNA);
-            entries.accept(COSMAW_EGG);
             entries.accept(FROSTSTALKER_DNA);
             entries.accept(FROSTSTALKER_EGG);
             entries.accept(KOMODO_DRAGON_DNA);
             entries.accept(KOMODO_DRAGON_EGG);
             entries.accept(RATTLESNAKE_DNA);
             entries.accept(RATTLESNAKE_EGG);
+            entries.accept(LAVIATHAN_DNA);
+            entries.accept(LAVIATHAN_EGG);
             entries.accept(CAIMAN_DNA);
             entries.accept(CROCODILE_DNA);
             entries.accept(PLATYPUS_DNA);
             entries.accept(TERRAPIN_DNA);
             entries.accept(TRIOPS_DNA);
             entries.accept(LEAFCUTTER_ANT_DNA);
-            entries.accept(LAVIATHAN_DNA);
         });
     }
 
@@ -454,6 +471,6 @@ public class AlexsMobsCompat {
     }
 
     private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier, boolean babyOnHatch) {
-        return registerItem(id, new AlexsCreatureEggItem(supplier, babyOnHatch, new Item.Properties().stacksTo(16)));
+        return registerItem(id, new SpawnEggLikeItem(supplier, babyOnHatch, new Item.Properties().stacksTo(16)));
     }
 }
