@@ -1,4 +1,4 @@
-package org.blahajenjoyer.compat.alexsmobs.item;
+package org.blahajenjoyer.item;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -6,18 +6,20 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.blahajenjoyer.compat.alexsmobs.entity.ThrownAlexsBirdEgg;
 
-public class AlexsBirdEggItem extends Item {
+import java.util.function.BiFunction;
 
-    private final String birdKey;
+public class ThrowableBirdEggItem extends Item {
 
-    public AlexsBirdEggItem(String birdKey, Properties properties) {
+    private final BiFunction<Level, Player, ThrowableItemProjectile> factory;
+
+    public ThrowableBirdEggItem(BiFunction<Level, Player, ThrowableItemProjectile> factory, Properties properties) {
         super(properties);
-        this.birdKey = birdKey;
+        this.factory = factory;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class AlexsBirdEggItem extends Item {
             0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
 
         if (!world.isClientSide) {
-            ThrownAlexsBirdEgg egg = new ThrownAlexsBirdEgg(world, player, birdKey);
+            ThrowableItemProjectile egg = factory.apply(world, player);
             egg.setItem(stack);
             egg.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             world.addFreshEntity(egg);

@@ -4,16 +4,14 @@ import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.alexsmobs.entity.ThrownAlexsBirdEgg;
-import org.blahajenjoyer.compat.alexsmobs.item.AlexsBirdEggItem;
 import org.blahajenjoyer.compat.alexsmobs.item.AlexsCreatureEggItem;
+import org.blahajenjoyer.item.ThrowableBirdEggItem;
+import org.blahajenjoyer.util.FossilsCompatUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -315,11 +313,7 @@ public class AlexsMobsCompat {
         LEAFCUTTER_ANT_DNA= registerItem("alexsmobs/leafcutter_ant_dna",new Item(new Item.Properties()));
         LAVIATHAN_DNA     = registerItem("alexsmobs/laviathan_dna",     new Item(new Item.Properties()));
 
-        ResourceKey<CreativeModeTab> fossilMobTab = ResourceKey.create(
-            Registries.CREATIVE_MODE_TAB,
-            new ResourceLocation("fossil", "fa_mob_item_tab")
-        );
-        ItemGroupEvents.modifyEntriesEvent(fossilMobTab).register(entries -> {
+        ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(BLUE_JAY_DNA);
             entries.accept(BLUE_JAY_EGG);
             entries.accept(BALD_EAGLE_DNA);
@@ -447,12 +441,14 @@ public class AlexsMobsCompat {
     }
 
     private static Item registerItem(String id, Item item) {
-        return Registry.register(BuiltInRegistries.ITEM, new ResourceLocation("fossils_compat", id), item);
+        return FossilsCompatUtil.registerItem(id, item);
     }
 
     private static Item registerBirdEgg(String id, String key, Supplier<EntityType<?>> supplier) {
         ENTITY_SUPPLIERS.put(key, supplier);
-        Item egg = registerItem(id, new AlexsBirdEggItem(key, new Item.Properties().stacksTo(16)));
+        Item egg = registerItem(id, new ThrowableBirdEggItem(
+            (level, player) -> new ThrownAlexsBirdEgg(level, player, key),
+            new Item.Properties().stacksTo(16)));
         EGG_BY_KEY.put(key, egg);
         return egg;
     }
