@@ -134,14 +134,14 @@ public class AlexsMobsCompat {
     public static Item LOBSTER_EGG;
     public static Item TARANTULA_HAWK_DNA;
     public static Item TARANTULA_HAWK_EGG;
+    public static Item COSMAW_DNA;
+    public static Item COSMAW_EGG;
 
     // Reptiles — DNA + Egg (dino-egg style, not yet implemented)
     public static Item ALLIGATOR_SNAPPING_TURTLE_DNA;
     public static Item ALLIGATOR_SNAPPING_TURTLE_EGG;
     public static Item ANACONDA_DNA;
     public static Item ANACONDA_EGG;
-    public static Item COSMAW_DNA;
-    public static Item COSMAW_EGG;
     public static Item FROSTSTALKER_DNA;
     public static Item FROSTSTALKER_EGG;
     public static Item KOMODO_DRAGON_DNA;
@@ -300,14 +300,14 @@ public class AlexsMobsCompat {
         LOBSTER_EGG           = registerCreatureEgg("alexsmobs/lobster_egg",           () -> AMEntityRegistry.LOBSTER,           false);
         TARANTULA_HAWK_DNA    = registerItem("alexsmobs/tarantula_hawk_dna",    new Item(new Item.Properties()));
         TARANTULA_HAWK_EGG    = registerCreatureEgg("alexsmobs/tarantula_hawk_egg",    () -> AMEntityRegistry.TARANTULA_HAWK,    false);
+        COSMAW_DNA        = registerItem("alexsmobs/cosmaw_dna",        new Item(new Item.Properties()));
+        COSMAW_EGG        = registerCreatureEgg("alexsmobs/cosmaw_egg", () -> AMEntityRegistry.COSMAW, true);
 
         // Reptiles — dino-egg style (placeholder items, not yet functional)
         ALLIGATOR_SNAPPING_TURTLE_DNA = registerItem("alexsmobs/alligator_snapping_turtle_dna", new Item(new Item.Properties()));
         ALLIGATOR_SNAPPING_TURTLE_EGG = registerItem("alexsmobs/alligator_snapping_turtle_egg", new Item(new Item.Properties()));
         ANACONDA_DNA      = registerItem("alexsmobs/anaconda_dna",      new Item(new Item.Properties()));
         ANACONDA_EGG      = registerItem("alexsmobs/anaconda_egg",      new Item(new Item.Properties()));
-        COSMAW_DNA        = registerItem("alexsmobs/cosmaw_dna",        new Item(new Item.Properties()));
-        COSMAW_EGG        = registerItem("alexsmobs/cosmaw_egg",        new Item(new Item.Properties()));
         FROSTSTALKER_DNA  = registerItem("alexsmobs/froststalker_dna",  new Item(new Item.Properties()));
         FROSTSTALKER_EGG  = registerItem("alexsmobs/froststalker_egg",  new Item(new Item.Properties()));
         KOMODO_DRAGON_DNA = registerItem("alexsmobs/komodo_dragon_dna", new Item(new Item.Properties()));
@@ -431,12 +431,12 @@ public class AlexsMobsCompat {
             entries.accept(LOBSTER_EGG);
             entries.accept(TARANTULA_HAWK_DNA);
             entries.accept(TARANTULA_HAWK_EGG);
+            entries.accept(COSMAW_DNA);
+            entries.accept(COSMAW_EGG);
             entries.accept(ALLIGATOR_SNAPPING_TURTLE_DNA);
             entries.accept(ALLIGATOR_SNAPPING_TURTLE_EGG);
             entries.accept(ANACONDA_DNA);
             entries.accept(ANACONDA_EGG);
-            entries.accept(COSMAW_DNA);
-            entries.accept(COSMAW_EGG);
             entries.accept(FROSTSTALKER_DNA);
             entries.accept(FROSTSTALKER_EGG);
             entries.accept(KOMODO_DRAGON_DNA);
