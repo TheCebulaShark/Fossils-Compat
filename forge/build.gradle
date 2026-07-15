@@ -14,6 +14,15 @@ loom {
     silentMojangMappingsLicense()
 }
 
+// Assets (models/textures/lang) shared with the fabric/ project live in common/
+sourceSets {
+    main {
+        resources {
+            srcDir '../common/src/main/resources'
+        }
+    }
+}
+
 repositories {
     maven {
         name = "Modrinth"

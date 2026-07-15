@@ -27,6 +27,15 @@ loom {
     }
 }
 
+// Assets (models/textures/lang) shared with the forge/ project live in common/
+sourceSets {
+    main {
+        resources {
+            srcDir '../common/src/main/resources'
+        }
+    }
+}
+
 fabricApi {
     configureDataGeneration {
         client = true
