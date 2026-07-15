@@ -1,0 +1,75 @@
+plugins {
+    id 'dev.architectury.loom' version '1.17-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = "${project.archives_base_name}-forge"
+}
+
+loom {
+    silentMojangMappingsLicense()
+}
+
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Forge Maven"
+        url = "https://maven.minecraftforge.net/"
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+}
+
+def resourceVersion = project.version
+def resourceMinecraftVersion = project.minecraft_version
+
+processResources {
+    inputs.property "version", resourceVersion
+    inputs.property "minecraft_version", resourceMinecraftVersion
+    filteringCharset = "UTF-8"
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": resourceVersion,
+                "minecraft_version": resourceMinecraftVersion
+    }
+}
+
+def targetJavaVersion = 17
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = "${project.archives_base_name}-forge"
+            from components.java
+        }
+    }
+
+    repositories {
+        // Add repositories to publish to here.
+    }
+}
