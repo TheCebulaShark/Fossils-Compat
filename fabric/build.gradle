@@ -126,16 +126,20 @@ dependencies {
     runtimeOnly "com.teamresourceful:bytecodecs:${project.bytecodecs_version}"
 }
 
+def resourceVersion = project.version
+def resourceMinecraftVersion = project.minecraft_version
+def resourceLoaderVersion = project.loader_version
+
 processResources {
-    inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
-    inputs.property "loader_version", project.loader_version
-    filteringCharset "UTF-8"
+    inputs.property "version", resourceVersion
+    inputs.property "minecraft_version", resourceMinecraftVersion
+    inputs.property "loader_version", resourceLoaderVersion
+    filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
-        expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
-                "loader_version": project.loader_version
+        expand "version": resourceVersion,
+                "minecraft_version": resourceMinecraftVersion,
+                "loader_version": resourceLoaderVersion
     }
 }
 
