@@ -1,0 +1,200 @@
+plugins {
+    id 'fabric-loom' version '1.17-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "fossils_compat" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+
+    runs {
+        client {
+            vmArgs "-Xmx4G", "-Xms1G"
+        }
+    }
+}
+
+// Assets (models/textures/lang) shared with the forge/ project live in common/
+sourceSets {
+    main {
+        resources {
+            srcDir '../common/src/main/resources'
+        }
+    }
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
+
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Architectury"
+        url = "https://maven.architectury.dev/"
+    }
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+    }
+    maven {
+        name = "Forge Maven"
+        url = "https://maven.minecraftforge.net/"
+    }
+    maven {
+        name = "More Hitboxes"
+        url = "https://dl.cloudsmith.io/public/darkpred-mods/more-hitboxes/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev/"
+    }
+    maven {
+        name = "Ladysnake Mods"
+        url = "https://maven.ladysnake.org/releases"
+    }
+    maven {
+        name = "CurseMaven"
+        url = "https://cursemaven.com"
+    }
+    maven {
+        name = "Bawnorton"
+        url = "https://maven.bawnorton.com/releases"
+    }
+    maven {
+        name = "Team Resourceful"
+        url = "https://maven.teamresourceful.com/repository/maven-public/"
+    }
+}
+
+dependencies {
+    // To change the versions see the gradle.properties file
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    modImplementation "maven.modrinth:fossils-and-archeology-revival:${project.far_version}"
+
+    // Dev runtime - transitive dependencies of F&A Revival
+    modLocalRuntime "dev.architectury:architectury-fabric:${project.architectury_version}"
+    modLocalRuntime "software.bernie.geckolib:geckolib-fabric-1.20.1:${project.geckolib_version}"
+    modLocalRuntime "com.github.glitchfiend:TerraBlender-fabric:1.20.1-${project.terrablender_version}"
+    modLocalRuntime "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_version}"
+    modLocalRuntime "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_version}"
+    modLocalRuntime "dev.onyxstudios.cardinal-components-api:cardinal-components-world:${project.cardinal_version}"
+    modLocalRuntime "com.github.darkpred.morehitboxes:morehitboxes-fabric-1.20.1:${project.morehitboxes_version}"
+    modLocalRuntime "maven.modrinth:midnightlib:${project.midnightlib_version}"
+    modLocalRuntime "maven.modrinth:sructurized-reborn:${project.structurized_reborn_version}"
+    modLocalRuntime "teamreborn:energy:${project.energy_version}"
+
+    // Optional dependencies
+    modCompileOnly "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
+    modLocalRuntime "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
+    modLocalRuntime "curse.maven:citadel-fabric-1472150:${project.citadel_fabric_file}"
+    modCompileOnly "maven.modrinth:naturalist:${project.naturalist_version}"
+    modLocalRuntime "maven.modrinth:naturalist:${project.naturalist_version}"
+    modCompileOnly "maven.modrinth:natures-spirit:${project.natures_spirit_version}"
+    modLocalRuntime "maven.modrinth:natures-spirit:${project.natures_spirit_version}"
+    modCompileOnly "maven.modrinth:faunify:${project.faunify_version}"
+    modLocalRuntime "maven.modrinth:faunify:${project.faunify_version}"
+    modCompileOnly "maven.modrinth:chipped:${project.chipped_version}"
+    modLocalRuntime "maven.modrinth:chipped:${project.chipped_version}"
+    modCompileOnly "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
+    modLocalRuntime "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
+    modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    // Porting Lib submodules + forgeconfigapiport — bundled as nested JARs in C&C,
+    // but Loom doesn't remap nested JARs, so they must be declared as direct file deps
+    modLocalRuntime fileTree(dir: 'libs', include: ['*.jar'])
+    // Transitive deps of optional mods
+    modLocalRuntime "maven.modrinth:resourceful-lib:${project.resourcefullib_version}"
+    modLocalRuntime "maven.modrinth:athena-ctm:${project.athena_version}"
+    modCompileOnly "maven.modrinth:platform:${project.platform_version}"
+    modLocalRuntime "maven.modrinth:platform:${project.platform_version}"
+    modLocalRuntime "com.bawnorton.mixinsquared:mixinsquared-fabric:${project.mixinsquared_version}"
+    runtimeOnly "com.teamresourceful:bytecodecs:${project.bytecodecs_version}"
+}
+
+def resourceVersion = project.version
+def resourceMinecraftVersion = project.minecraft_version
+def resourceLoaderVersion = project.loader_version
+
+processResources {
+    inputs.property "version", resourceVersion
+    inputs.property "minecraft_version", resourceMinecraftVersion
+    inputs.property "loader_version", resourceLoaderVersion
+    filteringCharset = "UTF-8"
+
+    filesMatching("fabric.mod.json") {
+        expand "version": resourceVersion,
+                "minecraft_version": resourceMinecraftVersion,
+                "loader_version": resourceLoaderVersion
+    }
+}
+
+def targetJavaVersion = 17
+tasks.withType(JavaCompile).configureEach {
+    // ensure that the encoding is set to UTF-8, no matter what the system default is
+    // this fixes some edge cases with special characters not displaying correctly
+    // see http://yodaconditions.net/blog/fix-for-java-file-encoding-problems-with-gradle.html
+    // If Javadoc is generated, this must be specified in that task too.
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+    // if it is present.
+    // If you remove this line, sources will not be generated.
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archives_base_name}" }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = project.archives_base_name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}

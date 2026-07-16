@@ -1,0 +1,134 @@
+plugins {
+    id 'dev.architectury.loom' version '1.17-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = "${project.archives_base_name}-forge"
+}
+
+loom {
+    silentMojangMappingsLicense()
+}
+
+// Assets (models/textures/lang) shared with the fabric/ project live in common/
+sourceSets {
+    main {
+        resources {
+            srcDir '../common/src/main/resources'
+        }
+    }
+}
+
+repositories {
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+    }
+    maven {
+        name = "Forge Maven"
+        url = "https://maven.minecraftforge.net/"
+    }
+    maven {
+        name = "Architectury"
+        url = "https://maven.architectury.dev/"
+    }
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev/"
+    }
+    maven {
+        name = "CurseMaven"
+        url = "https://cursemaven.com"
+    }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+
+    modImplementation "maven.modrinth:fossils-and-archeology-revival:${project.far_version}"
+
+    // Dev runtime - transitive dependencies of F&A Revival
+    modLocalRuntime "dev.architectury:architectury-forge:${project.architectury_version}"
+    modLocalRuntime "software.bernie.geckolib:geckolib-forge-1.20.1:${project.geckolib_version}"
+    forgeRuntimeLibrary "com.eliotlash.mclib:mclib:${project.mclib_version}"
+    modLocalRuntime "com.github.glitchfiend:TerraBlender-forge:1.20.1-${project.terrablender_version}"
+    modLocalRuntime "maven.modrinth:more-hitboxes:${project.morehitboxes_version}"
+    // F&A's mixins use @WrapOperation from MixinExtras
+    runtimeOnly "io.github.llamalad7:mixinextras-forge:${project.mixinextras_version}"
+
+    // Optional dependencies
+
+    //modCompileOnly "curse.maven:alexs-mobs-426558:${project.alexsmobs_forge_file}"
+    //modLocalRuntime "curse.maven:alexs-mobs-426558:${project.alexsmobs_forge_file}"
+    //modCompileOnly "curse.maven:citadel-331936:${project.citadel_forge_file}"
+    //modLocalRuntime "curse.maven:citadel-331936:${project.citadel_forge_file}"
+
+    modCompileOnly "maven.modrinth:naturalist:${project.naturalist_version}"
+    modLocalRuntime "maven.modrinth:naturalist:${project.naturalist_version}"
+    modLocalRuntime "maven.modrinth:midnightlib:${project.midnightlib_version}"
+
+    modCompileOnly "maven.modrinth:faunify:${project.faunify_version}"
+    modLocalRuntime "maven.modrinth:faunify:${project.faunify_version}"
+
+    modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+
+    modCompileOnly "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
+    modLocalRuntime "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
+    modCompileOnly "maven.modrinth:platform:${project.platform_version}"
+    modLocalRuntime "maven.modrinth:platform:${project.platform_version}"
+}
+
+def resourceVersion = project.version
+def resourceMinecraftVersion = project.minecraft_version
+
+processResources {
+    inputs.property "version", resourceVersion
+    inputs.property "minecraft_version", resourceMinecraftVersion
+    filteringCharset = "UTF-8"
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": resourceVersion,
+                "minecraft_version": resourceMinecraftVersion
+    }
+}
+
+def targetJavaVersion = 17
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        it.options.release.set(targetJavaVersion)
+    }
+}
+
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            artifactId = "${project.archives_base_name}-forge"
+            from components.java
+        }
+    }
+
+    repositories {
+        // Add repositories to publish to here.
+    }
+}

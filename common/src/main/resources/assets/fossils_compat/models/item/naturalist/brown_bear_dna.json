@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "fossil:item/dna/polar_bear_dna"
-  }
-}
