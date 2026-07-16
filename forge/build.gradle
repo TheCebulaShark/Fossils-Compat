@@ -32,12 +32,62 @@ repositories {
         name = "Forge Maven"
         url = "https://maven.minecraftforge.net/"
     }
+    maven {
+        name = "Architectury"
+        url = "https://maven.architectury.dev/"
+    }
+    maven {
+        name = "GeckoLib"
+        url = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.dev/"
+    }
+    maven {
+        name = "CurseMaven"
+        url = "https://cursemaven.com"
+    }
+    mavenCentral()
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.officialMojangMappings()
     forge "net.minecraftforge:forge:${project.minecraft_version}-${project.forge_version}"
+
+    modImplementation "maven.modrinth:fossils-and-archeology-revival:${project.far_version}"
+
+    // Dev runtime - transitive dependencies of F&A Revival
+    modLocalRuntime "dev.architectury:architectury-forge:${project.architectury_version}"
+    modLocalRuntime "software.bernie.geckolib:geckolib-forge-1.20.1:${project.geckolib_version}"
+    forgeRuntimeLibrary "com.eliotlash.mclib:mclib:${project.mclib_version}"
+    modLocalRuntime "com.github.glitchfiend:TerraBlender-forge:1.20.1-${project.terrablender_version}"
+    modLocalRuntime "maven.modrinth:more-hitboxes:${project.morehitboxes_version}"
+    // F&A's mixins use @WrapOperation from MixinExtras
+    runtimeOnly "io.github.llamalad7:mixinextras-forge:${project.mixinextras_version}"
+
+    // Optional dependencies
+
+    //modCompileOnly "curse.maven:alexs-mobs-426558:${project.alexsmobs_forge_file}"
+    //modLocalRuntime "curse.maven:alexs-mobs-426558:${project.alexsmobs_forge_file}"
+    //modCompileOnly "curse.maven:citadel-331936:${project.citadel_forge_file}"
+    //modLocalRuntime "curse.maven:citadel-331936:${project.citadel_forge_file}"
+
+    modCompileOnly "maven.modrinth:naturalist:${project.naturalist_version}"
+    modLocalRuntime "maven.modrinth:naturalist:${project.naturalist_version}"
+    modLocalRuntime "maven.modrinth:midnightlib:${project.midnightlib_version}"
+
+    modCompileOnly "maven.modrinth:faunify:${project.faunify_version}"
+    modLocalRuntime "maven.modrinth:faunify:${project.faunify_version}"
+
+    modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+
+    modCompileOnly "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
+    modLocalRuntime "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
+    modCompileOnly "maven.modrinth:platform:${project.platform_version}"
+    modLocalRuntime "maven.modrinth:platform:${project.platform_version}"
 }
 
 def resourceVersion = project.version
