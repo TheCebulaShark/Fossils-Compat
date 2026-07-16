@@ -1,9 +1,4 @@
-pluginManagement {
-    repositories {
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
-        gradlePluginPortal()
-    }
-}
+rootProject.name = 'fossils-compat'
+
+includeBuild('fabric')
+includeBuild('forge')
