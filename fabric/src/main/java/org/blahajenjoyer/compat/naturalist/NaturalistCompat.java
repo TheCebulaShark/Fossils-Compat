@@ -1,24 +1,43 @@
 package org.blahajenjoyer.compat.naturalist;
 
 import com.starfish_studios.naturalist.core.registry.NaturalistEntityTypes;
+import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
+import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.naturalist.entity.ThrownNaturalistBirdEgg;
+import org.blahajenjoyer.config.FossilsCompatConfig;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
+import org.blahajenjoyer.util.SimpleEntityInfo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
 public class NaturalistCompat {
+
+    public static final String MOD_ID = "naturalist";
+    public static final List<String> ANIMAL_KEYS = List.of(
+        "blue_jay", "cardinal", "canary", "finch", "sparrow", "robin", "vulture", "duck",
+        "catfish", "bass", "firefly", "dragonfly",
+        "alligator", "tortoise", "snail", "butterfly",
+        "coral_snake", "snake", "rattlesnake", "lizard",
+        "bear", "boar", "hippo", "giraffe", "elephant", "deer", "lion", "rhino", "zebra"
+    );
+
+    private static final List<Item> TAB_ITEMS = new ArrayList<>();
 
     public static EntityType<ThrownNaturalistBirdEgg> THROWN_NATURALIST_BIRD_EGG;
 
@@ -102,6 +121,10 @@ public class NaturalistCompat {
         return BABY_ON_HATCH.contains(key);
     }
 
+    private static boolean enabled(String key) {
+        return FossilsCompatConfig.isEnabled(MOD_ID, key);
+    }
+
     public static void register() {
         THROWN_NATURALIST_BIRD_EGG = Registry.register(
             BuiltInRegistries.ENTITY_TYPE,
@@ -113,125 +136,182 @@ public class NaturalistCompat {
                 .build("thrown_naturalist_bird_egg")
         );
 
-        BLUE_JAY_DNA  = FossilsCompatUtil.registerItem("naturalist/blue_jay_dna",  new Item(new Item.Properties()));
-        BLUE_JAY_EGG  = registerBirdEgg("naturalist/blue_jay_egg",  "blue_jay",  () -> NaturalistEntityTypes.BLUEJAY.get());
-        CARDINAL_DNA  = FossilsCompatUtil.registerItem("naturalist/cardinal_dna",  new Item(new Item.Properties()));
-        CARDINAL_EGG  = registerBirdEgg("naturalist/cardinal_egg",  "cardinal",  () -> NaturalistEntityTypes.CARDINAL.get());
-        CANARY_DNA    = FossilsCompatUtil.registerItem("naturalist/canary_dna",    new Item(new Item.Properties()));
-        CANARY_EGG    = registerBirdEgg("naturalist/canary_egg",    "canary",    () -> NaturalistEntityTypes.CANARY.get());
-        FINCH_DNA     = FossilsCompatUtil.registerItem("naturalist/finch_dna",     new Item(new Item.Properties()));
-        FINCH_EGG     = registerBirdEgg("naturalist/finch_egg",     "finch",     () -> NaturalistEntityTypes.FINCH.get());
-        SPARROW_DNA   = FossilsCompatUtil.registerItem("naturalist/sparrow_dna",   new Item(new Item.Properties()));
-        SPARROW_EGG   = registerBirdEgg("naturalist/sparrow_egg",   "sparrow",   () -> NaturalistEntityTypes.SPARROW.get());
-        ROBIN_DNA     = FossilsCompatUtil.registerItem("naturalist/robin_dna",     new Item(new Item.Properties()));
-        ROBIN_EGG     = registerBirdEgg("naturalist/robin_egg",     "robin",     () -> NaturalistEntityTypes.ROBIN.get());
-        VULTURE_DNA   = FossilsCompatUtil.registerItem("naturalist/vulture_dna",   new Item(new Item.Properties()));
-        VULTURE_EGG   = registerBirdEgg("naturalist/vulture_egg",   "vulture",   () -> NaturalistEntityTypes.VULTURE.get());
-        DUCK_DNA      = FossilsCompatUtil.registerItem("naturalist/duck_dna",      new Item(new Item.Properties()));
-        DUCK_EGG      = registerBirdEgg("naturalist/duck_egg",      "duck",      () -> NaturalistEntityTypes.DUCK.get());
+        if (enabled("blue_jay")) {
+            BLUE_JAY_DNA = FossilsCompatUtil.registerItem("naturalist/blue_jay_dna", new Item(new Item.Properties()));
+            BLUE_JAY_EGG = registerBirdEgg("naturalist/blue_jay_egg", "blue_jay", () -> NaturalistEntityTypes.BLUEJAY.get());
+            TAB_ITEMS.add(BLUE_JAY_DNA);
+            TAB_ITEMS.add(BLUE_JAY_EGG);
+        }
+        if (enabled("cardinal")) {
+            CARDINAL_DNA = FossilsCompatUtil.registerItem("naturalist/cardinal_dna", new Item(new Item.Properties()));
+            CARDINAL_EGG = registerBirdEgg("naturalist/cardinal_egg", "cardinal", () -> NaturalistEntityTypes.CARDINAL.get());
+            TAB_ITEMS.add(CARDINAL_DNA);
+            TAB_ITEMS.add(CARDINAL_EGG);
+        }
+        if (enabled("canary")) {
+            CANARY_DNA = FossilsCompatUtil.registerItem("naturalist/canary_dna", new Item(new Item.Properties()));
+            CANARY_EGG = registerBirdEgg("naturalist/canary_egg", "canary", () -> NaturalistEntityTypes.CANARY.get());
+            TAB_ITEMS.add(CANARY_DNA);
+            TAB_ITEMS.add(CANARY_EGG);
+        }
+        if (enabled("finch")) {
+            FINCH_DNA = FossilsCompatUtil.registerItem("naturalist/finch_dna", new Item(new Item.Properties()));
+            FINCH_EGG = registerBirdEgg("naturalist/finch_egg", "finch", () -> NaturalistEntityTypes.FINCH.get());
+            TAB_ITEMS.add(FINCH_DNA);
+            TAB_ITEMS.add(FINCH_EGG);
+        }
+        if (enabled("sparrow")) {
+            SPARROW_DNA = FossilsCompatUtil.registerItem("naturalist/sparrow_dna", new Item(new Item.Properties()));
+            SPARROW_EGG = registerBirdEgg("naturalist/sparrow_egg", "sparrow", () -> NaturalistEntityTypes.SPARROW.get());
+            TAB_ITEMS.add(SPARROW_DNA);
+            TAB_ITEMS.add(SPARROW_EGG);
+        }
+        if (enabled("robin")) {
+            ROBIN_DNA = FossilsCompatUtil.registerItem("naturalist/robin_dna", new Item(new Item.Properties()));
+            ROBIN_EGG = registerBirdEgg("naturalist/robin_egg", "robin", () -> NaturalistEntityTypes.ROBIN.get());
+            TAB_ITEMS.add(ROBIN_DNA);
+            TAB_ITEMS.add(ROBIN_EGG);
+        }
+        if (enabled("vulture")) {
+            VULTURE_DNA = FossilsCompatUtil.registerItem("naturalist/vulture_dna", new Item(new Item.Properties()));
+            VULTURE_EGG = registerBirdEgg("naturalist/vulture_egg", "vulture", () -> NaturalistEntityTypes.VULTURE.get());
+            TAB_ITEMS.add(VULTURE_DNA);
+            TAB_ITEMS.add(VULTURE_EGG);
+        }
+        if (enabled("duck")) {
+            DUCK_DNA = FossilsCompatUtil.registerItem("naturalist/duck_dna", new Item(new Item.Properties()));
+            DUCK_EGG = registerBirdEgg("naturalist/duck_egg", "duck", () -> NaturalistEntityTypes.DUCK.get());
+            TAB_ITEMS.add(DUCK_DNA);
+            TAB_ITEMS.add(DUCK_EGG);
+        }
 
         // Fish / invertebrates
-        CATFISH_DNA  = FossilsCompatUtil.registerItem("naturalist/catfish_dna",  new Item(new Item.Properties()));
-        CATFISH_EGG  = registerCreatureEgg("naturalist/catfish_egg",  () -> NaturalistEntityTypes.CATFISH.get());
-        BASS_DNA     = FossilsCompatUtil.registerItem("naturalist/bass_dna",     new Item(new Item.Properties()));
-        BASS_EGG     = registerCreatureEgg("naturalist/bass_egg",     () -> NaturalistEntityTypes.BASS.get());
-        FIREFLY_DNA  = FossilsCompatUtil.registerItem("naturalist/firefly_dna",  new Item(new Item.Properties()));
-        FIREFLY_EGG  = registerCreatureEgg("naturalist/firefly_egg",  () -> NaturalistEntityTypes.FIREFLY.get());
-        DRAGONFLY_DNA= FossilsCompatUtil.registerItem("naturalist/dragonfly_dna",new Item(new Item.Properties()));
-        DRAGONFLY_EGG= registerCreatureEgg("naturalist/dragonfly_egg",() -> NaturalistEntityTypes.DRAGONFLY.get());
+        if (enabled("catfish")) {
+            CATFISH_DNA = FossilsCompatUtil.registerItem("naturalist/catfish_dna", new Item(new Item.Properties()));
+            CATFISH_EGG = registerCreatureEgg("naturalist/catfish_egg", () -> NaturalistEntityTypes.CATFISH.get());
+            TAB_ITEMS.add(CATFISH_DNA);
+            TAB_ITEMS.add(CATFISH_EGG);
+        }
+        if (enabled("bass")) {
+            BASS_DNA = FossilsCompatUtil.registerItem("naturalist/bass_dna", new Item(new Item.Properties()));
+            BASS_EGG = registerCreatureEgg("naturalist/bass_egg", () -> NaturalistEntityTypes.BASS.get());
+            TAB_ITEMS.add(BASS_DNA);
+            TAB_ITEMS.add(BASS_EGG);
+        }
+        if (enabled("firefly")) {
+            FIREFLY_DNA = FossilsCompatUtil.registerItem("naturalist/firefly_dna", new Item(new Item.Properties()));
+            FIREFLY_EGG = registerCreatureEgg("naturalist/firefly_egg", () -> NaturalistEntityTypes.FIREFLY.get());
+            TAB_ITEMS.add(FIREFLY_DNA);
+            TAB_ITEMS.add(FIREFLY_EGG);
+        }
+        if (enabled("dragonfly")) {
+            DRAGONFLY_DNA = FossilsCompatUtil.registerItem("naturalist/dragonfly_dna", new Item(new Item.Properties()));
+            DRAGONFLY_EGG = registerCreatureEgg("naturalist/dragonfly_egg", () -> NaturalistEntityTypes.DRAGONFLY.get());
+            TAB_ITEMS.add(DRAGONFLY_DNA);
+            TAB_ITEMS.add(DRAGONFLY_EGG);
+        }
 
         // DNA only
-        ALLIGATOR_DNA = FossilsCompatUtil.registerItem("naturalist/alligator_dna", new Item(new Item.Properties()));
-        TORTOISE_DNA  = FossilsCompatUtil.registerItem("naturalist/tortoise_dna",  new Item(new Item.Properties()));
-        SNAIL_DNA     = FossilsCompatUtil.registerItem("naturalist/snail_dna",     new Item(new Item.Properties()));
-        BUTTERFLY_DNA = FossilsCompatUtil.registerItem("naturalist/butterfly_dna", new Item(new Item.Properties()));
+        if (enabled("alligator")) {
+            ALLIGATOR_DNA = FossilsCompatUtil.registerItem("naturalist/alligator_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(ALLIGATOR_DNA);
+        }
+        if (enabled("tortoise")) {
+            TORTOISE_DNA = FossilsCompatUtil.registerItem("naturalist/tortoise_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(TORTOISE_DNA);
+        }
+        if (enabled("snail")) {
+            SNAIL_DNA = FossilsCompatUtil.registerItem("naturalist/snail_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(SNAIL_DNA);
+        }
+        if (enabled("butterfly")) {
+            BUTTERFLY_DNA = FossilsCompatUtil.registerItem("naturalist/butterfly_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(BUTTERFLY_DNA);
+        }
 
         // Reptiles
-        CORAL_SNAKE_DNA  = FossilsCompatUtil.registerItem("naturalist/coral_snake_dna",  new Item(new Item.Properties()));
-        CORAL_SNAKE_EGG  = FossilsCompatUtil.registerItem("naturalist/coral_snake_egg",  new Item(new Item.Properties()));
-        SNAKE_DNA        = FossilsCompatUtil.registerItem("naturalist/snake_dna",        new Item(new Item.Properties()));
-        SNAKE_EGG        = FossilsCompatUtil.registerItem("naturalist/snake_egg",        new Item(new Item.Properties()));
-        RATTLESNAKE_DNA  = FossilsCompatUtil.registerItem("naturalist/rattlesnake_dna",  new Item(new Item.Properties()));
-        RATTLESNAKE_EGG  = FossilsCompatUtil.registerItem("naturalist/rattlesnake_egg",  new Item(new Item.Properties()));
-        LIZARD_DNA       = FossilsCompatUtil.registerItem("naturalist/lizard_dna",       new Item(new Item.Properties()));
-        LIZARD_EGG       = FossilsCompatUtil.registerItem("naturalist/lizard_egg",       new Item(new Item.Properties()));
+        if (enabled("coral_snake")) {
+            CORAL_SNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/coral_snake_dna", new Item(new Item.Properties()));
+            CORAL_SNAKE_EGG = FossilsCompatUtil.registerItem("naturalist/coral_snake_egg", new Item(new Item.Properties()));
+            TAB_ITEMS.add(CORAL_SNAKE_DNA);
+            TAB_ITEMS.add(CORAL_SNAKE_EGG);
+        }
+        if (enabled("snake")) {
+            SNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/snake_dna", new Item(new Item.Properties()));
+            SNAKE_EGG = FossilsCompatUtil.registerItem("naturalist/snake_egg", new Item(new Item.Properties()));
+            TAB_ITEMS.add(SNAKE_DNA);
+            TAB_ITEMS.add(SNAKE_EGG);
+        }
+        if (enabled("rattlesnake")) {
+            RATTLESNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/rattlesnake_dna", new Item(new Item.Properties()));
+            RATTLESNAKE_EGG = FossilsCompatUtil.registerItem("naturalist/rattlesnake_egg", new Item(new Item.Properties()));
+            TAB_ITEMS.add(RATTLESNAKE_DNA);
+            TAB_ITEMS.add(RATTLESNAKE_EGG);
+        }
+        if (enabled("lizard")) {
+            LIZARD_DNA = FossilsCompatUtil.registerItem("naturalist/lizard_dna", new Item(new Item.Properties()));
+            LIZARD_EGG = FossilsCompatUtil.registerItem("naturalist/lizard_egg", new Item(new Item.Properties()));
+            TAB_ITEMS.add(LIZARD_DNA);
+            TAB_ITEMS.add(LIZARD_EGG);
+        }
 
         // Mammals
-        BROWN_BEAR_DNA   = FossilsCompatUtil.registerItem("naturalist/brown_bear_dna",   new Item(new Item.Properties()));
-        BROWN_BEAR_EMBRYO= FossilsCompatUtil.registerItem("naturalist/brown_bear_embryo",new Item(new Item.Properties()));
-        BOAR_DNA         = FossilsCompatUtil.registerItem("naturalist/boar_dna",         new Item(new Item.Properties()));
-        BOAR_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/boar_embryo",      new Item(new Item.Properties()));
-        HIPPO_DNA        = FossilsCompatUtil.registerItem("naturalist/hippo_dna",        new Item(new Item.Properties()));
-        HIPPO_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/hippo_embryo",     new Item(new Item.Properties()));
-        GIRAFFE_DNA      = FossilsCompatUtil.registerItem("naturalist/giraffe_dna",      new Item(new Item.Properties()));
-        GIRAFFE_EMBRYO   = FossilsCompatUtil.registerItem("naturalist/giraffe_embryo",   new Item(new Item.Properties()));
-        ELEPHANT_DNA     = FossilsCompatUtil.registerItem("naturalist/elephant_dna",     new Item(new Item.Properties()));
-        ELEPHANT_EMBRYO  = FossilsCompatUtil.registerItem("naturalist/elephant_embryo",  new Item(new Item.Properties()));
-        DEER_DNA         = FossilsCompatUtil.registerItem("naturalist/deer_dna",         new Item(new Item.Properties()));
-        DEER_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/deer_embryo",      new Item(new Item.Properties()));
-        LION_DNA         = FossilsCompatUtil.registerItem("naturalist/lion_dna",         new Item(new Item.Properties()));
-        LION_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/lion_embryo",      new Item(new Item.Properties()));
-        RHINO_DNA        = FossilsCompatUtil.registerItem("naturalist/rhino_dna",        new Item(new Item.Properties()));
-        RHINO_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/rhino_embryo",     new Item(new Item.Properties()));
-        ZEBRA_DNA        = FossilsCompatUtil.registerItem("naturalist/zebra_dna",        new Item(new Item.Properties()));
-        ZEBRA_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/zebra_embryo",     new Item(new Item.Properties()));
+        if (enabled("bear")) {
+            BROWN_BEAR_DNA = FossilsCompatUtil.registerItem("naturalist/brown_bear_dna", new Item(new Item.Properties()));
+            BROWN_BEAR_EMBRYO = registerMammalEmbryo("naturalist/brown_bear_embryo", "bear", () -> NaturalistEntityTypes.BEAR.get(), BROWN_BEAR_DNA);
+            TAB_ITEMS.add(BROWN_BEAR_DNA);
+            TAB_ITEMS.add(BROWN_BEAR_EMBRYO);
+        }
+        if (enabled("boar")) {
+            BOAR_DNA = FossilsCompatUtil.registerItem("naturalist/boar_dna", new Item(new Item.Properties()));
+            BOAR_EMBRYO = registerMammalEmbryo("naturalist/boar_embryo", "boar", () -> NaturalistEntityTypes.BOAR.get(), BOAR_DNA);
+            TAB_ITEMS.add(BOAR_DNA);
+            TAB_ITEMS.add(BOAR_EMBRYO);
+        }
+        if (enabled("hippo")) {
+            HIPPO_DNA = FossilsCompatUtil.registerItem("naturalist/hippo_dna", new Item(new Item.Properties()));
+            HIPPO_EMBRYO = registerMammalEmbryo("naturalist/hippo_embryo", "hippo", () -> NaturalistEntityTypes.HIPPO.get(), HIPPO_DNA);
+            TAB_ITEMS.add(HIPPO_DNA);
+            TAB_ITEMS.add(HIPPO_EMBRYO);
+        }
+        if (enabled("giraffe")) {
+            GIRAFFE_DNA = FossilsCompatUtil.registerItem("naturalist/giraffe_dna", new Item(new Item.Properties()));
+            GIRAFFE_EMBRYO = registerMammalEmbryo("naturalist/giraffe_embryo", "giraffe", () -> NaturalistEntityTypes.GIRAFFE.get(), GIRAFFE_DNA);
+            TAB_ITEMS.add(GIRAFFE_DNA);
+            TAB_ITEMS.add(GIRAFFE_EMBRYO);
+        }
+        if (enabled("elephant")) {
+            ELEPHANT_DNA = FossilsCompatUtil.registerItem("naturalist/elephant_dna", new Item(new Item.Properties()));
+            ELEPHANT_EMBRYO = registerMammalEmbryo("naturalist/elephant_embryo", "elephant", () -> NaturalistEntityTypes.ELEPHANT.get(), ELEPHANT_DNA);
+            TAB_ITEMS.add(ELEPHANT_DNA);
+            TAB_ITEMS.add(ELEPHANT_EMBRYO);
+        }
+        if (enabled("deer")) {
+            DEER_DNA = FossilsCompatUtil.registerItem("naturalist/deer_dna", new Item(new Item.Properties()));
+            DEER_EMBRYO = registerMammalEmbryo("naturalist/deer_embryo", "deer", () -> NaturalistEntityTypes.DEER.get(), DEER_DNA);
+            TAB_ITEMS.add(DEER_DNA);
+            TAB_ITEMS.add(DEER_EMBRYO);
+        }
+        if (enabled("lion")) {
+            LION_DNA = FossilsCompatUtil.registerItem("naturalist/lion_dna", new Item(new Item.Properties()));
+            LION_EMBRYO = registerMammalEmbryo("naturalist/lion_embryo", "lion", () -> NaturalistEntityTypes.LION.get(), LION_DNA);
+            TAB_ITEMS.add(LION_DNA);
+            TAB_ITEMS.add(LION_EMBRYO);
+        }
+        if (enabled("rhino")) {
+            RHINO_DNA = FossilsCompatUtil.registerItem("naturalist/rhino_dna", new Item(new Item.Properties()));
+            RHINO_EMBRYO = registerMammalEmbryo("naturalist/rhino_embryo", "rhino", () -> NaturalistEntityTypes.RHINO.get(), RHINO_DNA);
+            TAB_ITEMS.add(RHINO_DNA);
+            TAB_ITEMS.add(RHINO_EMBRYO);
+        }
+        if (enabled("zebra")) {
+            ZEBRA_DNA = FossilsCompatUtil.registerItem("naturalist/zebra_dna", new Item(new Item.Properties()));
+            ZEBRA_EMBRYO = registerMammalEmbryo("naturalist/zebra_embryo", "zebra", () -> NaturalistEntityTypes.ZEBRA.get(), ZEBRA_DNA);
+            TAB_ITEMS.add(ZEBRA_DNA);
+            TAB_ITEMS.add(ZEBRA_EMBRYO);
+        }
 
-        ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
-            entries.accept(ALLIGATOR_DNA);
-            entries.accept(TORTOISE_DNA);
-            entries.accept(SNAIL_DNA);
-            entries.accept(BUTTERFLY_DNA);
-            entries.accept(CORAL_SNAKE_DNA);
-            entries.accept(CORAL_SNAKE_EGG);
-            entries.accept(SNAKE_DNA);
-            entries.accept(SNAKE_EGG);
-            entries.accept(RATTLESNAKE_DNA);
-            entries.accept(RATTLESNAKE_EGG);
-            entries.accept(LIZARD_DNA);
-            entries.accept(LIZARD_EGG);
-            entries.accept(CATFISH_DNA);
-            entries.accept(CATFISH_EGG);
-            entries.accept(BASS_DNA);
-            entries.accept(BASS_EGG);
-            entries.accept(FIREFLY_DNA);
-            entries.accept(FIREFLY_EGG);
-            entries.accept(DRAGONFLY_DNA);
-            entries.accept(DRAGONFLY_EGG);
-            entries.accept(BLUE_JAY_DNA);
-            entries.accept(BLUE_JAY_EGG);
-            entries.accept(CARDINAL_DNA);
-            entries.accept(CARDINAL_EGG);
-            entries.accept(CANARY_DNA);
-            entries.accept(CANARY_EGG);
-            entries.accept(FINCH_DNA);
-            entries.accept(FINCH_EGG);
-            entries.accept(SPARROW_DNA);
-            entries.accept(SPARROW_EGG);
-            entries.accept(ROBIN_DNA);
-            entries.accept(ROBIN_EGG);
-            entries.accept(VULTURE_DNA);
-            entries.accept(VULTURE_EGG);
-            entries.accept(DUCK_DNA);
-            entries.accept(DUCK_EGG);
-            entries.accept(BROWN_BEAR_DNA);
-            entries.accept(BROWN_BEAR_EMBRYO);
-            entries.accept(BOAR_DNA);
-            entries.accept(BOAR_EMBRYO);
-            entries.accept(HIPPO_DNA);
-            entries.accept(HIPPO_EMBRYO);
-            entries.accept(GIRAFFE_DNA);
-            entries.accept(GIRAFFE_EMBRYO);
-            entries.accept(ELEPHANT_DNA);
-            entries.accept(ELEPHANT_EMBRYO);
-            entries.accept(DEER_DNA);
-            entries.accept(DEER_EMBRYO);
-            entries.accept(LION_DNA);
-            entries.accept(LION_EMBRYO);
-            entries.accept(RHINO_DNA);
-            entries.accept(RHINO_EMBRYO);
-            entries.accept(ZEBRA_DNA);
-            entries.accept(ZEBRA_EMBRYO);
-        });
+        ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> TAB_ITEMS.forEach(entries::accept));
     }
 
     private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier) {
@@ -245,5 +325,11 @@ public class NaturalistCompat {
             new Item.Properties().stacksTo(16)));
         EGG_BY_KEY.put(key, egg);
         return egg;
+    }
+
+    private static Item registerMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem) {
+        return FossilsCompatUtil.registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
+            "NATURALIST_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
+            () -> Component.translatable("entity.naturalist." + key), dnaItem)));
     }
 }

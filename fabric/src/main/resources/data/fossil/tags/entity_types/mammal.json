@@ -1,0 +1,32 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "alexsmobs:anteater", "required": false },
+    { "id": "alexsmobs:bison", "required": false },
+    { "id": "alexsmobs:cachalot_whale", "required": false },
+    { "id": "alexsmobs:jerboa", "required": false },
+    { "id": "alexsmobs:gelada_monkey", "required": false },
+    { "id": "alexsmobs:gazelle", "required": false },
+    { "id": "alexsmobs:maned_wolf", "required": false },
+    { "id": "alexsmobs:moose", "required": false },
+    { "id": "alexsmobs:rhinoceros", "required": false },
+    { "id": "alexsmobs:seal", "required": false },
+    { "id": "alexsmobs:skunk", "required": false },
+    { "id": "alexsmobs:snow_leopard", "required": false },
+    { "id": "alexsmobs:tasmanian_devil", "required": false },
+    { "id": "alexsmobs:tiger", "required": false },
+    { "id": "alexsmobs:tusklin", "required": false },
+    { "id": "crittersandcompanions:otter", "required": false },
+    { "id": "faunify:opossum", "required": false },
+    { "id": "naturalist:bear", "required": false },
+    { "id": "naturalist:boar", "required": false },
+    { "id": "naturalist:hippo", "required": false },
+    { "id": "naturalist:giraffe", "required": false },
+    { "id": "naturalist:elephant", "required": false },
+    { "id": "naturalist:deer", "required": false },
+    { "id": "naturalist:lion", "required": false },
+    { "id": "naturalist:rhino", "required": false },
+    { "id": "naturalist:zebra", "required": false },
+    { "id": "minecraft:armadillo", "required": false }
+  ]
+}
