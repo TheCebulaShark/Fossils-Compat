@@ -1,9 +1,12 @@
 package org.blahajenjoyer.compat.alexsmobs;
 
 import com.github.alexthe666.alexsmobs.entity.AMEntityRegistry;
+import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
+import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -12,8 +15,10 @@ import org.blahajenjoyer.compat.alexsmobs.entity.ThrownAlexsBirdEgg;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
+import org.blahajenjoyer.util.SimpleEntityInfo;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -211,53 +216,54 @@ public class AlexsMobsCompat {
         TOUCAN_DNA      = registerItem("alexsmobs/toucan_dna",      new Item(new Item.Properties()));
         TOUCAN_EGG      = registerBirdEgg("alexsmobs/toucan_egg",      "toucan",      () -> AMEntityRegistry.TOUCAN);
 
-        // Mammals
+        // Mammals — DNA item + MammalEmbryoItem (FAR's own pregnancy/birth mechanic:
+        // right-click an eligible adult mammal to implant, it gestates, then gives birth)
         ANTEATER_DNA          = registerItem("alexsmobs/anteater_dna",          new Item(new Item.Properties()));
-        ANTEATER_EMBRYO       = registerItem("alexsmobs/anteater_embryo",       new Item(new Item.Properties()));
+        ANTEATER_EMBRYO       = registerMammalEmbryo("alexsmobs/anteater_embryo",        "anteater",        () -> AMEntityRegistry.ANTEATER,        ANTEATER_DNA);
         BISON_DNA             = registerItem("alexsmobs/bison_dna",             new Item(new Item.Properties()));
-        BISON_EMBRYO          = registerItem("alexsmobs/bison_embryo",          new Item(new Item.Properties()));
+        BISON_EMBRYO          = registerMammalEmbryo("alexsmobs/bison_embryo",           "bison",           () -> AMEntityRegistry.BISON,           BISON_DNA);
         CACHALOT_WHALE_DNA    = registerItem("alexsmobs/cachalot_whale_dna",    new Item(new Item.Properties()));
-        CACHALOT_WHALE_EMBRYO = registerItem("alexsmobs/cachalot_whale_embryo", new Item(new Item.Properties()));
+        CACHALOT_WHALE_EMBRYO = registerMammalEmbryo("alexsmobs/cachalot_whale_embryo",  "cachalot_whale",  () -> AMEntityRegistry.CACHALOT_WHALE,  CACHALOT_WHALE_DNA);
         CAPUCHIN_MONKEY_DNA   = registerItem("alexsmobs/capuchin_monkey_dna",   new Item(new Item.Properties()));
-        CAPUCHIN_MONKEY_EMBRYO= registerItem("alexsmobs/capuchin_monkey_embryo",new Item(new Item.Properties()));
+        CAPUCHIN_MONKEY_EMBRYO= registerMammalEmbryo("alexsmobs/capuchin_monkey_embryo", "capuchin_monkey", () -> AMEntityRegistry.CAPUCHIN_MONKEY, CAPUCHIN_MONKEY_DNA);
         ELEPHANT_DNA          = registerItem("alexsmobs/elephant_dna",          new Item(new Item.Properties()));
-        ELEPHANT_EMBRYO       = registerItem("alexsmobs/elephant_embryo",       new Item(new Item.Properties()));
+        ELEPHANT_EMBRYO       = registerMammalEmbryo("alexsmobs/elephant_embryo",        "elephant",        () -> AMEntityRegistry.ELEPHANT,        ELEPHANT_DNA);
         KANGAROO_DNA          = registerItem("alexsmobs/kangaroo_dna",          new Item(new Item.Properties()));
-        KANGAROO_EMBRYO       = registerItem("alexsmobs/kangaroo_embryo",       new Item(new Item.Properties()));
+        KANGAROO_EMBRYO       = registerMammalEmbryo("alexsmobs/kangaroo_embryo",        "kangaroo",        () -> AMEntityRegistry.KANGAROO,        KANGAROO_DNA);
         JERBOA_DNA            = registerItem("alexsmobs/jerboa_dna",            new Item(new Item.Properties()));
-        JERBOA_EMBRYO         = registerItem("alexsmobs/jerboa_embryo",         new Item(new Item.Properties()));
+        JERBOA_EMBRYO         = registerMammalEmbryo("alexsmobs/jerboa_embryo",          "jerboa",          () -> AMEntityRegistry.JERBOA,          JERBOA_DNA);
         GRIZZLY_BEAR_DNA      = registerItem("alexsmobs/grizzly_bear_dna",      new Item(new Item.Properties()));
-        GRIZZLY_BEAR_EMBRYO   = registerItem("alexsmobs/grizzly_bear_embryo",   new Item(new Item.Properties()));
+        GRIZZLY_BEAR_EMBRYO   = registerMammalEmbryo("alexsmobs/grizzly_bear_embryo",    "grizzly_bear",    () -> AMEntityRegistry.GRIZZLY_BEAR,    GRIZZLY_BEAR_DNA);
         GORILLA_DNA           = registerItem("alexsmobs/gorilla_dna",           new Item(new Item.Properties()));
-        GORILLA_EMBRYO        = registerItem("alexsmobs/gorilla_embryo",        new Item(new Item.Properties()));
+        GORILLA_EMBRYO        = registerMammalEmbryo("alexsmobs/gorilla_embryo",         "gorilla",         () -> AMEntityRegistry.GORILLA,         GORILLA_DNA);
         GELADA_MONKEY_DNA     = registerItem("alexsmobs/gelada_monkey_dna",     new Item(new Item.Properties()));
-        GELADA_MONKEY_EMBRYO  = registerItem("alexsmobs/gelada_monkey_embryo",  new Item(new Item.Properties()));
+        GELADA_MONKEY_EMBRYO  = registerMammalEmbryo("alexsmobs/gelada_monkey_embryo",   "gelada_monkey",   () -> AMEntityRegistry.GELADA_MONKEY,   GELADA_MONKEY_DNA);
         GAZELLE_DNA           = registerItem("alexsmobs/gazelle_dna",           new Item(new Item.Properties()));
-        GAZELLE_EMBRYO        = registerItem("alexsmobs/gazelle_embryo",        new Item(new Item.Properties()));
+        GAZELLE_EMBRYO        = registerMammalEmbryo("alexsmobs/gazelle_embryo",         "gazelle",         () -> AMEntityRegistry.GAZELLE,         GAZELLE_DNA);
         MANED_WOLF_DNA        = registerItem("alexsmobs/maned_wolf_dna",        new Item(new Item.Properties()));
-        MANED_WOLF_EMBRYO     = registerItem("alexsmobs/maned_wolf_embryo",     new Item(new Item.Properties()));
+        MANED_WOLF_EMBRYO     = registerMammalEmbryo("alexsmobs/maned_wolf_embryo",      "maned_wolf",      () -> AMEntityRegistry.MANED_WOLF,      MANED_WOLF_DNA);
         MOOSE_DNA             = registerItem("alexsmobs/moose_dna",             new Item(new Item.Properties()));
-        MOOSE_EMBRYO          = registerItem("alexsmobs/moose_embryo",          new Item(new Item.Properties()));
+        MOOSE_EMBRYO          = registerMammalEmbryo("alexsmobs/moose_embryo",           "moose",           () -> AMEntityRegistry.MOOSE,           MOOSE_DNA);
         ORCA_DNA              = registerItem("alexsmobs/orca_dna",              new Item(new Item.Properties()));
-        ORCA_EMBRYO           = registerItem("alexsmobs/orca_embryo",           new Item(new Item.Properties()));
+        ORCA_EMBRYO           = registerMammalEmbryo("alexsmobs/orca_embryo",            "orca",            () -> AMEntityRegistry.ORCA,            ORCA_DNA);
         RHINOCEROS_DNA        = registerItem("alexsmobs/rhinoceros_dna",        new Item(new Item.Properties()));
-        RHINOCEROS_EMBRYO     = registerItem("alexsmobs/rhinoceros_embryo",     new Item(new Item.Properties()));
+        RHINOCEROS_EMBRYO     = registerMammalEmbryo("alexsmobs/rhinoceros_embryo",      "rhinoceros",      () -> AMEntityRegistry.RHINOCEROS,      RHINOCEROS_DNA);
         RACCOON_DNA           = registerItem("alexsmobs/raccoon_dna",           new Item(new Item.Properties()));
-        RACCOON_EMBRYO        = registerItem("alexsmobs/raccoon_embryo",        new Item(new Item.Properties()));
+        RACCOON_EMBRYO        = registerMammalEmbryo("alexsmobs/raccoon_embryo",         "raccoon",         () -> AMEntityRegistry.RACCOON,         RACCOON_DNA);
         SEAL_DNA              = registerItem("alexsmobs/seal_dna",              new Item(new Item.Properties()));
-        SEAL_EMBRYO           = registerItem("alexsmobs/seal_embryo",           new Item(new Item.Properties()));
+        SEAL_EMBRYO           = registerMammalEmbryo("alexsmobs/seal_embryo",            "seal",            () -> AMEntityRegistry.SEAL,            SEAL_DNA);
         SKUNK_DNA             = registerItem("alexsmobs/skunk_dna",             new Item(new Item.Properties()));
-        SKUNK_EMBRYO          = registerItem("alexsmobs/skunk_embryo",          new Item(new Item.Properties()));
+        SKUNK_EMBRYO          = registerMammalEmbryo("alexsmobs/skunk_embryo",           "skunk",           () -> AMEntityRegistry.SKUNK,           SKUNK_DNA);
         SNOW_LEOPARD_DNA      = registerItem("alexsmobs/snow_leopard_dna",      new Item(new Item.Properties()));
-        SNOW_LEOPARD_EMBRYO   = registerItem("alexsmobs/snow_leopard_embryo",   new Item(new Item.Properties()));
+        SNOW_LEOPARD_EMBRYO   = registerMammalEmbryo("alexsmobs/snow_leopard_embryo",    "snow_leopard",    () -> AMEntityRegistry.SNOW_LEOPARD,    SNOW_LEOPARD_DNA);
         SUGAR_GLIDER_DNA      = registerItem("alexsmobs/sugar_glider_dna",      new Item(new Item.Properties()));
-        SUGAR_GLIDER_EMBRYO   = registerItem("alexsmobs/sugar_glider_embryo",   new Item(new Item.Properties()));
+        SUGAR_GLIDER_EMBRYO   = registerMammalEmbryo("alexsmobs/sugar_glider_embryo",    "sugar_glider",    () -> AMEntityRegistry.SUGAR_GLIDER,    SUGAR_GLIDER_DNA);
         TASMANIAN_DEVIL_DNA   = registerItem("alexsmobs/tasmanian_devil_dna",   new Item(new Item.Properties()));
-        TASMANIAN_DEVIL_EMBRYO= registerItem("alexsmobs/tasmanian_devil_embryo",new Item(new Item.Properties()));
+        TASMANIAN_DEVIL_EMBRYO= registerMammalEmbryo("alexsmobs/tasmanian_devil_embryo", "tasmanian_devil", () -> AMEntityRegistry.TASMANIAN_DEVIL, TASMANIAN_DEVIL_DNA);
         TIGER_DNA             = registerItem("alexsmobs/tiger_dna",             new Item(new Item.Properties()));
-        TIGER_EMBRYO          = registerItem("alexsmobs/tiger_embryo",          new Item(new Item.Properties()));
+        TIGER_EMBRYO          = registerMammalEmbryo("alexsmobs/tiger_embryo",           "tiger",           () -> AMEntityRegistry.TIGER,           TIGER_DNA);
         TUSKLIN_DNA           = registerItem("alexsmobs/tusklin_dna",           new Item(new Item.Properties()));
-        TUSKLIN_EMBRYO        = registerItem("alexsmobs/tusklin_embryo",        new Item(new Item.Properties()));
+        TUSKLIN_EMBRYO        = registerMammalEmbryo("alexsmobs/tusklin_embryo",         "tusklin",         () -> AMEntityRegistry.TUSKLIN,         TUSKLIN_DNA);
 
         // Fish / amphibians / invertebrates — baby on hatch
         BANANA_SLUG_DNA   = registerItem("alexsmobs/banana_slug_dna",   new Item(new Item.Properties()));
@@ -472,5 +478,11 @@ public class AlexsMobsCompat {
 
     private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier, boolean babyOnHatch) {
         return registerItem(id, new SpawnEggLikeItem(supplier, babyOnHatch, new Item.Properties().stacksTo(16)));
+    }
+
+    private static Item registerMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem) {
+        return registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
+            "ALEXSMOBS_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
+            () -> Component.translatable("entity.alexsmobs." + key), dnaItem)));
     }
 }

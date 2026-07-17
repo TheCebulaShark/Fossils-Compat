@@ -1,10 +1,18 @@
 package org.blahajenjoyer.compat.faunify;
 
 import com.pepper.faunify.registry.FaunifyEntities;
+import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
+import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
+import org.blahajenjoyer.util.SimpleEntityInfo;
+
+import java.util.Locale;
+import java.util.function.Supplier;
 
 public class FaunifyCompat {
 
@@ -59,19 +67,19 @@ public class FaunifyCompat {
         SILK_MOTH_DNA = reg("faunify/silk_moth_dna", new Item(new Item.Properties()));
 
         WEASEL_DNA         = reg("faunify/weasel_dna",         new Item(new Item.Properties()));
-        WEASEL_EMBRYO      = reg("faunify/weasel_embryo",      new Item(new Item.Properties()));
+        WEASEL_EMBRYO      = regMammalEmbryo("faunify/weasel_embryo",       "weasel",     () -> FaunifyEntities.WEASEL,     WEASEL_DNA);
         FENNEC_FOX_DNA     = reg("faunify/fennec_fox_dna",     new Item(new Item.Properties()));
-        FENNEC_FOX_EMBRYO  = reg("faunify/fennec_fox_embryo",  new Item(new Item.Properties()));
+        FENNEC_FOX_EMBRYO  = regMammalEmbryo("faunify/fennec_fox_embryo",   "fennec",     () -> FaunifyEntities.FENNEC,     FENNEC_FOX_DNA);
         CHINCHILLA_DNA     = reg("faunify/chinchilla_dna",     new Item(new Item.Properties()));
-        CHINCHILLA_EMBRYO  = reg("faunify/chinchilla_embryo",  new Item(new Item.Properties()));
+        CHINCHILLA_EMBRYO  = regMammalEmbryo("faunify/chinchilla_embryo",   "chinchilla", () -> FaunifyEntities.CHINCHILLA, CHINCHILLA_DNA);
         HEDGEHOG_DNA       = reg("faunify/hedgehog_dna",       new Item(new Item.Properties()));
-        HEDGEHOG_EMBRYO    = reg("faunify/hedgehog_embryo",    new Item(new Item.Properties()));
+        HEDGEHOG_EMBRYO    = regMammalEmbryo("faunify/hedgehog_embryo",     "hedgehog",   () -> FaunifyEntities.HEDGEHOG,   HEDGEHOG_DNA);
         RINGTAIL_CAT_DNA   = reg("faunify/ringtail_cat_dna",   new Item(new Item.Properties()));
-        RINGTAIL_CAT_EMBRYO= reg("faunify/ringtail_cat_embryo",new Item(new Item.Properties()));
+        RINGTAIL_CAT_EMBRYO= regMammalEmbryo("faunify/ringtail_cat_embryo", "ringtailcat",() -> FaunifyEntities.RINGTAIL,   RINGTAIL_CAT_DNA);
         OPOSSUM_DNA        = reg("faunify/opossum_dna",        new Item(new Item.Properties()));
-        OPOSSUM_EMBRYO     = reg("faunify/opossum_embryo",     new Item(new Item.Properties()));
+        OPOSSUM_EMBRYO     = regMammalEmbryo("faunify/opossum_embryo",      "opossum",    () -> FaunifyEntities.OPOSSUM,    OPOSSUM_DNA);
         MOUSE_DNA          = reg("faunify/mouse_dna",          new Item(new Item.Properties()));
-        MOUSE_EMBRYO       = reg("faunify/mouse_embryo",       new Item(new Item.Properties()));
+        MOUSE_EMBRYO       = regMammalEmbryo("faunify/mouse_embryo",        "mouse",      () -> FaunifyEntities.MOUSE,      MOUSE_DNA);
 
         BEETLE_DNA      = reg("faunify/beetle_dna",      new Item(new Item.Properties()));
         BEETLE_EGG      = regCreatureEgg("faunify/beetle_egg",      () -> FaunifyEntities.BEETLE);
@@ -149,7 +157,13 @@ public class FaunifyCompat {
         return FossilsCompatUtil.registerItem(id, item);
     }
 
-    private static Item regCreatureEgg(String id, java.util.function.Supplier<net.minecraft.world.entity.EntityType<?>> supplier) {
+    private static Item regCreatureEgg(String id, Supplier<EntityType<?>> supplier) {
         return reg(id, new SpawnEggLikeItem(supplier, false, new Item.Properties().stacksTo(16)));
+    }
+
+    private static Item regMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem) {
+        return reg(id, new MammalEmbryoItem(new SimpleEntityInfo(
+            "FAUNIFY_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
+            () -> Component.translatable("entity.faunify." + key), dnaItem)));
     }
 }

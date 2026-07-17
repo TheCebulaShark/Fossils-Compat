@@ -1,9 +1,12 @@
 package org.blahajenjoyer.compat.naturalist;
 
 import com.starfish_studios.naturalist.core.registry.NaturalistEntityTypes;
+import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
+import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -12,8 +15,10 @@ import org.blahajenjoyer.compat.naturalist.entity.ThrownNaturalistBirdEgg;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
+import org.blahajenjoyer.util.SimpleEntityInfo;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -158,23 +163,23 @@ public class NaturalistCompat {
 
         // Mammals
         BROWN_BEAR_DNA   = FossilsCompatUtil.registerItem("naturalist/brown_bear_dna",   new Item(new Item.Properties()));
-        BROWN_BEAR_EMBRYO= FossilsCompatUtil.registerItem("naturalist/brown_bear_embryo",new Item(new Item.Properties()));
+        BROWN_BEAR_EMBRYO= registerMammalEmbryo("naturalist/brown_bear_embryo", "bear",    () -> NaturalistEntityTypes.BEAR.get(),    BROWN_BEAR_DNA);
         BOAR_DNA         = FossilsCompatUtil.registerItem("naturalist/boar_dna",         new Item(new Item.Properties()));
-        BOAR_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/boar_embryo",      new Item(new Item.Properties()));
+        BOAR_EMBRYO      = registerMammalEmbryo("naturalist/boar_embryo",      "boar",    () -> NaturalistEntityTypes.BOAR.get(),    BOAR_DNA);
         HIPPO_DNA        = FossilsCompatUtil.registerItem("naturalist/hippo_dna",        new Item(new Item.Properties()));
-        HIPPO_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/hippo_embryo",     new Item(new Item.Properties()));
+        HIPPO_EMBRYO     = registerMammalEmbryo("naturalist/hippo_embryo",     "hippo",   () -> NaturalistEntityTypes.HIPPO.get(),   HIPPO_DNA);
         GIRAFFE_DNA      = FossilsCompatUtil.registerItem("naturalist/giraffe_dna",      new Item(new Item.Properties()));
-        GIRAFFE_EMBRYO   = FossilsCompatUtil.registerItem("naturalist/giraffe_embryo",   new Item(new Item.Properties()));
+        GIRAFFE_EMBRYO   = registerMammalEmbryo("naturalist/giraffe_embryo",   "giraffe", () -> NaturalistEntityTypes.GIRAFFE.get(), GIRAFFE_DNA);
         ELEPHANT_DNA     = FossilsCompatUtil.registerItem("naturalist/elephant_dna",     new Item(new Item.Properties()));
-        ELEPHANT_EMBRYO  = FossilsCompatUtil.registerItem("naturalist/elephant_embryo",  new Item(new Item.Properties()));
+        ELEPHANT_EMBRYO  = registerMammalEmbryo("naturalist/elephant_embryo",  "elephant",() -> NaturalistEntityTypes.ELEPHANT.get(),ELEPHANT_DNA);
         DEER_DNA         = FossilsCompatUtil.registerItem("naturalist/deer_dna",         new Item(new Item.Properties()));
-        DEER_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/deer_embryo",      new Item(new Item.Properties()));
+        DEER_EMBRYO      = registerMammalEmbryo("naturalist/deer_embryo",      "deer",    () -> NaturalistEntityTypes.DEER.get(),    DEER_DNA);
         LION_DNA         = FossilsCompatUtil.registerItem("naturalist/lion_dna",         new Item(new Item.Properties()));
-        LION_EMBRYO      = FossilsCompatUtil.registerItem("naturalist/lion_embryo",      new Item(new Item.Properties()));
+        LION_EMBRYO      = registerMammalEmbryo("naturalist/lion_embryo",      "lion",    () -> NaturalistEntityTypes.LION.get(),    LION_DNA);
         RHINO_DNA        = FossilsCompatUtil.registerItem("naturalist/rhino_dna",        new Item(new Item.Properties()));
-        RHINO_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/rhino_embryo",     new Item(new Item.Properties()));
+        RHINO_EMBRYO     = registerMammalEmbryo("naturalist/rhino_embryo",     "rhino",   () -> NaturalistEntityTypes.RHINO.get(),   RHINO_DNA);
         ZEBRA_DNA        = FossilsCompatUtil.registerItem("naturalist/zebra_dna",        new Item(new Item.Properties()));
-        ZEBRA_EMBRYO     = FossilsCompatUtil.registerItem("naturalist/zebra_embryo",     new Item(new Item.Properties()));
+        ZEBRA_EMBRYO     = registerMammalEmbryo("naturalist/zebra_embryo",     "zebra",   () -> NaturalistEntityTypes.ZEBRA.get(),   ZEBRA_DNA);
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(ALLIGATOR_DNA);
@@ -245,5 +250,11 @@ public class NaturalistCompat {
             new Item.Properties().stacksTo(16)));
         EGG_BY_KEY.put(key, egg);
         return egg;
+    }
+
+    private static Item registerMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem) {
+        return FossilsCompatUtil.registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
+            "NATURALIST_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
+            () -> Component.translatable("entity.naturalist." + key), dnaItem)));
     }
 }

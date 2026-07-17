@@ -1,9 +1,12 @@
 package org.blahajenjoyer.compat.crittersandcompanions;
 
 import com.github.eterdelta.crittersandcompanions.registry.CACEntities;
+import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
+import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -12,8 +15,10 @@ import org.blahajenjoyer.compat.crittersandcompanions.entity.ThrownCACBirdEgg;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.item.ThrowableBirdEggItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
+import org.blahajenjoyer.util.SimpleEntityInfo;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -92,11 +97,11 @@ public class CrittersAndCompanionsCompat {
         SEA_BUNNY_EGG      = registerCreatureEgg("crittersandcompanions/sea_bunny_egg",      () -> CACEntities.SEA_BUNNY.get());
 
         FERRET_DNA    = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_dna",    new Item(new Item.Properties()));
-        FERRET_EMBRYO = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_embryo", new Item(new Item.Properties()));
+        FERRET_EMBRYO = registerMammalEmbryo("crittersandcompanions/ferret_embryo", "ferret", () -> CACEntities.FERRET.get(), FERRET_DNA);
         OTTER_DNA     = FossilsCompatUtil.registerItem("crittersandcompanions/otter_dna",     new Item(new Item.Properties()));
-        OTTER_EMBRYO  = FossilsCompatUtil.registerItem("crittersandcompanions/otter_embryo",  new Item(new Item.Properties()));
+        OTTER_EMBRYO  = registerMammalEmbryo("crittersandcompanions/otter_embryo", "otter", () -> CACEntities.OTTER.get(), OTTER_DNA);
         RED_PANDA_DNA    = FossilsCompatUtil.registerItem("crittersandcompanions/red_panda_dna",    new Item(new Item.Properties()));
-        RED_PANDA_EMBRYO = FossilsCompatUtil.registerItem("crittersandcompanions/red_panda_embryo", new Item(new Item.Properties()));
+        RED_PANDA_EMBRYO = registerMammalEmbryo("crittersandcompanions/red_panda_embryo", "red_panda", () -> CACEntities.RED_PANDA.get(), RED_PANDA_DNA);
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> {
             entries.accept(DRAGONFLY_DNA);
@@ -133,5 +138,11 @@ public class CrittersAndCompanionsCompat {
             new Item.Properties().stacksTo(16)));
         EGG_BY_KEY.put(key, egg);
         return egg;
+    }
+
+    private static Item registerMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem) {
+        return FossilsCompatUtil.registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
+            "CRITTERSANDCOMPANIONS_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
+            () -> Component.translatable("entity.crittersandcompanions." + key), dnaItem)));
     }
 }
