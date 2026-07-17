@@ -111,28 +111,27 @@ dependencies {
     modCompileOnly "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
     modLocalRuntime "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
     modLocalRuntime "curse.maven:citadel-fabric-1472150:${project.citadel_fabric_file}"
+
     modCompileOnly "maven.modrinth:naturalist:${project.naturalist_version}"
     modLocalRuntime "maven.modrinth:naturalist:${project.naturalist_version}"
-    modCompileOnly "maven.modrinth:natures-spirit:${project.natures_spirit_version}"
-    modLocalRuntime "maven.modrinth:natures-spirit:${project.natures_spirit_version}"
+
     modCompileOnly "maven.modrinth:faunify:${project.faunify_version}"
     modLocalRuntime "maven.modrinth:faunify:${project.faunify_version}"
-    modCompileOnly "maven.modrinth:chipped:${project.chipped_version}"
-    modLocalRuntime "maven.modrinth:chipped:${project.chipped_version}"
+
     modCompileOnly "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
     modLocalRuntime "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
-    modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
-    modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
-    // Porting Lib submodules + forgeconfigapiport — bundled as nested JARs in C&C,
-    // but Loom doesn't remap nested JARs, so they must be declared as direct file deps
-    modLocalRuntime fileTree(dir: 'libs', include: ['*.jar'])
-    // Transitive deps of optional mods
-    modLocalRuntime "maven.modrinth:resourceful-lib:${project.resourcefullib_version}"
-    modLocalRuntime "maven.modrinth:athena-ctm:${project.athena_version}"
     modCompileOnly "maven.modrinth:platform:${project.platform_version}"
     modLocalRuntime "maven.modrinth:platform:${project.platform_version}"
+
+    modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+
+    modCompileOnly "maven.modrinth:jei:${project.jei_version}"
+    modLocalRuntime "maven.modrinth:jei:${project.jei_version}"
+
+    modLocalRuntime fileTree(dir: 'libs', include: ['*.jar'])
     modLocalRuntime "com.bawnorton.mixinsquared:mixinsquared-fabric:${project.mixinsquared_version}"
-    runtimeOnly "com.teamresourceful:bytecodecs:${project.bytecodecs_version}"
+
 }
 
 def resourceVersion = project.version
