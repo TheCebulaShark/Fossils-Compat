@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "fossils_compat:block/eggs/alligator_snapping_turtle_egg"
+  }
+}

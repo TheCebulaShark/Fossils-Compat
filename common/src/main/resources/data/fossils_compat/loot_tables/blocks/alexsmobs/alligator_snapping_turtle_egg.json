@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        { "type": "minecraft:item", "name": "fossils_compat:alexsmobs/alligator_snapping_turtle_egg" }
+      ]
+    }
+  ]
+}
