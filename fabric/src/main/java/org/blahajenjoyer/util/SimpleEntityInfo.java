@@ -7,11 +7,16 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
-// EntityInfo.fromNbt only resolves FAR's own two enums, so a pregnancy referencing a
-// SimpleEntityInfo will not survive a world save/reload (silently resets to "no embryo").
+// EntityInfo.fromNbt only resolves FAR's own two enums, so every instance self-registers
+// here — MammalComponentMixin falls back to this map when FAR's own lookup fails, letting
+// mammal pregnancies referencing a SimpleEntityInfo survive syncing to client and world reloads.
 public class SimpleEntityInfo implements EntityInfo {
+
+    private static final Map<String, SimpleEntityInfo> BY_NAME = new ConcurrentHashMap<>();
 
     private final String name;
     private final Supplier<EntityType<?>> entityType;
@@ -26,6 +31,11 @@ public class SimpleEntityInfo implements EntityInfo {
         this.mobType = mobType;
         this.displayName = displayName;
         this.dnaItem = dnaItem;
+        BY_NAME.put(name, this);
+    }
+
+    public static EntityInfo byName(String name) {
+        return BY_NAME.get(name);
     }
 
     @Override
