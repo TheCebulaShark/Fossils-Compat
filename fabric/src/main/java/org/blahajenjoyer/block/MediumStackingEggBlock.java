@@ -12,6 +12,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -19,10 +21,12 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -107,6 +111,27 @@ public class MediumStackingEggBlock extends Block {
             return clicked.setValue(EGGS, Math.min(MAX_EGGS, clicked.getValue(EGGS) + 1));
         }
         return super.getStateForPlacement(context);
+    }
+
+    // Plain Block mining always fully removes the block (the world position is already air by
+    // the time this runs), so a stack of 2 needs to be put back with one fewer egg instead of
+    // just vanishing — only actually destroyed (i.e. left as air) when mining the last one.
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool) {
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+        decreaseEggs(level, pos, state);
+    }
+
+    private void decreaseEggs(Level level, BlockPos pos, BlockState state) {
+        level.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + level.random.nextFloat() * 0.2F);
+        int count = state.getValue(EGGS);
+        if (count <= 1) {
+            level.destroyBlock(pos, false);
+        } else {
+            level.setBlock(pos, state.setValue(EGGS, count - 1), 2);
+            level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
+            level.levelEvent(2001, pos, getId(state));
+        }
     }
 
     @Override
