@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -29,7 +30,9 @@ import java.util.function.Supplier;
 /**
  * A custom egg size between a turtle egg and a sniffer egg, for reptiles too bulky for the
  * small tier but not sniffer-sized. Stacks up to 2 per block (vanilla turtle-style clustering,
- * capped lower) and hatches via plain random ticks rather than needing sand underneath.
+ * capped lower) and hatches via plain random ticks. Optionally requires the block below to
+ * match a tag (e.g. cold surfaces for a frost-themed species) — {@code null} means no
+ * requirement.
  */
 @SuppressWarnings("deprecation")
 public class MediumStackingEggBlock extends Block {
@@ -45,11 +48,18 @@ public class MediumStackingEggBlock extends Block {
 
     private final Supplier<EntityType<?>> entityType;
     private final boolean babyOnHatch;
+    private final TagKey<Block> requiredSubstrate;
 
-    public MediumStackingEggBlock(Supplier<EntityType<?>> entityType, boolean babyOnHatch, BlockBehaviour.Properties properties) {
+    /** @param requiredSubstrate block tag the block below must match to progress hatching, or {@code null} for no requirement */
+    public MediumStackingEggBlock(Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> requiredSubstrate, BlockBehaviour.Properties properties) {
         super(properties);
         this.entityType = entityType;
         this.babyOnHatch = babyOnHatch;
+        this.requiredSubstrate = requiredSubstrate;
+    }
+
+    private boolean hasRequiredSubstrate(BlockGetter level, BlockPos pos) {
+        return requiredSubstrate == null || level.getBlockState(pos.below()).is(requiredSubstrate);
     }
 
     @Override
@@ -92,6 +102,8 @@ public class MediumStackingEggBlock extends Block {
 
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+        if (!hasRequiredSubstrate(level, pos)) return;
+
         int hatch = state.getValue(HATCH);
         if (hatch < MAX_HATCH_LEVEL) {
             if (random.nextInt(3) == 0) {

@@ -18,6 +18,9 @@ public class ReptileEggBlocks {
     /** Blocks that hatch a {@link #registerLarge} egg faster when placed below it — "hot" surfaces for a lava-adjacent species like the laviathan, not vanilla's moss. Populated via {@code data/fossils_compat/tags/blocks/lava_egg_hatch_boost.json}. */
     public static final TagKey<Block> LAVA_EGG_HATCH_BOOST = TagKey.create(Registries.BLOCK, new ResourceLocation("fossils_compat", "lava_egg_hatch_boost"));
 
+    /** Required substrate for a frost-themed egg (e.g. the froststalker) — ice/snow surfaces. Populated via {@code data/fossils_compat/tags/blocks/cold_egg_substrate.json}. */
+    public static final TagKey<Block> COLD_EGG_SUBSTRATE = TagKey.create(Registries.BLOCK, new ResourceLocation("fossils_compat", "cold_egg_substrate"));
+
     /** No substrate requirement — hatches on any sturdy block. */
     public static Item registerSmall(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch) {
         return registerSmall(id, entityType, babyOnHatch, null);
@@ -28,8 +31,14 @@ public class ReptileEggBlocks {
         return register(id, new SmallStackingEggBlock(entityType, babyOnHatch, requiredSubstrate, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG)));
     }
 
+    /** No substrate requirement — hatches on any sturdy block. */
     public static Item registerMedium(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch) {
-        return register(id, new MediumStackingEggBlock(entityType, babyOnHatch, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG)));
+        return registerMedium(id, entityType, babyOnHatch, null);
+    }
+
+    /** @param requiredSubstrate block tag the block below must match to progress hatching, or {@code null} for no requirement */
+    public static Item registerMedium(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> requiredSubstrate) {
+        return register(id, new MediumStackingEggBlock(entityType, babyOnHatch, requiredSubstrate, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG)));
     }
 
     public static Item registerLarge(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> hatchBoostTag) {

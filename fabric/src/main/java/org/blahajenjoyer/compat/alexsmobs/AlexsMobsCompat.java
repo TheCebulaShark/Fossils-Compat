@@ -571,7 +571,7 @@ public class AlexsMobsCompat {
         }
         if (enabled("froststalker")) {
             FROSTSTALKER_DNA = registerItem("alexsmobs/froststalker_dna", new Item(new Item.Properties()));
-            FROSTSTALKER_EGG = ReptileEggBlocks.registerMedium("alexsmobs/froststalker_egg", () -> AMEntityRegistry.FROSTSTALKER, true);
+            FROSTSTALKER_EGG = ReptileEggBlocks.registerMedium("alexsmobs/froststalker_egg", () -> AMEntityRegistry.FROSTSTALKER, true, ReptileEggBlocks.COLD_EGG_SUBSTRATE);
             TAB_ITEMS.add(FROSTSTALKER_DNA);
             TAB_ITEMS.add(FROSTSTALKER_EGG);
         }
