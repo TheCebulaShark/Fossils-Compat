@@ -8,13 +8,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.blahajenjoyer.block.IncubatingEggBlock;
+import org.blahajenjoyer.block.ReptileEggBlocks;
 import org.blahajenjoyer.compat.alexsmobs.entity.ThrownAlexsBirdEgg;
 import org.blahajenjoyer.config.FossilsCompatConfig;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
@@ -561,37 +559,37 @@ public class AlexsMobsCompat {
         // Reptiles — placeable egg block, hatches into a baby after a while
         if (enabled("alligator_snapping_turtle")) {
             ALLIGATOR_SNAPPING_TURTLE_DNA = registerItem("alexsmobs/alligator_snapping_turtle_dna", new Item(new Item.Properties()));
-            ALLIGATOR_SNAPPING_TURTLE_EGG = registerReptileEgg("alexsmobs/alligator_snapping_turtle_egg", () -> AMEntityRegistry.ALLIGATOR_SNAPPING_TURTLE);
+            ALLIGATOR_SNAPPING_TURTLE_EGG = ReptileEggBlocks.registerSmall("alexsmobs/alligator_snapping_turtle_egg", () -> AMEntityRegistry.ALLIGATOR_SNAPPING_TURTLE, true);
             TAB_ITEMS.add(ALLIGATOR_SNAPPING_TURTLE_DNA);
             TAB_ITEMS.add(ALLIGATOR_SNAPPING_TURTLE_EGG);
         }
         if (enabled("anaconda")) {
             ANACONDA_DNA = registerItem("alexsmobs/anaconda_dna", new Item(new Item.Properties()));
-            ANACONDA_EGG = registerReptileEgg("alexsmobs/anaconda_egg", () -> AMEntityRegistry.ANACONDA);
+            ANACONDA_EGG = ReptileEggBlocks.registerMedium("alexsmobs/anaconda_egg", () -> AMEntityRegistry.ANACONDA, true);
             TAB_ITEMS.add(ANACONDA_DNA);
             TAB_ITEMS.add(ANACONDA_EGG);
         }
         if (enabled("froststalker")) {
             FROSTSTALKER_DNA = registerItem("alexsmobs/froststalker_dna", new Item(new Item.Properties()));
-            FROSTSTALKER_EGG = registerReptileEgg("alexsmobs/froststalker_egg", () -> AMEntityRegistry.FROSTSTALKER);
+            FROSTSTALKER_EGG = ReptileEggBlocks.registerMedium("alexsmobs/froststalker_egg", () -> AMEntityRegistry.FROSTSTALKER, true);
             TAB_ITEMS.add(FROSTSTALKER_DNA);
             TAB_ITEMS.add(FROSTSTALKER_EGG);
         }
         if (enabled("komodo_dragon")) {
             KOMODO_DRAGON_DNA = registerItem("alexsmobs/komodo_dragon_dna", new Item(new Item.Properties()));
-            KOMODO_DRAGON_EGG = registerReptileEgg("alexsmobs/komodo_dragon_egg", () -> AMEntityRegistry.KOMODO_DRAGON);
+            KOMODO_DRAGON_EGG = ReptileEggBlocks.registerMedium("alexsmobs/komodo_dragon_egg", () -> AMEntityRegistry.KOMODO_DRAGON, true);
             TAB_ITEMS.add(KOMODO_DRAGON_DNA);
             TAB_ITEMS.add(KOMODO_DRAGON_EGG);
         }
         if (enabled("rattlesnake")) {
             RATTLESNAKE_DNA = registerItem("alexsmobs/rattlesnake_dna", new Item(new Item.Properties()));
-            RATTLESNAKE_EGG = registerReptileEgg("alexsmobs/rattlesnake_egg", () -> AMEntityRegistry.RATTLESNAKE);
+            RATTLESNAKE_EGG = ReptileEggBlocks.registerSmall("alexsmobs/rattlesnake_egg", () -> AMEntityRegistry.RATTLESNAKE, true, BlockTags.SAND);
             TAB_ITEMS.add(RATTLESNAKE_DNA);
             TAB_ITEMS.add(RATTLESNAKE_EGG);
         }
         if (enabled("laviathan")) {
             LAVIATHAN_DNA = registerItem("alexsmobs/laviathan_dna", new Item(new Item.Properties()));
-            LAVIATHAN_EGG = registerReptileEgg("alexsmobs/laviathan_egg", () -> AMEntityRegistry.LAVIATHAN);
+            LAVIATHAN_EGG = ReptileEggBlocks.registerLarge("alexsmobs/laviathan_egg", () -> AMEntityRegistry.LAVIATHAN, true, ReptileEggBlocks.LAVA_EGG_HATCH_BOOST);
             TAB_ITEMS.add(LAVIATHAN_DNA);
             TAB_ITEMS.add(LAVIATHAN_EGG);
         }
@@ -646,11 +644,5 @@ public class AlexsMobsCompat {
         return registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
             "ALEXSMOBS_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
             () -> Component.translatable("entity.alexsmobs." + key), dnaItem)));
-    }
-
-    private static Item registerReptileEgg(String id, Supplier<EntityType<?>> entityType) {
-        IncubatingEggBlock block = new IncubatingEggBlock(entityType, true, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG));
-        FossilsCompatUtil.registerBlock(id, block);
-        return registerItem(id, new BlockItem(block, new Item.Properties()));
     }
 }

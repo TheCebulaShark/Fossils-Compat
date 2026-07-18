@@ -8,13 +8,11 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import org.blahajenjoyer.block.IncubatingEggBlock;
+import org.blahajenjoyer.block.ReptileEggBlocks;
 import org.blahajenjoyer.compat.naturalist.entity.ThrownNaturalistBirdEgg;
 import org.blahajenjoyer.config.FossilsCompatConfig;
 import org.blahajenjoyer.item.SpawnEggLikeItem;
@@ -236,25 +234,25 @@ public class NaturalistCompat {
         // Reptiles — placeable egg block, hatches into a baby after a while
         if (enabled("coral_snake")) {
             CORAL_SNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/coral_snake_dna", new Item(new Item.Properties()));
-            CORAL_SNAKE_EGG = registerReptileEgg("naturalist/coral_snake_egg", () -> NaturalistEntityTypes.CORAL_SNAKE.get());
+            CORAL_SNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/coral_snake_egg", () -> NaturalistEntityTypes.CORAL_SNAKE.get(), true);
             TAB_ITEMS.add(CORAL_SNAKE_DNA);
             TAB_ITEMS.add(CORAL_SNAKE_EGG);
         }
         if (enabled("snake")) {
             SNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/snake_dna", new Item(new Item.Properties()));
-            SNAKE_EGG = registerReptileEgg("naturalist/snake_egg", () -> NaturalistEntityTypes.SNAKE.get());
+            SNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/snake_egg", () -> NaturalistEntityTypes.SNAKE.get(), true);
             TAB_ITEMS.add(SNAKE_DNA);
             TAB_ITEMS.add(SNAKE_EGG);
         }
         if (enabled("rattlesnake")) {
             RATTLESNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/rattlesnake_dna", new Item(new Item.Properties()));
-            RATTLESNAKE_EGG = registerReptileEgg("naturalist/rattlesnake_egg", () -> NaturalistEntityTypes.RATTLESNAKE.get());
+            RATTLESNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/rattlesnake_egg", () -> NaturalistEntityTypes.RATTLESNAKE.get(), true, BlockTags.SAND);
             TAB_ITEMS.add(RATTLESNAKE_DNA);
             TAB_ITEMS.add(RATTLESNAKE_EGG);
         }
         if (enabled("lizard")) {
             LIZARD_DNA = FossilsCompatUtil.registerItem("naturalist/lizard_dna", new Item(new Item.Properties()));
-            LIZARD_EGG = registerReptileEgg("naturalist/lizard_egg", () -> NaturalistEntityTypes.LIZARD.get());
+            LIZARD_EGG = ReptileEggBlocks.registerSmall("naturalist/lizard_egg", () -> NaturalistEntityTypes.LIZARD.get(), true);
             TAB_ITEMS.add(LIZARD_DNA);
             TAB_ITEMS.add(LIZARD_EGG);
         }
@@ -335,11 +333,5 @@ public class NaturalistCompat {
         return FossilsCompatUtil.registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
             "NATURALIST_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
             () -> Component.translatable("entity.naturalist." + key), dnaItem)));
-    }
-
-    private static Item registerReptileEgg(String id, Supplier<EntityType<?>> entityType) {
-        IncubatingEggBlock block = new IncubatingEggBlock(entityType, true, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG));
-        FossilsCompatUtil.registerBlock(id, block);
-        return FossilsCompatUtil.registerItem(id, new BlockItem(block, new Item.Properties()));
     }
 }
