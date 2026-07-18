@@ -1,5 +1,76 @@
 {
   "variants": {
-    "": { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg" }
+    "eggs=1,hatch=0": [
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg" },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg", "y": 270 }
+    ],
+    "eggs=1,hatch=1": [
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_slightly_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_slightly_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_slightly_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_slightly_cracked", "y": 270 }
+    ],
+    "eggs=1,hatch=2": [
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_very_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_very_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_very_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/alligator_snapping_turtle_egg_very_cracked", "y": 270 }
+    ],
+    "eggs=2,hatch=0": [
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs" },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs", "y": 270 }
+    ],
+    "eggs=2,hatch=1": [
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_slightly_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_slightly_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_slightly_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_slightly_cracked", "y": 270 }
+    ],
+    "eggs=2,hatch=2": [
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_very_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_very_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_very_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/two_alligator_snapping_turtle_eggs_very_cracked", "y": 270 }
+    ],
+    "eggs=3,hatch=0": [
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs" },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs", "y": 270 }
+    ],
+    "eggs=3,hatch=1": [
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_slightly_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_slightly_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_slightly_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_slightly_cracked", "y": 270 }
+    ],
+    "eggs=3,hatch=2": [
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_very_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_very_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_very_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/three_alligator_snapping_turtle_eggs_very_cracked", "y": 270 }
+    ],
+    "eggs=4,hatch=0": [
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs" },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs", "y": 270 }
+    ],
+    "eggs=4,hatch=1": [
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_slightly_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_slightly_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_slightly_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_slightly_cracked", "y": 270 }
+    ],
+    "eggs=4,hatch=2": [
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_very_cracked" },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_very_cracked", "y": 90 },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_very_cracked", "y": 180 },
+      { "model": "fossils_compat:block/alexsmobs/four_alligator_snapping_turtle_eggs_very_cracked", "y": 270 }
+    ]
   }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_three_turtle_eggs",
+  "textures": {
+    "all": "fossils_compat:block/eggs/rattlesnake_egg_very_cracked"
+  }
+}
