@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public class FossilsCompatUtil {
 
@@ -17,5 +18,9 @@ public class FossilsCompatUtil {
 
     public static Item registerItem(String id, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, new ResourceLocation("fossils_compat", id), item);
+    }
+
+    public static Block registerBlock(String id, Block block) {
+        return Registry.register(BuiltInRegistries.BLOCK, new ResourceLocation("fossils_compat", id), block);
     }
 }

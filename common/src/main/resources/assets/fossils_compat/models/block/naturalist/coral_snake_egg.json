@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "fossils_compat:block/eggs/coral_snake_egg"
+  }
+}

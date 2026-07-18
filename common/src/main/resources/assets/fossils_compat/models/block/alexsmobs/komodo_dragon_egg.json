@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "fossils_compat:block/eggs/komodo_dragon_egg"
+  }
+}
