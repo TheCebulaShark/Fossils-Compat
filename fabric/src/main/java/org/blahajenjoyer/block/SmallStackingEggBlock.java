@@ -9,25 +9,31 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TurtleEggBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 import java.util.function.Supplier;
 
 /**
- * A turtle-egg-a-like: small, stacks up to 4 per block, cracks when trampled/landed on — all
- * inherited unchanged from vanilla's TurtleEggBlock (stepOn, fallOn, onPlace,
- * canBeReplaced/getStateForPlacement stacking, playerDestroy, getShape). Only randomTick is
- * overridden, to hatch our own species instead of a vanilla Turtle, and to swap the hardcoded
- * sand requirement for an arbitrary (or absent) substrate tag — e.g. one species might need
- * sand, another might need the same "hot blocks" tag {@link LargeSingleEggBlock} uses, most
- * need nothing at all.
+ * A turtle-egg-a-like: small, stacks up to 4 per block, cracks when trampled/landed on.
+ * canBeReplaced/getStateForPlacement stacking, playerDestroy, and getShape are inherited
+ * unchanged from vanilla's TurtleEggBlock. randomTick/onPlace/stepOn/fallOn are all overridden,
+ * since vanilla's versions either hatch/spawn a literal Turtle or gate on `state.is(Blocks.
+ * TURTLE_EGG)` / a hardcoded sand check — neither works for a different Block instance, so
+ * those had to be reimplemented with `state.is(this)` and a configurable (or absent) substrate
+ * tag instead — e.g. one species might need sand, another might need the same "hot blocks" tag
+ * {@link LargeSingleEggBlock} uses, most need nothing at all.
  */
 @SuppressWarnings("deprecation")
 public class SmallStackingEggBlock extends TurtleEggBlock {
@@ -56,6 +62,60 @@ public class SmallStackingEggBlock extends TurtleEggBlock {
         if (hasRequiredSubstrate(level, pos) && !level.isClientSide) {
             level.levelEvent(2005, pos, 0);
         }
+    }
+
+    // Vanilla TurtleEggBlock's inherited stepOn/fallOn DO get called on our block (they're not
+    // overridden here), but their private destroyEgg gate checks `state.is(Blocks.TURTLE_EGG)` —
+    // literally the vanilla block singleton, never true for our own Block instance — so trampling
+    // silently no-ops on any non-vanilla TurtleEggBlock subclass. Overridden here (small tier only,
+    // per user request) with the same logic but checking `state.is(this)` instead.
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
+        if (!entity.isSteppingCarefully()) {
+            destroyEgg(level, state, pos, entity, 100);
+        }
+        super.stepOn(level, pos, state, entity);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        if (!(entity instanceof Zombie)) {
+            destroyEgg(level, state, pos, entity, 3);
+        }
+        super.fallOn(level, state, pos, entity, fallDistance);
+    }
+
+    private void destroyEgg(Level level, BlockState state, BlockPos pos, Entity entity, int chance) {
+        if (canDestroyEgg(level, entity) && !level.isClientSide && level.random.nextInt(chance) == 0 && state.is(this)) {
+            decreaseEggs(level, pos, state);
+        }
+    }
+
+    private void decreaseEggs(Level level, BlockPos pos, BlockState state) {
+        level.playSound(null, pos, SoundEvents.TURTLE_EGG_BREAK, SoundSource.BLOCKS, 0.7F, 0.9F + level.random.nextFloat() * 0.2F);
+        int count = state.getValue(EGGS);
+        if (count <= 1) {
+            level.destroyBlock(pos, false);
+        } else {
+            level.setBlock(pos, state.setValue(EGGS, count - 1), 2);
+            level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
+            level.levelEvent(2001, pos, getId(state));
+        }
+    }
+
+    private boolean canDestroyEgg(Level level, Entity entity) {
+        if (entity.getType().is(ReptileEggBlocks.SMALL_EGG_IMMUNE)) {
+            return false;
+        }
+        if (!(entity instanceof LivingEntity living)) {
+            return false;
+        }
+        // Babies don't crack eggs — except zombie-family babies (baby zombie/husk/drowned/zombie
+        // villager all extend Zombie), which are hostile toward eggs regardless of age.
+        if (living.isBaby() && !(entity instanceof Zombie)) {
+            return false;
+        }
+        return entity instanceof Player || level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
     }
 
     @Override

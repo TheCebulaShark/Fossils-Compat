@@ -21,6 +21,9 @@ public class ReptileEggBlocks {
     /** Required substrate for a frost-themed egg (e.g. the froststalker) — ice/snow surfaces. Populated via {@code data/fossils_compat/tags/blocks/cold_egg_substrate.json}. */
     public static final TagKey<Block> COLD_EGG_SUBSTRATE = TagKey.create(Registries.BLOCK, new ResourceLocation("fossils_compat", "cold_egg_substrate"));
 
+    /** Mobs that never crack a {@link SmallStackingEggBlock} egg by stepping/falling on it, regardless of babyness or mobGriefing — vanilla turtles and bats. Populated via {@code data/fossils_compat/tags/entity_types/small_egg_immune.json}. */
+    public static final TagKey<EntityType<?>> SMALL_EGG_IMMUNE = TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("fossils_compat", "small_egg_immune"));
+
     /** No substrate requirement — hatches on any sturdy block. */
     public static Item registerSmall(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch) {
         return registerSmall(id, entityType, babyOnHatch, null);
