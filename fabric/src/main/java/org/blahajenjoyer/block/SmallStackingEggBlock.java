@@ -48,6 +48,16 @@ public class SmallStackingEggBlock extends TurtleEggBlock {
         return requiredSubstrate == null || level.getBlockState(pos.below()).is(requiredSubstrate);
     }
 
+    // Vanilla TurtleEggBlock's inherited onPlace fires this landing particle only on real sand
+    // (a hardcoded call to the static onSand check) — overridden so it follows our own
+    // (possibly absent) substrate requirement instead.
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (hasRequiredSubstrate(level, pos) && !level.isClientSide) {
+            level.levelEvent(2005, pos, 0);
+        }
+    }
+
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!shouldUpdateHatchLevel(level) || !hasRequiredSubstrate(level, pos)) return;

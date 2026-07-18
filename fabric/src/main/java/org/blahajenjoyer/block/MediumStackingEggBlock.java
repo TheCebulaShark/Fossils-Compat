@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -60,6 +61,14 @@ public class MediumStackingEggBlock extends Block {
 
     private boolean hasRequiredSubstrate(BlockGetter level, BlockPos pos) {
         return requiredSubstrate == null || level.getBlockState(pos.below()).is(requiredSubstrate);
+    }
+
+    // Same landing particle turtle eggs get, shown when there's no substrate requirement or it's met.
+    @Override
+    public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
+        if (hasRequiredSubstrate(level, pos) && !level.isClientSide) {
+            level.levelEvent(2005, pos, 0);
+        }
     }
 
     @Override
