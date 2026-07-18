@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/template_three_turtle_eggs",
+  "parent": "fossils_compat:block/template_three_snake_eggs",
   "textures": {
     "all": "fossils_compat:block/eggs/rattlesnake_egg_slightly_cracked"
   }
