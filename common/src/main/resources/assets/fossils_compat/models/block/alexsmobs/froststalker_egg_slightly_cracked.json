@@ -1,0 +1,8 @@
+{
+  "parent": "fossils_compat:block/alexmobs/froststalker_egg",
+  "textures": {
+    "particle": "fossils_compat:block/eggs/frostalker_egg_slightly_cracked",
+    "all": "fossils_compat:block/eggs/frostalker_egg_slightly_cracked",
+    "inside": "fossils_compat:block/eggs/frostalker_egg_slightly_cracked1"
+  }
+}

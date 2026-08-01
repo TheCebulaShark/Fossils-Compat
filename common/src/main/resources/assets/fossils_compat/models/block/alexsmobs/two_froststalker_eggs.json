@@ -9,6 +9,7 @@
 	},
 	"elements": [
 		{
+			"name": "egg1out",
 			"from": [6, 0, 3],
 			"to": [12, 10, 9],
 			"faces": {
@@ -21,6 +22,7 @@
 			}
 		},
 		{
+			"name": "egg1in",
 			"from": [6.5, 0.5, 3.5],
 			"to": [11.5, 9.5, 8.5],
 			"faces": {
@@ -30,6 +32,32 @@
 				"west": {"uv": [0, 6, 5, 15], "texture": "#inside"},
 				"up": {"uv": [0, 0, 5, 5], "texture": "#inside"},
 				"down": {"uv": [0, 0, 5, 5], "texture": "#inside", "cullface": "down"}
+			}
+		},
+		{
+			"name": "egg2out",
+			"from": [4, 0, 9],
+			"to": [9, 8, 14],
+			"faces": {
+				"north": {"uv": [8, 6, 13, 14], "texture": "#all"},
+				"east": {"uv": [8, 6, 13, 14], "texture": "#all"},
+				"south": {"uv": [8, 6, 13, 14], "texture": "#all"},
+				"west": {"uv": [8, 6, 13, 14], "texture": "#all"},
+				"up": {"uv": [8, 0, 13, 5], "texture": "#all"},
+				"down": {"uv": [8, 0, 13, 5], "texture": "#all", "cullface": "down"}
+			}
+		},
+		{
+			"name": "egg2in",
+			"from": [4.5, 0.5, 9.5],
+			"to": [8.5, 7.5, 13.5],
+			"faces": {
+				"north": {"uv": [8, 6, 12, 13], "texture": "#inside"},
+				"east": {"uv": [8, 6, 12, 13], "texture": "#inside"},
+				"south": {"uv": [8, 6, 12, 13], "texture": "#inside"},
+				"west": {"uv": [8, 6, 12, 13], "texture": "#inside"},
+				"up": {"uv": [8, 0, 12, 4], "texture": "#inside"},
+				"down": {"uv": [8, 0, 12, 4], "texture": "#inside", "cullface": "down"}
 			}
 		}
 	]

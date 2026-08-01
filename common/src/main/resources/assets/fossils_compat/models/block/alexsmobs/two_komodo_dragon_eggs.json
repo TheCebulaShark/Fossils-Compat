@@ -1,5 +1,5 @@
 {
-  "parent": "fossils_compat:block/template_medium_egg",
+  "parent": "fossils_compat:block/template_two_medium_eggs",
   "textures": {
     "all": "fossils_compat:block/eggs/komodo_dragon_egg"
   }
