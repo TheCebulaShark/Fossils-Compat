@@ -17,8 +17,5 @@ out/
 .cache/
 remappedSources/
 
-# Small help
-.claude/
-
 # Extracted mod jars for inspection
 .mod_cache/
