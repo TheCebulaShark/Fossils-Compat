@@ -31,6 +31,7 @@ public class CrittersAndCompanionsCompat {
     public static final String MOD_ID = "crittersandcompanions";
     public static final List<String> ANIMAL_KEYS = List.of(
         "shima_enaga", "dragonfly", "dumbo_octopus", "jumping_spider", "koi_fish", "leaf_insect", "sea_bunny",
+        "ladybug", "stag_beetle", "roly_poly", "snail", "weevil", "stick_bug",
         "ferret", "otter", "red_panda"
     );
 
@@ -54,6 +55,20 @@ public class CrittersAndCompanionsCompat {
     public static Item LEAF_INSECT_EGG;
     public static Item SEA_BUNNY_DNA;
     public static Item SEA_BUNNY_EGG;
+
+    // Insects — DNA + spawn-egg-like Egg (baby on hatch, except stick bug which has no baby)
+    public static Item LADYBUG_DNA;
+    public static Item LADYBUG_EGG;
+    public static Item STAG_BEETLE_DNA;
+    public static Item STAG_BEETLE_EGG;
+    public static Item ROLY_POLY_DNA;
+    public static Item ROLY_POLY_EGG;
+    public static Item SNAIL_DNA;
+    public static Item SNAIL_EGG;
+    public static Item WEEVIL_DNA;
+    public static Item WEEVIL_EGG;
+    public static Item STICK_BUG_DNA;
+    public static Item STICK_BUG_EGG;
 
     // Mammals — DNA + Embryo
     public static Item FERRET_DNA;
@@ -138,6 +153,42 @@ public class CrittersAndCompanionsCompat {
             TAB_ITEMS.add(SEA_BUNNY_DNA);
             TAB_ITEMS.add(SEA_BUNNY_EGG);
         }
+        if (enabled("ladybug")) {
+            LADYBUG_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/ladybug_dna", new Item(new Item.Properties()));
+            LADYBUG_EGG = registerCreatureEgg("crittersandcompanions/ladybug_egg", CACEntities.LADYBUG::get, true);
+            TAB_ITEMS.add(LADYBUG_DNA);
+            TAB_ITEMS.add(LADYBUG_EGG);
+        }
+        if (enabled("stag_beetle")) {
+            STAG_BEETLE_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/stag_beetle_dna", new Item(new Item.Properties()));
+            STAG_BEETLE_EGG = registerCreatureEgg("crittersandcompanions/stag_beetle_egg", CACEntities.STAG_BEETLE::get, true);
+            TAB_ITEMS.add(STAG_BEETLE_DNA);
+            TAB_ITEMS.add(STAG_BEETLE_EGG);
+        }
+        if (enabled("roly_poly")) {
+            ROLY_POLY_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/roly_poly_dna", new Item(new Item.Properties()));
+            ROLY_POLY_EGG = registerCreatureEgg("crittersandcompanions/roly_poly_egg", CACEntities.ROLY_POLY::get, true);
+            TAB_ITEMS.add(ROLY_POLY_DNA);
+            TAB_ITEMS.add(ROLY_POLY_EGG);
+        }
+        if (enabled("snail")) {
+            SNAIL_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/snail_dna", new Item(new Item.Properties()));
+            SNAIL_EGG = registerCreatureEgg("crittersandcompanions/snail_egg", CACEntities.SNAIL::get, true);
+            TAB_ITEMS.add(SNAIL_DNA);
+            TAB_ITEMS.add(SNAIL_EGG);
+        }
+        if (enabled("weevil")) {
+            WEEVIL_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/weevil_dna", new Item(new Item.Properties()));
+            WEEVIL_EGG = registerCreatureEgg("crittersandcompanions/weevil_egg", CACEntities.WEEVIL::get, true);
+            TAB_ITEMS.add(WEEVIL_DNA);
+            TAB_ITEMS.add(WEEVIL_EGG);
+        }
+        if (enabled("stick_bug")) {
+            STICK_BUG_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/stick_bug_dna", new Item(new Item.Properties()));
+            STICK_BUG_EGG = registerCreatureEgg("crittersandcompanions/stick_bug_egg", CACEntities.STICK_BUG::get, false);
+            TAB_ITEMS.add(STICK_BUG_DNA);
+            TAB_ITEMS.add(STICK_BUG_EGG);
+        }
 
         if (enabled("ferret")) {
             FERRET_DNA = FossilsCompatUtil.registerItem("crittersandcompanions/ferret_dna", new Item(new Item.Properties()));
@@ -162,7 +213,11 @@ public class CrittersAndCompanionsCompat {
     }
 
     private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier) {
-        return FossilsCompatUtil.registerItem(id, new SpawnEggLikeItem(supplier, false, new Item.Properties().stacksTo(16)));
+        return registerCreatureEgg(id, supplier, false);
+    }
+
+    private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier, boolean babyOnHatch) {
+        return FossilsCompatUtil.registerItem(id, new SpawnEggLikeItem(supplier, babyOnHatch, new Item.Properties().stacksTo(16)));
     }
 
     private static Item registerBirdEgg(String id, String key, Supplier<EntityType<?>> supplier) {
