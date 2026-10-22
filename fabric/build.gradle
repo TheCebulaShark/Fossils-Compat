@@ -78,10 +78,16 @@ repositories {
     maven {
         name = "Bawnorton"
         url = "https://maven.bawnorton.com/releases"
+        content { includeGroup "com.bawnorton.mixinsquared" }
     }
     maven {
         name = "Team Resourceful"
         url = "https://maven.teamresourceful.com/repository/maven-public/"
+    }
+    maven {
+        name = "Quilt"
+        url = "https://maven.quiltmc.org/repository/release/"
+        content { includeGroup "org.quiltmc.parsers" }
     }
 }
 
@@ -96,6 +102,7 @@ dependencies {
     modImplementation "maven.modrinth:fossils-and-archeology-revival:${project.far_version}"
 
     // Dev runtime - transitive dependencies of F&A Revival
+    modCompileOnly "dev.architectury:architectury-fabric:${project.architectury_version}"
     modLocalRuntime "dev.architectury:architectury-fabric:${project.architectury_version}"
     modLocalRuntime "software.bernie.geckolib:geckolib-fabric-1.20.1:${project.geckolib_version}"
     modLocalRuntime "com.github.glitchfiend:TerraBlender-fabric:1.20.1-${project.terrablender_version}"
@@ -125,6 +132,10 @@ dependencies {
 
     modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
     modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    modLocalRuntime "maven.modrinth:yacl:${project.yacl_version}"
+    // YACL's nested quilt-parsers jars aren't picked up in dev, so add them directly
+    localRuntime "org.quiltmc.parsers:json:0.2.1"
+    localRuntime "org.quiltmc.parsers:gson:0.2.1"
 
     modCompileOnly "maven.modrinth:jei:${project.jei_version}"
     modLocalRuntime "maven.modrinth:jei:${project.jei_version}"
