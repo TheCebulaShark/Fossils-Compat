@@ -35,9 +35,9 @@ public class NaturalistCompat {
 
     public static final String MOD_ID = "naturalist";
     public static final List<String> ANIMAL_KEYS = List.of(
-        "blue_jay", "cardinal", "carolina_chickadee", "sparrow", "robin", "vulture", "duck", "turkey",
+        "blue_jay", "cardinal", "carolina_chickadee", "sparrow", "robin", "red_winged_blackbird", "stellers_jay", "tufted_titmouse", "vulture", "duck", "turkey",
         "catfish", "bass", "firefly", "dragonfly",
-        "anglerfish", "ray", "blobfish", "piranha", "starfish", "great_white_shark", "jungle_scorpion", "crab", "giant_isopod",
+        "anglerfish", "ray", "blobfish", "piranha", "starfish", "great_white_shark", "jungle_scorpion", "crab", "giant_isopod", "jellyfish", "clam",
         "alligator", "tortoise", "snail", "butterfly", "desert_scorpion", "ant", "ostrich",
         "coral_snake", "snake", "rattlesnake", "lizard", "komodo_dragon",
         "bear", "boar", "hippo", "giraffe", "elephant", "deer", "lion", "rhino", "zebra",
@@ -58,6 +58,12 @@ public class NaturalistCompat {
     public static Item SPARROW_EGG;
     public static Item ROBIN_DNA;
     public static Item ROBIN_EGG;
+    public static Item RED_WINGED_BLACKBIRD_DNA;
+    public static Item RED_WINGED_BLACKBIRD_EGG;
+    public static Item STELLERS_JAY_DNA;
+    public static Item STELLERS_JAY_EGG;
+    public static Item TUFTED_TITMOUSE_DNA;
+    public static Item TUFTED_TITMOUSE_EGG;
     public static Item VULTURE_DNA;
     public static Item VULTURE_EGG;
     public static Item DUCK_DNA;
@@ -92,6 +98,10 @@ public class NaturalistCompat {
     public static Item CRAB_EGG;
     public static Item GIANT_ISOPOD_DNA;
     public static Item GIANT_ISOPOD_EGG;
+    public static Item JELLYFISH_DNA;
+    public static Item JELLYFISH_EGG;
+    public static Item CLAM_DNA;
+    public static Item CLAM_EGG;
 
     // DNA only — mob already has an in-game egg or equivalent
     public static Item ALLIGATOR_DNA;
@@ -157,15 +167,18 @@ public class NaturalistCompat {
     // Naturalist 2.0 merged songbirds into one naturalist:bird and coral snake/rattlesnake into
     // naturalist:snake, as data-driven variants — eggs force the variant after finalizeSpawn,
     // which would otherwise roll a biome-based one.
-    private static final Map<String, String> VARIANT_BY_KEY = Map.of(
-        "blue_jay", "naturalist:blue_jay",
-        "cardinal", "naturalist:northern_cardinal",
-        "carolina_chickadee", "naturalist:carolina_chickadee",
-        "sparrow", "naturalist:white_throated_sparrow",
-        "robin", "naturalist:american_robin",
-        "coral_snake", "naturalist:coral_snake",
-        "snake", "naturalist:snake",
-        "rattlesnake", "naturalist:rattlesnake"
+    private static final Map<String, String> VARIANT_BY_KEY = Map.ofEntries(
+        Map.entry("blue_jay", "naturalist:blue_jay"),
+        Map.entry("cardinal", "naturalist:northern_cardinal"),
+        Map.entry("carolina_chickadee", "naturalist:carolina_chickadee"),
+        Map.entry("sparrow", "naturalist:white_throated_sparrow"),
+        Map.entry("robin", "naturalist:american_robin"),
+        Map.entry("red_winged_blackbird", "naturalist:red_winged_blackbird"),
+        Map.entry("stellers_jay", "naturalist:stellers_jay"),
+        Map.entry("tufted_titmouse", "naturalist:tufted_titmouse"),
+        Map.entry("coral_snake", "naturalist:coral_snake"),
+        Map.entry("snake", "naturalist:snake"),
+        Map.entry("rattlesnake", "naturalist:rattlesnake")
     );
     private static final Set<String> BABY_ON_HATCH = Set.of("duck", "turkey");
     // Mobula ray and stingray have spawn weight 0 in Naturalist (never spawn naturally), so the egg
@@ -244,6 +257,24 @@ public class NaturalistCompat {
             ROBIN_EGG = registerBirdEgg("naturalist/robin_egg", "robin", () -> NaturalistEntityTypes.BIRD.get());
             TAB_ITEMS.add(ROBIN_DNA);
             TAB_ITEMS.add(ROBIN_EGG);
+        }
+        if (enabled("red_winged_blackbird")) {
+            RED_WINGED_BLACKBIRD_DNA = FossilsCompatUtil.registerItem("naturalist/red_winged_blackbird_dna", new Item(new Item.Properties()));
+            RED_WINGED_BLACKBIRD_EGG = registerBirdEgg("naturalist/red_winged_blackbird_egg", "red_winged_blackbird", () -> NaturalistEntityTypes.BIRD.get());
+            TAB_ITEMS.add(RED_WINGED_BLACKBIRD_DNA);
+            TAB_ITEMS.add(RED_WINGED_BLACKBIRD_EGG);
+        }
+        if (enabled("stellers_jay")) {
+            STELLERS_JAY_DNA = FossilsCompatUtil.registerItem("naturalist/stellers_jay_dna", new Item(new Item.Properties()));
+            STELLERS_JAY_EGG = registerBirdEgg("naturalist/stellers_jay_egg", "stellers_jay", () -> NaturalistEntityTypes.BIRD.get());
+            TAB_ITEMS.add(STELLERS_JAY_DNA);
+            TAB_ITEMS.add(STELLERS_JAY_EGG);
+        }
+        if (enabled("tufted_titmouse")) {
+            TUFTED_TITMOUSE_DNA = FossilsCompatUtil.registerItem("naturalist/tufted_titmouse_dna", new Item(new Item.Properties()));
+            TUFTED_TITMOUSE_EGG = registerBirdEgg("naturalist/tufted_titmouse_egg", "tufted_titmouse", () -> NaturalistEntityTypes.BIRD.get());
+            TAB_ITEMS.add(TUFTED_TITMOUSE_DNA);
+            TAB_ITEMS.add(TUFTED_TITMOUSE_EGG);
         }
         if (enabled("vulture")) {
             VULTURE_DNA = FossilsCompatUtil.registerItem("naturalist/vulture_dna", new Item(new Item.Properties()));
@@ -343,6 +374,18 @@ public class NaturalistCompat {
             GIANT_ISOPOD_EGG = registerCreatureEgg("naturalist/giant_isopod_egg", () -> NaturalistEntityTypes.GIANT_ISOPOD.get(), true, null);
             TAB_ITEMS.add(GIANT_ISOPOD_DNA);
             TAB_ITEMS.add(GIANT_ISOPOD_EGG);
+        }
+        if (enabled("jellyfish")) {
+            JELLYFISH_DNA = FossilsCompatUtil.registerItem("naturalist/jellyfish_dna", new Item(new Item.Properties()));
+            JELLYFISH_EGG = registerCreatureEgg("naturalist/jellyfish_egg", () -> NaturalistEntityTypes.JELLYFISH.get());
+            TAB_ITEMS.add(JELLYFISH_DNA);
+            TAB_ITEMS.add(JELLYFISH_EGG);
+        }
+        if (enabled("clam")) {
+            CLAM_DNA = FossilsCompatUtil.registerItem("naturalist/clam_dna", new Item(new Item.Properties()));
+            CLAM_EGG = registerCreatureEgg("naturalist/clam_egg", () -> NaturalistEntityTypes.CLAM.get());
+            TAB_ITEMS.add(CLAM_DNA);
+            TAB_ITEMS.add(CLAM_EGG);
         }
 
         // DNA only
