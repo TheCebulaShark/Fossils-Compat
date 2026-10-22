@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import org.blahajenjoyer.compat.vanillabackport.entity.ThrownVariantChickenEgg;
 import org.blahajenjoyer.compat.vanillabackport.item.VariantChickenEggItem;
 import org.blahajenjoyer.config.FossilsCompatConfig;
+import org.blahajenjoyer.item.SpawnEggLikeItem;
 import org.blahajenjoyer.util.FossilsCompatUtil;
 import org.blahajenjoyer.util.SimpleEntityInfo;
 
@@ -23,7 +24,7 @@ import java.util.List;
 public class VanillaBackportCompat {
 
     public static final String MOD_ID = "vanillabackport";
-    public static final List<String> ANIMAL_KEYS = List.of("armadillo", "cold_chicken", "warm_chicken");
+    public static final List<String> ANIMAL_KEYS = List.of("armadillo", "cold_chicken", "warm_chicken", "nautilus");
 
     private static final List<Item> TAB_ITEMS = new ArrayList<>();
 
@@ -35,6 +36,8 @@ public class VanillaBackportCompat {
     public static Item COLD_CHICKEN_EGG;
     public static Item WARM_CHICKEN_DNA;
     public static Item WARM_CHICKEN_EGG;
+    public static Item NAUTILUS_DNA;
+    public static Item NAUTILUS_EGG;
 
     private static boolean enabled(String key) {
         return FossilsCompatConfig.isEnabled(MOD_ID, key);
@@ -70,6 +73,12 @@ public class VanillaBackportCompat {
             WARM_CHICKEN_EGG = FossilsCompatUtil.registerItem("vanillabackport/warm_chicken_egg", new VariantChickenEggItem("warm", new Item.Properties().stacksTo(16)));
             TAB_ITEMS.add(WARM_CHICKEN_DNA);
             TAB_ITEMS.add(WARM_CHICKEN_EGG);
+        }
+        if (enabled("nautilus")) {
+            NAUTILUS_DNA = FossilsCompatUtil.registerItem("vanillabackport/nautilus_dna", new Item(new Item.Properties()));
+            NAUTILUS_EGG = FossilsCompatUtil.registerItem("vanillabackport/nautilus_egg", new SpawnEggLikeItem(() -> ModEntityTypes.NAUTILUS.get(), true, new Item.Properties().stacksTo(16)));
+            TAB_ITEMS.add(NAUTILUS_DNA);
+            TAB_ITEMS.add(NAUTILUS_EGG);
         }
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> TAB_ITEMS.forEach(entries::accept));
