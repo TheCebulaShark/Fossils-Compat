@@ -1,6 +1,11 @@
 {
-  "parent": "block/cross",
+  "parent": "minecraft:block/sniffer_egg",
   "textures": {
-    "cross": "fossils_compat:block/eggs/laviathan_egg"
+    "bottom": "fossils_compat:block/eggs/laviathan_egg_bottom",
+    "east": "fossils_compat:block/eggs/laviathan_egg_east",
+    "north": "fossils_compat:block/eggs/laviathan_egg_north",
+    "south": "fossils_compat:block/eggs/laviathan_egg_south",
+    "top": "fossils_compat:block/eggs/laviathan_egg_top",
+    "west": "fossils_compat:block/eggs/laviathan_egg_west"
   }
 }
