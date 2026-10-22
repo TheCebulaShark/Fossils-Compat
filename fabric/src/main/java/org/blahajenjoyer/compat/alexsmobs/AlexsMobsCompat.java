@@ -545,7 +545,7 @@ public class AlexsMobsCompat {
         }
         if (enabled("tarantula_hawk")) {
             TARANTULA_HAWK_DNA = registerItem("alexsmobs/tarantula_hawk_dna", new Item(new Item.Properties()));
-            TARANTULA_HAWK_EGG = registerCreatureEgg("alexsmobs/tarantula_hawk_egg", () -> AMEntityRegistry.TARANTULA_HAWK, false);
+            TARANTULA_HAWK_EGG = registerCreatureEgg("alexsmobs/tarantula_hawk_egg", () -> AMEntityRegistry.TARANTULA_HAWK, true);
             TAB_ITEMS.add(TARANTULA_HAWK_DNA);
             TAB_ITEMS.add(TARANTULA_HAWK_EGG);
         }
