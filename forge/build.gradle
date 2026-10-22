@@ -48,6 +48,11 @@ repositories {
         name = "CurseMaven"
         url = "https://cursemaven.com"
     }
+    maven {
+        name = "Quilt"
+        url = "https://maven.quiltmc.org/repository/release/"
+        content { includeGroup "org.quiltmc.parsers" }
+    }
     mavenCentral()
 }
 
@@ -83,6 +88,10 @@ dependencies {
 
     modCompileOnly "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
     modLocalRuntime "maven.modrinth:critters-and-companions:${project.crittersandcompanions_version}"
+    modLocalRuntime "maven.modrinth:yacl:${project.yacl_version}"
+    // YACL's jar-in-jar quilt-parsers libs aren't picked up in dev, so add them directly
+    forgeRuntimeLibrary "org.quiltmc.parsers:json:0.2.1"
+    forgeRuntimeLibrary "org.quiltmc.parsers:gson:0.2.1"
 
     modCompileOnly "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
     modLocalRuntime "maven.modrinth:vanillabackport:${project.vanillabackport_version}"
