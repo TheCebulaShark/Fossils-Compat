@@ -1,6 +1,6 @@
 package org.blahajenjoyer.compat.vanillabackport;
 
-import com.blackgear.vanillabackport.common.registries.ModEntities;
+import com.blackgear.vanillabackport.common.registries.entities.ModEntityTypes;
 import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
 import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -54,7 +54,7 @@ public class VanillaBackportCompat {
         if (enabled("armadillo")) {
             ARMADILLO_DNA    = FossilsCompatUtil.registerItem("vanillabackport/armadillo_dna",    new Item(new Item.Properties()));
             ARMADILLO_EMBRYO = FossilsCompatUtil.registerItem("vanillabackport/armadillo_embryo", new MammalEmbryoItem(new SimpleEntityInfo(
-                "VANILLABACKPORT_ARMADILLO", () -> ModEntities.ARMADILLO.get(), PrehistoricMobType.MAMMAL,
+                "VANILLABACKPORT_ARMADILLO", () -> ModEntityTypes.ARMADILLO.get(), PrehistoricMobType.MAMMAL,
                 () -> Component.translatable("entity.minecraft.armadillo"), ARMADILLO_DNA)));
             TAB_ITEMS.add(ARMADILLO_DNA);
             TAB_ITEMS.add(ARMADILLO_EMBRYO);

@@ -1,9 +1,9 @@
 package org.blahajenjoyer.compat.vanillabackport.entity;
 
-import com.blackgear.vanillabackport.common.api.variant.VariantDataHolder;
-import com.blackgear.vanillabackport.common.level.entities.animal.ChickenVariant;
-import com.blackgear.vanillabackport.common.level.entities.animal.ChickenVariants;
-import net.minecraft.resources.ResourceKey;
+import com.blackgear.platform.core.api.RegistryKey;
+import com.blackgear.vanillabackport.common.api.modules.mob_variant.VariantDataHolder;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.chicken.ChickenVariant;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.chicken.ChickenVariants;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -70,9 +70,9 @@ public class ThrownVariantChickenEgg extends ThrowableItemProjectile {
     private void setVariant(Chicken chicken) {
         if (!(chicken instanceof VariantDataHolder<?>)) return;
         VariantDataHolder<ChickenVariant> holder = (VariantDataHolder<ChickenVariant>) chicken;
-        ResourceKey<ChickenVariant> key = "warm".equals(entityData.get(DATA_VARIANT))
+        RegistryKey<ChickenVariant> key = "warm".equals(entityData.get(DATA_VARIANT))
             ? ChickenVariants.WARM : ChickenVariants.COLD;
-        ChickenVariant variant = ChickenVariants.REGISTRY.get(key);
+        ChickenVariant variant = ChickenVariants.REGISTRIES.get(key);
         if (variant != null) {
             holder.setVariantData(variant);
         }
