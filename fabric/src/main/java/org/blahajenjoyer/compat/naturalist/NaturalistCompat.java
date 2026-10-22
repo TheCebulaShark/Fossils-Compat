@@ -28,17 +28,20 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class NaturalistCompat {
 
     public static final String MOD_ID = "naturalist";
     public static final List<String> ANIMAL_KEYS = List.of(
-        "blue_jay", "cardinal", "carolina_chickadee", "sparrow", "robin", "vulture", "duck",
+        "blue_jay", "cardinal", "carolina_chickadee", "sparrow", "robin", "vulture", "duck", "turkey",
         "catfish", "bass", "firefly", "dragonfly",
-        "alligator", "tortoise", "snail", "butterfly",
-        "coral_snake", "snake", "rattlesnake", "lizard",
-        "bear", "boar", "hippo", "giraffe", "elephant", "deer", "lion", "rhino", "zebra"
+        "anglerfish", "ray", "blobfish", "piranha", "starfish", "great_white_shark", "jungle_scorpion", "crab", "giant_isopod",
+        "alligator", "tortoise", "snail", "butterfly", "desert_scorpion", "ant", "ostrich",
+        "coral_snake", "snake", "rattlesnake", "lizard", "komodo_dragon",
+        "bear", "boar", "hippo", "giraffe", "elephant", "deer", "lion", "rhino", "zebra",
+        "black_bear", "capybara", "hedgehog", "mammoth", "mole", "rat", "tiger", "leopard", "whale"
     );
 
     private static final List<Item> TAB_ITEMS = new ArrayList<>();
@@ -59,6 +62,8 @@ public class NaturalistCompat {
     public static Item VULTURE_EGG;
     public static Item DUCK_DNA;
     public static Item DUCK_EGG;
+    public static Item TURKEY_DNA;
+    public static Item TURKEY_EGG;
 
     // Fish / invertebrates — DNA + spawn-egg-like Egg (adult on hatch)
     public static Item CATFISH_DNA;
@@ -69,12 +74,33 @@ public class NaturalistCompat {
     public static Item FIREFLY_EGG;
     public static Item DRAGONFLY_DNA;
     public static Item DRAGONFLY_EGG;
+    public static Item ANGLERFISH_DNA;
+    public static Item ANGLERFISH_EGG;
+    public static Item RAY_DNA;
+    public static Item RAY_EGG;
+    public static Item BLOBFISH_DNA;
+    public static Item BLOBFISH_EGG;
+    public static Item PIRANHA_DNA;
+    public static Item PIRANHA_EGG;
+    public static Item STARFISH_DNA;
+    public static Item STARFISH_EGG;
+    public static Item GREAT_WHITE_SHARK_DNA;
+    public static Item GREAT_WHITE_SHARK_EGG;
+    public static Item JUNGLE_SCORPION_DNA;
+    public static Item JUNGLE_SCORPION_EGG;
+    public static Item CRAB_DNA;
+    public static Item CRAB_EGG;
+    public static Item GIANT_ISOPOD_DNA;
+    public static Item GIANT_ISOPOD_EGG;
 
     // DNA only — mob already has an in-game egg or equivalent
     public static Item ALLIGATOR_DNA;
     public static Item TORTOISE_DNA;
     public static Item SNAIL_DNA;
     public static Item BUTTERFLY_DNA;
+    public static Item DESERT_SCORPION_DNA;
+    public static Item ANT_DNA;
+    public static Item OSTRICH_DNA;
 
     // Reptiles — DNA + Egg (placeable, hatches into a baby after a while, like a turtle/sniffer egg)
     public static Item CORAL_SNAKE_DNA;
@@ -85,6 +111,8 @@ public class NaturalistCompat {
     public static Item RATTLESNAKE_EGG;
     public static Item LIZARD_DNA;
     public static Item LIZARD_EGG;
+    public static Item KOMODO_DRAGON_DNA;
+    public static Item KOMODO_DRAGON_EGG;
 
     // Mammals — DNA + Embryo
     public static Item BROWN_BEAR_DNA;
@@ -105,6 +133,24 @@ public class NaturalistCompat {
     public static Item RHINO_EMBRYO;
     public static Item ZEBRA_DNA;
     public static Item ZEBRA_EMBRYO;
+    public static Item BLACK_BEAR_DNA;
+    public static Item BLACK_BEAR_EMBRYO;
+    public static Item CAPYBARA_DNA;
+    public static Item CAPYBARA_EMBRYO;
+    public static Item HEDGEHOG_DNA;
+    public static Item HEDGEHOG_EMBRYO;
+    public static Item MAMMOTH_DNA;
+    public static Item MAMMOTH_EMBRYO;
+    public static Item MOLE_DNA;
+    public static Item MOLE_EMBRYO;
+    public static Item RAT_DNA;
+    public static Item RAT_EMBRYO;
+    public static Item TIGER_DNA;
+    public static Item TIGER_EMBRYO;
+    public static Item LEOPARD_DNA;
+    public static Item LEOPARD_EMBRYO;
+    public static Item WHALE_DNA;
+    public static Item WHALE_EMBRYO;
 
     private static final Map<String, Supplier<EntityType<?>>> ENTITY_SUPPLIERS = new HashMap<>();
     private static final Map<String, Item> EGG_BY_KEY = new HashMap<>();
@@ -121,7 +167,10 @@ public class NaturalistCompat {
         "snake", "naturalist:snake",
         "rattlesnake", "naturalist:rattlesnake"
     );
-    private static final Set<String> BABY_ON_HATCH = Set.of("duck");
+    private static final Set<String> BABY_ON_HATCH = Set.of("duck", "turkey");
+    // Mobula ray and stingray have spawn weight 0 in Naturalist (never spawn naturally), so the egg
+    // picks evenly between all three to make them obtainable.
+    private static final List<String> RAY_VARIANTS = List.of("naturalist:eagle_ray", "naturalist:mobula_ray", "naturalist:stingray");
 
     public static EntityType<?> getEntityType(String key) {
         Supplier<EntityType<?>> supplier = ENTITY_SUPPLIERS.get(key);
@@ -137,10 +186,18 @@ public class NaturalistCompat {
     }
 
     public static void applyVariant(Mob mob, String key) {
-        String variant = VARIANT_BY_KEY.get(key);
+        setVariant(mob, VARIANT_BY_KEY.get(key));
+    }
+
+    private static void setVariant(Mob mob, String variant) {
         if (variant != null && mob instanceof DataDrivenVariantAnimal variantAnimal) {
             variantAnimal.setVariantString(variant);
         }
+    }
+
+    /** Tiger and leopard are both naturalist:tiger variants; each embryo has a small chance of its rare colour morph. */
+    private static void rollVariant(Mob mob, String common, String rare, int rareOneIn) {
+        setVariant(mob, mob.getRandom().nextInt(rareOneIn) == 0 ? rare : common);
     }
 
     private static boolean enabled(String key) {
@@ -200,6 +257,12 @@ public class NaturalistCompat {
             TAB_ITEMS.add(DUCK_DNA);
             TAB_ITEMS.add(DUCK_EGG);
         }
+        if (enabled("turkey")) {
+            TURKEY_DNA = FossilsCompatUtil.registerItem("naturalist/turkey_dna", new Item(new Item.Properties()));
+            TURKEY_EGG = registerBirdEgg("naturalist/turkey_egg", "turkey", () -> NaturalistEntityTypes.TURKEY.get());
+            TAB_ITEMS.add(TURKEY_DNA);
+            TAB_ITEMS.add(TURKEY_EGG);
+        }
 
         // Fish / invertebrates
         if (enabled("catfish")) {
@@ -226,6 +289,61 @@ public class NaturalistCompat {
             TAB_ITEMS.add(DRAGONFLY_DNA);
             TAB_ITEMS.add(DRAGONFLY_EGG);
         }
+        if (enabled("anglerfish")) {
+            ANGLERFISH_DNA = FossilsCompatUtil.registerItem("naturalist/anglerfish_dna", new Item(new Item.Properties()));
+            ANGLERFISH_EGG = registerCreatureEgg("naturalist/anglerfish_egg", () -> NaturalistEntityTypes.ANGLERFISH.get());
+            TAB_ITEMS.add(ANGLERFISH_DNA);
+            TAB_ITEMS.add(ANGLERFISH_EGG);
+        }
+        if (enabled("ray")) {
+            RAY_DNA = FossilsCompatUtil.registerItem("naturalist/ray_dna", new Item(new Item.Properties()));
+            RAY_EGG = registerCreatureEgg("naturalist/ray_egg", () -> NaturalistEntityTypes.RAY.get(),
+                mob -> setVariant(mob, RAY_VARIANTS.get(mob.getRandom().nextInt(RAY_VARIANTS.size()))));
+            TAB_ITEMS.add(RAY_DNA);
+            TAB_ITEMS.add(RAY_EGG);
+        }
+        if (enabled("blobfish")) {
+            BLOBFISH_DNA = FossilsCompatUtil.registerItem("naturalist/blobfish_dna", new Item(new Item.Properties()));
+            BLOBFISH_EGG = registerCreatureEgg("naturalist/blobfish_egg", () -> NaturalistEntityTypes.BLOBFISH.get());
+            TAB_ITEMS.add(BLOBFISH_DNA);
+            TAB_ITEMS.add(BLOBFISH_EGG);
+        }
+        if (enabled("piranha")) {
+            PIRANHA_DNA = FossilsCompatUtil.registerItem("naturalist/piranha_dna", new Item(new Item.Properties()));
+            PIRANHA_EGG = registerCreatureEgg("naturalist/piranha_egg", () -> NaturalistEntityTypes.PIRANHA.get());
+            TAB_ITEMS.add(PIRANHA_DNA);
+            TAB_ITEMS.add(PIRANHA_EGG);
+        }
+        if (enabled("starfish")) {
+            STARFISH_DNA = FossilsCompatUtil.registerItem("naturalist/starfish_dna", new Item(new Item.Properties()));
+            STARFISH_EGG = registerCreatureEgg("naturalist/starfish_egg", () -> NaturalistEntityTypes.STARFISH.get());
+            TAB_ITEMS.add(STARFISH_DNA);
+            TAB_ITEMS.add(STARFISH_EGG);
+        }
+        if (enabled("great_white_shark")) {
+            GREAT_WHITE_SHARK_DNA = FossilsCompatUtil.registerItem("naturalist/great_white_shark_dna", new Item(new Item.Properties()));
+            GREAT_WHITE_SHARK_EGG = registerCreatureEgg("naturalist/great_white_shark_egg", () -> NaturalistEntityTypes.GREAT_WHITE_SHARK.get());
+            TAB_ITEMS.add(GREAT_WHITE_SHARK_DNA);
+            TAB_ITEMS.add(GREAT_WHITE_SHARK_EGG);
+        }
+        if (enabled("jungle_scorpion")) {
+            JUNGLE_SCORPION_DNA = FossilsCompatUtil.registerItem("naturalist/jungle_scorpion_dna", new Item(new Item.Properties()));
+            JUNGLE_SCORPION_EGG = registerCreatureEgg("naturalist/jungle_scorpion_egg", () -> NaturalistEntityTypes.JUNGLE_SCORPION.get());
+            TAB_ITEMS.add(JUNGLE_SCORPION_DNA);
+            TAB_ITEMS.add(JUNGLE_SCORPION_EGG);
+        }
+        if (enabled("crab")) {
+            CRAB_DNA = FossilsCompatUtil.registerItem("naturalist/crab_dna", new Item(new Item.Properties()));
+            CRAB_EGG = registerCreatureEgg("naturalist/crab_egg", () -> NaturalistEntityTypes.CRAB.get(), true, null);
+            TAB_ITEMS.add(CRAB_DNA);
+            TAB_ITEMS.add(CRAB_EGG);
+        }
+        if (enabled("giant_isopod")) {
+            GIANT_ISOPOD_DNA = FossilsCompatUtil.registerItem("naturalist/giant_isopod_dna", new Item(new Item.Properties()));
+            GIANT_ISOPOD_EGG = registerCreatureEgg("naturalist/giant_isopod_egg", () -> NaturalistEntityTypes.GIANT_ISOPOD.get(), true, null);
+            TAB_ITEMS.add(GIANT_ISOPOD_DNA);
+            TAB_ITEMS.add(GIANT_ISOPOD_EGG);
+        }
 
         // DNA only
         if (enabled("alligator")) {
@@ -243,6 +361,18 @@ public class NaturalistCompat {
         if (enabled("butterfly")) {
             BUTTERFLY_DNA = FossilsCompatUtil.registerItem("naturalist/butterfly_dna", new Item(new Item.Properties()));
             TAB_ITEMS.add(BUTTERFLY_DNA);
+        }
+        if (enabled("desert_scorpion")) {
+            DESERT_SCORPION_DNA = FossilsCompatUtil.registerItem("naturalist/desert_scorpion_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(DESERT_SCORPION_DNA);
+        }
+        if (enabled("ant")) {
+            ANT_DNA = FossilsCompatUtil.registerItem("naturalist/ant_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(ANT_DNA);
+        }
+        if (enabled("ostrich")) {
+            OSTRICH_DNA = FossilsCompatUtil.registerItem("naturalist/ostrich_dna", new Item(new Item.Properties()));
+            TAB_ITEMS.add(OSTRICH_DNA);
         }
 
         // Reptiles — placeable egg block, hatches into a baby after a while
@@ -269,6 +399,13 @@ public class NaturalistCompat {
             LIZARD_EGG = ReptileEggBlocks.registerSmall("naturalist/lizard_egg", () -> NaturalistEntityTypes.LIZARD.get(), true);
             TAB_ITEMS.add(LIZARD_DNA);
             TAB_ITEMS.add(LIZARD_EGG);
+        }
+        // Same egg as Alex's Mobs' komodo dragon (medium tier, shared block models/textures)
+        if (enabled("komodo_dragon")) {
+            KOMODO_DRAGON_DNA = FossilsCompatUtil.registerItem("naturalist/komodo_dragon_dna", new Item(new Item.Properties()));
+            KOMODO_DRAGON_EGG = ReptileEggBlocks.registerMedium("naturalist/komodo_dragon_egg", () -> NaturalistEntityTypes.KOMODO_DRAGON.get(), true);
+            TAB_ITEMS.add(KOMODO_DRAGON_DNA);
+            TAB_ITEMS.add(KOMODO_DRAGON_EGG);
         }
 
         // Mammals
@@ -326,12 +463,76 @@ public class NaturalistCompat {
             TAB_ITEMS.add(ZEBRA_DNA);
             TAB_ITEMS.add(ZEBRA_EMBRYO);
         }
+        if (enabled("black_bear")) {
+            BLACK_BEAR_DNA = FossilsCompatUtil.registerItem("naturalist/black_bear_dna", new Item(new Item.Properties()));
+            BLACK_BEAR_EMBRYO = registerMammalEmbryo("naturalist/black_bear_embryo", "black_bear", () -> NaturalistEntityTypes.BLACK_BEAR.get(), BLACK_BEAR_DNA);
+            TAB_ITEMS.add(BLACK_BEAR_DNA);
+            TAB_ITEMS.add(BLACK_BEAR_EMBRYO);
+        }
+        if (enabled("capybara")) {
+            CAPYBARA_DNA = FossilsCompatUtil.registerItem("naturalist/capybara_dna", new Item(new Item.Properties()));
+            CAPYBARA_EMBRYO = registerMammalEmbryo("naturalist/capybara_embryo", "capybara", () -> NaturalistEntityTypes.CAPYBARA.get(), CAPYBARA_DNA);
+            TAB_ITEMS.add(CAPYBARA_DNA);
+            TAB_ITEMS.add(CAPYBARA_EMBRYO);
+        }
+        if (enabled("hedgehog")) {
+            HEDGEHOG_DNA = FossilsCompatUtil.registerItem("naturalist/hedgehog_dna", new Item(new Item.Properties()));
+            HEDGEHOG_EMBRYO = registerMammalEmbryo("naturalist/hedgehog_embryo", "hedgehog", () -> NaturalistEntityTypes.HEDGEHOG.get(), HEDGEHOG_DNA);
+            TAB_ITEMS.add(HEDGEHOG_DNA);
+            TAB_ITEMS.add(HEDGEHOG_EMBRYO);
+        }
+        if (enabled("mammoth")) {
+            MAMMOTH_DNA = FossilsCompatUtil.registerItem("naturalist/mammoth_dna", new Item(new Item.Properties()));
+            MAMMOTH_EMBRYO = registerMammalEmbryo("naturalist/mammoth_embryo", "mammoth", () -> NaturalistEntityTypes.MAMMOTH.get(), MAMMOTH_DNA);
+            TAB_ITEMS.add(MAMMOTH_DNA);
+            TAB_ITEMS.add(MAMMOTH_EMBRYO);
+        }
+        if (enabled("mole")) {
+            MOLE_DNA = FossilsCompatUtil.registerItem("naturalist/mole_dna", new Item(new Item.Properties()));
+            MOLE_EMBRYO = registerMammalEmbryo("naturalist/mole_embryo", "mole", () -> NaturalistEntityTypes.MOLE.get(), MOLE_DNA);
+            TAB_ITEMS.add(MOLE_DNA);
+            TAB_ITEMS.add(MOLE_EMBRYO);
+        }
+        if (enabled("rat")) {
+            RAT_DNA = FossilsCompatUtil.registerItem("naturalist/rat_dna", new Item(new Item.Properties()));
+            RAT_EMBRYO = registerMammalEmbryo("naturalist/rat_embryo", "rat", () -> NaturalistEntityTypes.RAT.get(), RAT_DNA);
+            TAB_ITEMS.add(RAT_DNA);
+            TAB_ITEMS.add(RAT_EMBRYO);
+        }
+        if (enabled("tiger")) {
+            TIGER_DNA = FossilsCompatUtil.registerItem("naturalist/tiger_dna", new Item(new Item.Properties()));
+            TIGER_EMBRYO = registerMammalEmbryo("naturalist/tiger_embryo", "tiger", () -> NaturalistEntityTypes.TIGER.get(), TIGER_DNA,
+                Component.translatable("entity.naturalist.tiger"), mob -> rollVariant(mob, "naturalist:tiger", "naturalist:white_tiger", 20));
+            TAB_ITEMS.add(TIGER_DNA);
+            TAB_ITEMS.add(TIGER_EMBRYO);
+        }
+        if (enabled("leopard")) {
+            LEOPARD_DNA = FossilsCompatUtil.registerItem("naturalist/leopard_dna", new Item(new Item.Properties()));
+            LEOPARD_EMBRYO = registerMammalEmbryo("naturalist/leopard_embryo", "leopard", () -> NaturalistEntityTypes.TIGER.get(), LEOPARD_DNA,
+                Component.translatable("entity.fossils_compat.naturalist.leopard"), mob -> rollVariant(mob, "naturalist:leopard", "naturalist:black_panther", 4));
+            TAB_ITEMS.add(LEOPARD_DNA);
+            TAB_ITEMS.add(LEOPARD_EMBRYO);
+        }
+        if (enabled("whale")) {
+            WHALE_DNA = FossilsCompatUtil.registerItem("naturalist/whale_dna", new Item(new Item.Properties()));
+            WHALE_EMBRYO = registerMammalEmbryo("naturalist/whale_embryo", "whale", () -> NaturalistEntityTypes.WHALE.get(), WHALE_DNA);
+            TAB_ITEMS.add(WHALE_DNA);
+            TAB_ITEMS.add(WHALE_EMBRYO);
+        }
 
         ItemGroupEvents.modifyEntriesEvent(FossilsCompatUtil.FOSSIL_MOB_TAB).register(entries -> TAB_ITEMS.forEach(entries::accept));
     }
 
     private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier) {
-        return FossilsCompatUtil.registerItem(id, new SpawnEggLikeItem(supplier, false, new Item.Properties().stacksTo(16)));
+        return registerCreatureEgg(id, supplier, null);
+    }
+
+    private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier, Consumer<Mob> onSpawn) {
+        return registerCreatureEgg(id, supplier, false, onSpawn);
+    }
+
+    private static Item registerCreatureEgg(String id, Supplier<EntityType<?>> supplier, boolean babyOnHatch, Consumer<Mob> onSpawn) {
+        return FossilsCompatUtil.registerItem(id, new SpawnEggLikeItem(supplier, babyOnHatch, onSpawn, new Item.Properties().stacksTo(16)));
     }
 
     private static Item registerBirdEgg(String id, String key, Supplier<EntityType<?>> supplier) {
@@ -344,8 +545,13 @@ public class NaturalistCompat {
     }
 
     private static Item registerMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem) {
+        return registerMammalEmbryo(id, key, entityType, dnaItem, Component.translatable("entity.naturalist." + key), null);
+    }
+
+    private static Item registerMammalEmbryo(String id, String key, Supplier<EntityType<?>> entityType, Item dnaItem,
+                                             Component displayName, Consumer<Mob> onBirth) {
         return FossilsCompatUtil.registerItem(id, new MammalEmbryoItem(new SimpleEntityInfo(
             "NATURALIST_" + key.toUpperCase(Locale.ROOT), entityType, PrehistoricMobType.MAMMAL,
-            () -> Component.translatable("entity.naturalist." + key), dnaItem)));
+            () -> displayName, dnaItem, onBirth)));
     }
 }

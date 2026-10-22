@@ -4,7 +4,8 @@
   "package": "org.blahajenjoyer.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MammalComponentMixin"
+    "MammalComponentMixin",
+    "ModEventsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

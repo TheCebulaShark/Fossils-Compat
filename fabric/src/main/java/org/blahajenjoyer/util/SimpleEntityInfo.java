@@ -5,10 +5,12 @@ import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.Prehistor
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 // EntityInfo.fromNbt only resolves FAR's own two enums, so every instance self-registers
@@ -23,15 +25,29 @@ public class SimpleEntityInfo implements EntityInfo {
     private final PrehistoricMobType mobType;
     private final Supplier<Component> displayName;
     private final Item dnaItem;
+    private final Consumer<Mob> onBirth;
 
     public SimpleEntityInfo(String name, Supplier<EntityType<?>> entityType, PrehistoricMobType mobType,
                              Supplier<Component> displayName, Item dnaItem) {
+        this(name, entityType, mobType, displayName, dnaItem, null);
+    }
+
+    /** @param onBirth applied to the newborn right before FAR adds it to the world (e.g. to force a variant), or {@code null} */
+    public SimpleEntityInfo(String name, Supplier<EntityType<?>> entityType, PrehistoricMobType mobType,
+                             Supplier<Component> displayName, Item dnaItem, Consumer<Mob> onBirth) {
         this.name = name;
         this.entityType = entityType;
         this.mobType = mobType;
         this.displayName = displayName;
         this.dnaItem = dnaItem;
+        this.onBirth = onBirth;
         BY_NAME.put(name, this);
+    }
+
+    public void onBirth(Mob newborn) {
+        if (onBirth != null) {
+            onBirth.accept(newborn);
+        }
     }
 
     public static EntityInfo byName(String name) {
