@@ -60,6 +60,7 @@ public class ThrownNaturalistBirdEgg extends ThrowableItemProjectile {
                 if (entity instanceof Mob mob && level() instanceof ServerLevel serverLevel) {
                     mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                         MobSpawnType.SPAWN_EGG, null, null);
+                    NaturalistCompat.applyVariant(mob, birdKey);
                     if (NaturalistCompat.isBabyOnHatch(birdKey) && mob instanceof AgeableMob ageable) {
                         ageable.setAge(-24000);
                     }

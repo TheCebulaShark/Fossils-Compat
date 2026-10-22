@@ -1,6 +1,7 @@
 package org.blahajenjoyer.compat.naturalist;
 
-import com.starfish_studios.naturalist.core.registry.NaturalistEntityTypes;
+import com.crispytwig.naturalist.registry.NaturalistEntityTypes;
+import com.crispytwig.naturalist.world.entity.variant.DataDrivenVariantAnimal;
 import com.github.teamfossilsarcheology.fossil.entity.prehistoric.base.PrehistoricMobType;
 import com.github.teamfossilsarcheology.fossil.item.MammalEmbryoItem;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -10,6 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import org.blahajenjoyer.block.ReptileEggBlocks;
@@ -32,7 +34,7 @@ public class NaturalistCompat {
 
     public static final String MOD_ID = "naturalist";
     public static final List<String> ANIMAL_KEYS = List.of(
-        "blue_jay", "cardinal", "canary", "finch", "sparrow", "robin", "vulture", "duck",
+        "blue_jay", "cardinal", "carolina_chickadee", "sparrow", "robin", "vulture", "duck",
         "catfish", "bass", "firefly", "dragonfly",
         "alligator", "tortoise", "snail", "butterfly",
         "coral_snake", "snake", "rattlesnake", "lizard",
@@ -47,10 +49,8 @@ public class NaturalistCompat {
     public static Item BLUE_JAY_EGG;
     public static Item CARDINAL_DNA;
     public static Item CARDINAL_EGG;
-    public static Item CANARY_DNA;
-    public static Item CANARY_EGG;
-    public static Item FINCH_DNA;
-    public static Item FINCH_EGG;
+    public static Item CAROLINA_CHICKADEE_DNA;
+    public static Item CAROLINA_CHICKADEE_EGG;
     public static Item SPARROW_DNA;
     public static Item SPARROW_EGG;
     public static Item ROBIN_DNA;
@@ -108,6 +108,19 @@ public class NaturalistCompat {
 
     private static final Map<String, Supplier<EntityType<?>>> ENTITY_SUPPLIERS = new HashMap<>();
     private static final Map<String, Item> EGG_BY_KEY = new HashMap<>();
+    // Naturalist 2.0 merged songbirds into one naturalist:bird and coral snake/rattlesnake into
+    // naturalist:snake, as data-driven variants — eggs force the variant after finalizeSpawn,
+    // which would otherwise roll a biome-based one.
+    private static final Map<String, String> VARIANT_BY_KEY = Map.of(
+        "blue_jay", "naturalist:blue_jay",
+        "cardinal", "naturalist:northern_cardinal",
+        "carolina_chickadee", "naturalist:carolina_chickadee",
+        "sparrow", "naturalist:white_throated_sparrow",
+        "robin", "naturalist:american_robin",
+        "coral_snake", "naturalist:coral_snake",
+        "snake", "naturalist:snake",
+        "rattlesnake", "naturalist:rattlesnake"
+    );
     private static final Set<String> BABY_ON_HATCH = Set.of("duck");
 
     public static EntityType<?> getEntityType(String key) {
@@ -121,6 +134,13 @@ public class NaturalistCompat {
 
     public static boolean isBabyOnHatch(String key) {
         return BABY_ON_HATCH.contains(key);
+    }
+
+    public static void applyVariant(Mob mob, String key) {
+        String variant = VARIANT_BY_KEY.get(key);
+        if (variant != null && mob instanceof DataDrivenVariantAnimal variantAnimal) {
+            variantAnimal.setVariantString(variant);
+        }
     }
 
     private static boolean enabled(String key) {
@@ -140,37 +160,31 @@ public class NaturalistCompat {
 
         if (enabled("blue_jay")) {
             BLUE_JAY_DNA = FossilsCompatUtil.registerItem("naturalist/blue_jay_dna", new Item(new Item.Properties()));
-            BLUE_JAY_EGG = registerBirdEgg("naturalist/blue_jay_egg", "blue_jay", () -> NaturalistEntityTypes.BLUEJAY.get());
+            BLUE_JAY_EGG = registerBirdEgg("naturalist/blue_jay_egg", "blue_jay", () -> NaturalistEntityTypes.BIRD.get());
             TAB_ITEMS.add(BLUE_JAY_DNA);
             TAB_ITEMS.add(BLUE_JAY_EGG);
         }
         if (enabled("cardinal")) {
             CARDINAL_DNA = FossilsCompatUtil.registerItem("naturalist/cardinal_dna", new Item(new Item.Properties()));
-            CARDINAL_EGG = registerBirdEgg("naturalist/cardinal_egg", "cardinal", () -> NaturalistEntityTypes.CARDINAL.get());
+            CARDINAL_EGG = registerBirdEgg("naturalist/cardinal_egg", "cardinal", () -> NaturalistEntityTypes.BIRD.get());
             TAB_ITEMS.add(CARDINAL_DNA);
             TAB_ITEMS.add(CARDINAL_EGG);
         }
-        if (enabled("canary")) {
-            CANARY_DNA = FossilsCompatUtil.registerItem("naturalist/canary_dna", new Item(new Item.Properties()));
-            CANARY_EGG = registerBirdEgg("naturalist/canary_egg", "canary", () -> NaturalistEntityTypes.CANARY.get());
-            TAB_ITEMS.add(CANARY_DNA);
-            TAB_ITEMS.add(CANARY_EGG);
-        }
-        if (enabled("finch")) {
-            FINCH_DNA = FossilsCompatUtil.registerItem("naturalist/finch_dna", new Item(new Item.Properties()));
-            FINCH_EGG = registerBirdEgg("naturalist/finch_egg", "finch", () -> NaturalistEntityTypes.FINCH.get());
-            TAB_ITEMS.add(FINCH_DNA);
-            TAB_ITEMS.add(FINCH_EGG);
+        if (enabled("carolina_chickadee")) {
+            CAROLINA_CHICKADEE_DNA = FossilsCompatUtil.registerItem("naturalist/carolina_chickadee_dna", new Item(new Item.Properties()));
+            CAROLINA_CHICKADEE_EGG = registerBirdEgg("naturalist/carolina_chickadee_egg", "carolina_chickadee", () -> NaturalistEntityTypes.BIRD.get());
+            TAB_ITEMS.add(CAROLINA_CHICKADEE_DNA);
+            TAB_ITEMS.add(CAROLINA_CHICKADEE_EGG);
         }
         if (enabled("sparrow")) {
             SPARROW_DNA = FossilsCompatUtil.registerItem("naturalist/sparrow_dna", new Item(new Item.Properties()));
-            SPARROW_EGG = registerBirdEgg("naturalist/sparrow_egg", "sparrow", () -> NaturalistEntityTypes.SPARROW.get());
+            SPARROW_EGG = registerBirdEgg("naturalist/sparrow_egg", "sparrow", () -> NaturalistEntityTypes.BIRD.get());
             TAB_ITEMS.add(SPARROW_DNA);
             TAB_ITEMS.add(SPARROW_EGG);
         }
         if (enabled("robin")) {
             ROBIN_DNA = FossilsCompatUtil.registerItem("naturalist/robin_dna", new Item(new Item.Properties()));
-            ROBIN_EGG = registerBirdEgg("naturalist/robin_egg", "robin", () -> NaturalistEntityTypes.ROBIN.get());
+            ROBIN_EGG = registerBirdEgg("naturalist/robin_egg", "robin", () -> NaturalistEntityTypes.BIRD.get());
             TAB_ITEMS.add(ROBIN_DNA);
             TAB_ITEMS.add(ROBIN_EGG);
         }
@@ -234,19 +248,19 @@ public class NaturalistCompat {
         // Reptiles — placeable egg block, hatches into a baby after a while
         if (enabled("coral_snake")) {
             CORAL_SNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/coral_snake_dna", new Item(new Item.Properties()));
-            CORAL_SNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/coral_snake_egg", () -> NaturalistEntityTypes.CORAL_SNAKE.get(), true);
+            CORAL_SNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/coral_snake_egg", () -> NaturalistEntityTypes.SNAKE.get(), true, null, mob -> applyVariant(mob, "coral_snake"));
             TAB_ITEMS.add(CORAL_SNAKE_DNA);
             TAB_ITEMS.add(CORAL_SNAKE_EGG);
         }
         if (enabled("snake")) {
             SNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/snake_dna", new Item(new Item.Properties()));
-            SNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/snake_egg", () -> NaturalistEntityTypes.SNAKE.get(), true);
+            SNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/snake_egg", () -> NaturalistEntityTypes.SNAKE.get(), true, null, mob -> applyVariant(mob, "snake"));
             TAB_ITEMS.add(SNAKE_DNA);
             TAB_ITEMS.add(SNAKE_EGG);
         }
         if (enabled("rattlesnake")) {
             RATTLESNAKE_DNA = FossilsCompatUtil.registerItem("naturalist/rattlesnake_dna", new Item(new Item.Properties()));
-            RATTLESNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/rattlesnake_egg", () -> NaturalistEntityTypes.RATTLESNAKE.get(), true, BlockTags.SAND);
+            RATTLESNAKE_EGG = ReptileEggBlocks.registerSmall("naturalist/rattlesnake_egg", () -> NaturalistEntityTypes.SNAKE.get(), true, BlockTags.SAND, mob -> applyVariant(mob, "rattlesnake"));
             TAB_ITEMS.add(RATTLESNAKE_DNA);
             TAB_ITEMS.add(RATTLESNAKE_EGG);
         }

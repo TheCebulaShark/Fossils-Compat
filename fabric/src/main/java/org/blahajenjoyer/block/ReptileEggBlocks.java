@@ -4,6 +4,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.blahajenjoyer.util.FossilsCompatUtil;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ReptileEggBlocks {
@@ -31,7 +33,12 @@ public class ReptileEggBlocks {
 
     /** @param requiredSubstrate block tag the block below must match to progress hatching, or {@code null} for no requirement */
     public static Item registerSmall(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> requiredSubstrate) {
-        return register(id, new SmallStackingEggBlock(entityType, babyOnHatch, requiredSubstrate, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG)));
+        return registerSmall(id, entityType, babyOnHatch, requiredSubstrate, null);
+    }
+
+    /** @param onHatch applied to each hatchling after finalizeSpawn (e.g. to force a variant), or {@code null} */
+    public static Item registerSmall(String id, Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> requiredSubstrate, Consumer<Mob> onHatch) {
+        return register(id, new SmallStackingEggBlock(entityType, babyOnHatch, requiredSubstrate, onHatch, BlockBehaviour.Properties.copy(Blocks.TURTLE_EGG)));
     }
 
     /** No substrate requirement — hatches on any sturdy block. */

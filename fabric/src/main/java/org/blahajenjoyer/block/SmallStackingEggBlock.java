@@ -23,6 +23,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -41,13 +42,18 @@ public class SmallStackingEggBlock extends TurtleEggBlock {
     private final Supplier<EntityType<?>> entityType;
     private final boolean babyOnHatch;
     private final TagKey<Block> requiredSubstrate;
+    private final Consumer<Mob> onHatch;
 
-    /** @param requiredSubstrate block tag the block below must match to progress hatching, or {@code null} for no requirement */
-    public SmallStackingEggBlock(Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> requiredSubstrate, BlockBehaviour.Properties properties) {
+    /**
+     * @param requiredSubstrate block tag the block below must match to progress hatching, or {@code null} for no requirement
+     * @param onHatch applied to each hatchling after finalizeSpawn (e.g. to force a variant), or {@code null}
+     */
+    public SmallStackingEggBlock(Supplier<EntityType<?>> entityType, boolean babyOnHatch, TagKey<Block> requiredSubstrate, Consumer<Mob> onHatch, BlockBehaviour.Properties properties) {
         super(properties);
         this.entityType = entityType;
         this.babyOnHatch = babyOnHatch;
         this.requiredSubstrate = requiredSubstrate;
+        this.onHatch = onHatch;
     }
 
     private boolean hasRequiredSubstrate(BlockGetter level, BlockPos pos) {
@@ -153,6 +159,9 @@ public class SmallStackingEggBlock extends TurtleEggBlock {
         if (!(entity instanceof Mob mob)) return;
 
         mob.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.SPAWN_EGG, null, null);
+        if (onHatch != null) {
+            onHatch.accept(mob);
+        }
         if (babyOnHatch && mob instanceof AgeableMob ageable) {
             ageable.setAge(-24000);
         }
