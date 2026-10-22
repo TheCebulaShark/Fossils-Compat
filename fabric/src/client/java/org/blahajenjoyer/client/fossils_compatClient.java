@@ -4,8 +4,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
+import net.minecraft.world.item.BlockItem;
 import org.blahajenjoyer.compat.alexsmobs.AlexsMobsCompat;
 import org.blahajenjoyer.compat.crittersandcompanions.CrittersAndCompanionsCompat;
 import org.blahajenjoyer.compat.naturalist.NaturalistCompat;
@@ -27,6 +30,10 @@ public class fossils_compatClient implements ClientModInitializer {
         }
         if (FabricLoader.getInstance().isModLoaded("crittersandcompanions")) {
             EntityRendererRegistry.register(CrittersAndCompanionsCompat.THROWN_CAC_BIRD_EGG, ThrownItemRenderer::new);
+        }
+        if (FabricLoader.getInstance().isModLoaded("alexsmobs")) {
+            BlockRenderLayerMap.INSTANCE.putBlock(
+                ((BlockItem) AlexsMobsCompat.FROSTSTALKER_EGG).getBlock(), RenderType.translucent());
         }
     }
 }

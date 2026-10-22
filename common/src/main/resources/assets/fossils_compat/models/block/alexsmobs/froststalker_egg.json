@@ -1,6 +1,36 @@
 {
-  "parent": "block/cross",
-  "textures": {
-    "cross": "fossils_compat:block/eggs/froststalker_egg"
-  }
+	"format_version": "1.21.11",
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"particle": "fossils_compat:block/eggs/frostalker_egg",
+		"all": "fossils_compat:block/eggs/frostalker_egg",
+		"inside": "fossils_compat:block/eggs/frostalker_egg1"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 3],
+			"to": [12, 10, 9],
+			"faces": {
+				"north": {"uv": [0, 6, 6, 16], "texture": "#all"},
+				"east": {"uv": [0, 6, 6, 16], "texture": "#all"},
+				"south": {"uv": [0, 6, 6, 16], "texture": "#all"},
+				"west": {"uv": [0, 6, 6, 16], "texture": "#all"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#all"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#all", "cullface": "down"}
+			}
+		},
+		{
+			"from": [6.5, 0.5, 3.5],
+			"to": [11.5, 9.5, 8.5],
+			"faces": {
+				"north": {"uv": [0, 6, 5, 15], "texture": "#inside"},
+				"east": {"uv": [0, 6, 5, 15], "texture": "#inside"},
+				"south": {"uv": [0, 6, 5, 15], "texture": "#inside"},
+				"west": {"uv": [0, 6, 5, 15], "texture": "#inside"},
+				"up": {"uv": [0, 0, 5, 5], "texture": "#inside"},
+				"down": {"uv": [0, 0, 5, 5], "texture": "#inside", "cullface": "down"}
+			}
+		}
+	]
 }

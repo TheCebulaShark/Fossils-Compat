@@ -1,6 +1,6 @@
 {
-  "parent": "block/cross",
+  "parent": "fossils_compat:block/template_lizard_egg",
   "textures": {
-    "cross": "fossils_compat:block/eggs/lizard_egg"
+    "all": "fossils_compat:block/eggs/lizard_egg"
   }
 }

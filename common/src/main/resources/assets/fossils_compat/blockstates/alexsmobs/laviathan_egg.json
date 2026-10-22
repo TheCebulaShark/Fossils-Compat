@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "fossils_compat:block/alexsmobs/laviathan_egg" }
+    "hatch=0": { "model": "fossils_compat:block/alexsmobs/laviathan_egg" },
+    "hatch=1": { "model": "fossils_compat:block/alexsmobs/laviathan_egg_slightly_cracked" },
+    "hatch=2": { "model": "fossils_compat:block/alexsmobs/laviathan_egg_very_cracked" }
   }
 }
