@@ -61,8 +61,8 @@ public class FaunifyCompat {
     public static Item MANTIS_EGG;
     public static Item MILLIPEDE_DNA;
     public static Item MILLIPEDE_EGG;
-    public static Item ROLLY_POLY_DNA;
-    public static Item ROLLY_POLY_EGG;
+    public static Item ROLY_POLY_DNA;
+    public static Item ROLY_POLY_EGG;
     public static Item DRAGONFLY_DNA;
     public static Item DRAGONFLY_EGG;
     public static Item LACEWING_DNA;
@@ -166,10 +166,10 @@ public class FaunifyCompat {
             TAB_ITEMS.add(MILLIPEDE_EGG);
         }
         if (enabled("rolypoly")) {
-            ROLLY_POLY_DNA = reg("faunify/rolly_poly_dna", new Item(new Item.Properties()));
-            ROLLY_POLY_EGG = regCreatureEgg("faunify/rolly_poly_egg", () -> FaunifyEntities.ROLYPOLY);
-            TAB_ITEMS.add(ROLLY_POLY_DNA);
-            TAB_ITEMS.add(ROLLY_POLY_EGG);
+            ROLY_POLY_DNA = reg("faunify/roly_poly_dna", new Item(new Item.Properties()));
+            ROLY_POLY_EGG = regCreatureEgg("faunify/roly_poly_egg", () -> FaunifyEntities.ROLYPOLY);
+            TAB_ITEMS.add(ROLY_POLY_DNA);
+            TAB_ITEMS.add(ROLY_POLY_EGG);
         }
         if (enabled("dragonfly")) {
             DRAGONFLY_DNA = reg("faunify/dragonfly_dna", new Item(new Item.Properties()));

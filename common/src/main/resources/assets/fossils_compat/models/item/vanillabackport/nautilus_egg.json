@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fossils_compat:item/eggs/nautilus_egg"
+    "layer0": "fossil:item/eggs/egg_item_nautilus"
   }
 }
