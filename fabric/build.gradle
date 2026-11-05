@@ -108,9 +108,16 @@ dependencies {
     modLocalRuntime "teamreborn:energy:${project.energy_version}"
 
     // Optional dependencies
-    modCompileOnly "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
-    modLocalRuntime "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
-    modLocalRuntime "curse.maven:citadel-fabric-1472150:${project.citadel_fabric_file}"
+    // Alex's Mobs: no compile-time dependency — AlexsMobsCompat looks entities up by registry ID, so
+    // it works with both the original Fabric port and Alex's Mobs Continued (same mod ID "alexsmobs").
+    // Pick which one runs in the dev client via alexsmobs_variant in gradle.properties.
+    if (project.alexsmobs_variant == "continued") {
+        modLocalRuntime "maven.modrinth:alexs-mobs-continued:${project.alexsmobs_continued_version}"
+        modLocalRuntime "maven.modrinth:codxlib:${project.codxlib_version}"
+    } else {
+        modLocalRuntime "curse.maven:alexs-mobs-fabric-1472153:${project.alexsmobs_fabric_file}"
+        modLocalRuntime "curse.maven:citadel-fabric-1472150:${project.citadel_fabric_file}"
+    }
 
     modCompileOnly "maven.modrinth:naturalist:${project.naturalist_version}"
     modLocalRuntime "maven.modrinth:naturalist:${project.naturalist_version}"
